@@ -2,7 +2,6 @@
  "name": "Si Handball",
  "short_name": "Si Handball",
  "lang": "es",
- "start_url": "./",
  "scope": "./",
  "display": "standalone",
  "orientation": "portrait",

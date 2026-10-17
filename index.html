@@ -1943,9 +1943,9 @@ var Acceso={
       '<div class="r blk" style="font-size:30px">Si Handball</div><div class="sec f-sub">'+msg+'</div>'+
       '<input class="tf center" id="gate-in" placeholder="Pega aquí tu código o enlace" autocomplete="off" autocapitalize="off" spellcheck="false">'+
       (err?'<div class="f-foot" style="color:var(--red)">'+err+'</div>':'')+
-      '<button class="btn prom lg wfull" id="gate-ok">Entrar</button><div class="f-cap sec">Si no tienes código, pídeselo a '+MARCA.autor+'.</div><div class="f-cap2 ter">'+copyright()+'</div></div></div>';
+      (navigator.clipboard&&navigator.clipboard.readText?'<button class="btn gl glass lg wfull" id="gate-paste">Pegar enlace copiado</button>':'')+'<button class="btn prom lg wfull" id="gate-ok">Entrar</button><div class="f-cap sec">Si no tienes código, pídeselo a '+MARCA.autor+'.</div><div class="f-cap2 ter">'+copyright()+'</div></div></div>';
     var go=function(){Acceso.probar(document.getElementById('gate-in').value);};
-    document.getElementById('gate-ok').onclick=go;
+    document.getElementById('gate-ok').onclick=go;var ps=document.getElementById('gate-paste');if(ps)ps.onclick=function(){navigator.clipboard.readText().then(function(t){document.getElementById('gate-in').value=t;Acceso.probar(t);},function(){document.getElementById('gate-in').focus();});};
     document.getElementById('gate-in').onkeydown=function(e){if(e.key==='Enter')go();};
   },
   quitar:function(){var el=document.getElementById('gate');if(el)el.remove();},
@@ -1957,8 +1957,7 @@ var Acceso={
   },
   comprobar:async function(){
     var nuevo=Acceso.extraer(location.hash);
-    if(location.hash.indexOf('c=')>=0){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}}
-    var guardado=lsGet('sh_acceso');
+        var guardado=lsGet('sh_acceso');
     var c=(nuevo&&nuevo.indexOf('.')>0)?nuevo:guardado;
     if(!c){Acceso.pantalla('Introduce tu código de acceso para usar la app.');return;}
     var r=await Acceso.verificar(c);
