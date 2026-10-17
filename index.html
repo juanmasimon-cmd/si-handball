@@ -455,6 +455,7 @@ body.pab .casilla .g{font-size:68px}
 .zinf{bottom:calc(52px + env(safe-area-inset-bottom,0px))!important;padding-bottom:6px!important}
 .match .content{padding-bottom:calc(210px + env(safe-area-inset-bottom,0px))}
 .zinf{z-index:26}
+.gate{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:var(--bg);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 </style>
 </head><body>
 <div id="loading" class="loading"><div class="amb"></div><div class="col" style="align-items:center;gap:18px;position:relative;z-index:1">
@@ -1063,7 +1064,7 @@ function vAjustes(){
     '<label class="frow btnrow tap" style="color:var(--label);cursor:pointer">'+ic('down')+'<span>Importar copia de seguridad / fichero</span><input type="file" accept=".json,application/json" data-ch="importar" style="position:absolute;inset:0;opacity:0;width:100%;cursor:pointer"></label>',
     'Las copias son compatibles con las de la app de iPhone: puedes exportar desde el iPhone e importar aquí, y al revés.');
   h+=fsec('Ayuda','question','<button class="frow btnrow tap" data-a="guia">'+ic('bookFill')+'<span>Guía de uso</span></button>');
-  h+=fsec('Acerca de','infoC','<div class="frow" style="justify-content:center">'+acercaDe()+'</div>');
+  h+=fsec('Acerca de','infoC','<div class="frow" style="justify-content:center">'+acercaDe()+'</div>'+(typeof Acceso!=='undefined'&&Acceso.datos?'<div class="frow f-foot"><span class="grow sec">Acceso de '+esc(Acceso.datos.n)+'</span><span class="sb">hasta el '+esc(Acceso.fecha(Acceso.datos.e))+'</span></div>':''));
   return h+'</div>';
 }
 function descVista(){return AJ.vistaAlineacion==='En el partido'?'Los jugadores se ven y se cambian en la propia pantalla del partido. Con el botón de ampliar se abre la vista grande.':'En el partido solo se ve un resumen. Al tocarlo se abre una pantalla con los jugadores en grande para hacer los cambios con comodidad.';}
@@ -1912,6 +1913,64 @@ render();
 setTimeout(function(){var l=document.getElementById('loading');if(l){l.classList.add('out');setTimeout(function(){l.remove();},400);}
   if(!AJ.ocultarGuia)setTimeout(function(){S.guide=0;S.gNo=AJ.ocultarGuia;S.guideFresh=true;render();},400);},1200);
 setTimeout(Sync.init,0);
+
+
+/* =====================================================================
+   Acceso con código personal y fecha de caducidad (solo versión instalable)
+   El código lo firma Juanma con su generador privado; aquí solo se comprueba.
+   ===================================================================== */
+var CLAVE_PUBLICA={"kty":"EC","crv":"P-256","x":"HXviliLob1Ywi6BFEa2mNj0wCPk7EnHf35Uzbrj1Bqk","y":"HpsFL1JF_h7c25kjko1vJtP_4UzxvqWibpaa0B0R3tc"};
+var Acceso={
+  b64d:function(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;},
+  extraer:function(txt){txt=String(txt||'').trim();var m=txt.match(/[#?&]c=([A-Za-z0-9_\-.]+)/);if(m)return m[1];return txt.replace(/\s+/g,'');},
+  verificar:async function(codigo){
+    try{
+      var p=codigo.split('.');if(p.length!==2)return {ok:false,motivo:'formato'};
+      var key=await crypto.subtle.importKey('jwk',CLAVE_PUBLICA,{name:'ECDSA',namedCurve:'P-256'},false,['verify']);
+      var ok=await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},key,Acceso.b64d(p[1]),new TextEncoder().encode(p[0]));
+      if(!ok)return {ok:false,motivo:'firma'};
+      var d=JSON.parse(new TextDecoder().decode(Acceso.b64d(p[0])));
+      var fin=new Date(d.e+'T23:59:59');
+      if(isNaN(fin))return {ok:false,motivo:'formato'};
+      if(Date.now()>fin.getTime())return {ok:false,motivo:'caducado',datos:d};
+      return {ok:true,datos:d};
+    }catch(e){return {ok:false,motivo:'formato'};}
+  },
+  fecha:function(iso){return new Date(iso+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});},
+  pantalla:function(msg,err){
+    var el=document.getElementById('gate');if(!el){el=document.createElement('div');el.id='gate';document.body.appendChild(el);}
+    el.innerHTML='<div class="gate">'+amb()+'<div class="wrap col" style="position:relative;z-index:1;align-items:center;gap:16px;text-align:center;max-width:420px">'+logo(110)+
+      '<div class="r blk" style="font-size:30px">Si Handball</div><div class="sec f-sub">'+msg+'</div>'+
+      '<input class="tf center" id="gate-in" placeholder="Pega aquí tu código o enlace" autocomplete="off" autocapitalize="off" spellcheck="false">'+
+      (err?'<div class="f-foot" style="color:var(--red)">'+err+'</div>':'')+
+      '<button class="btn prom lg wfull" id="gate-ok">Entrar</button><div class="f-cap sec">Si no tienes código, pídeselo a '+MARCA.autor+'.</div><div class="f-cap2 ter">'+copyright()+'</div></div></div>';
+    var go=function(){Acceso.probar(document.getElementById('gate-in').value);};
+    document.getElementById('gate-ok').onclick=go;
+    document.getElementById('gate-in').onkeydown=function(e){if(e.key==='Enter')go();};
+  },
+  quitar:function(){var el=document.getElementById('gate');if(el)el.remove();},
+  probar:async function(txt){
+    var c=Acceso.extraer(txt);if(!c){Acceso.pantalla('Introduce tu código de acceso para usar la app.','Escribe o pega el código.');return;}
+    var r=await Acceso.verificar(c);
+    if(r.ok){lsSet('sh_acceso',c);Acceso.datos=r.datos;Acceso.quitar();render();return;}
+    Acceso.pantalla('Introduce tu código de acceso para usar la app.',r.motivo==='caducado'?'Ese código caducó el '+Acceso.fecha(r.datos.e)+'.':'El código no es válido. Cópialo entero, tal como te lo enviaron.');
+  },
+  comprobar:async function(){
+    var nuevo=Acceso.extraer(location.hash);
+    if(location.hash.indexOf('c=')>=0){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}}
+    var guardado=lsGet('sh_acceso');
+    var c=(nuevo&&nuevo.indexOf('.')>0)?nuevo:guardado;
+    if(!c){Acceso.pantalla('Introduce tu código de acceso para usar la app.');return;}
+    var r=await Acceso.verificar(c);
+    if(r.ok){if(c!==guardado)lsSet('sh_acceso',c);Acceso.datos=r.datos;Acceso.quitar();render();return;}
+    if(r.motivo==='caducado'){Acceso.pantalla('Tu acceso de prueba terminó el '+Acceso.fecha(r.datos.e)+'. Tus equipos y partidos siguen guardados en este móvil: pide un código nuevo para seguir usándola.');}
+    else Acceso.pantalla('Introduce tu código de acceso para usar la app.',guardado&&c===guardado?'El código guardado no es válido.':null);
+  }
+};
+Acceso.pantalla('Comprobando el acceso…');
+Acceso.comprobar();
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')Acceso.comprobar();});
+setInterval(function(){if(Acceso.datos&&Date.now()>new Date(Acceso.datos.e+'T23:59:59').getTime())Acceso.comprobar();},60000);
 
 if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});
 </script>
