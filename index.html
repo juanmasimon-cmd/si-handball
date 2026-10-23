@@ -667,7 +667,7 @@ var ZONAS=[
  {id:'Central',ab:'C',et:'CENTRAL',x:160,y:218,c:'var(--blue)'}];
 var ZPORT={1:'Arriba izq.',2:'Arriba centro',3:'Arriba der.',4:'Medio izq.',5:'Centro',6:'Medio der.',7:'Abajo izq.',8:'Abajo centro',9:'Abajo der.'};
 var MAX_ACTA=16, MAX_CAMBIOS_ACTA=2;
-var MARCA={app:'Si Handball',autor:'Juanma Simón',anio:2026,version:'1.0 (web)'};
+var MARCA={app:'Si Handball',autor:'Juanma Simón',anio:2026,version:'1.0 (web 9)'};
 function copyright(){var a=new Date().getFullYear();return '© '+(a>MARCA.anio?MARCA.anio+'–'+a:MARCA.anio)+' '+MARCA.autor;}
 function temporadaDe(ms){var d=new Date(ms),y=d.getFullYear(),m=d.getMonth()+1,i=m>=7?y:y-1;return i+'/'+(i+1);}
 function temporadaAnterior(t){var i=parseInt(t.slice(0,4),10);return isNaN(i)?null:(i-1)+'/'+i;}
