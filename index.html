@@ -454,6 +454,10 @@ body.pab .casilla .g{font-size:68px}
 .tipos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .tipo{border-radius:14px;padding:11px 4px;font-weight:700;font-size:14px;color:var(--c);border:1px solid transparent}
 .tipo.on{background:var(--c);color:#fff;box-shadow:0 4px 12px color-mix(in srgb,var(--c) 35%,transparent)}
+.flow .fbody>.wrap{flex:1 0 auto}
+.flow .fbody .stack>*,.flow .grid3,.flow .grid2,.flow .gridD{flex-shrink:0}
+.grid3,.grid2{grid-auto-rows:minmax(min-content,auto)}
+.bj{flex-shrink:0}
 
 .tres{--label:#000;--label2:rgba(60,60,67,.6);--label3:rgba(60,60,67,.3);--fill2:rgba(0,0,0,.06);--blue:#007AFF;--indigo:#5856D6;--green:#34C759;--red:#FF3B30;--orange:#FF9500;--naranja:#FEA50E}
 .tabbar.mini .in{width:auto;padding:3px}
