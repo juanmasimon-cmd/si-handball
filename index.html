@@ -517,6 +517,42 @@ body.pab .panel.tint{background:var(--surface2)}
 .amb{background:linear-gradient(135deg,rgba(11,59,120,.20),rgba(8,37,70,.08) 50%,var(--bg))}
 }
 
+/* ---- web 10: mejoras de la app iOS ---- */
+.bc.big .t{font-size:20px}
+.bc.big .t svg{width:24px;height:24px}
+.bc.big .s{font-size:12px}
+.mesa button{padding:14px 6px}
+.match .content{padding-bottom:calc(262px + env(safe-area-inset-bottom,0px))!important}
+.situ.racha{padding:6px 8px 6px 14px;gap:8px;font-size:14px;min-height:40px}
+.situ.racha .btn{min-height:28px;padding:4px 12px;flex:none}
+.avj{position:fixed;z-index:35;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 58px);width:min(640px,calc(100% - 32px));display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:18px;color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.anim-down{animation:avjIn .25s ease-out}
+@keyframes avjIn{from{opacity:0;margin-top:-16px}}
+.barra{height:10px;border-radius:999px;background:var(--fill2);overflow:hidden}
+.barra i{display:block;height:100%;border-radius:999px}
+.tpar{display:flex;flex-direction:column;gap:8px}
+.tpar .tr{display:grid;grid-template-columns:1fr 62px 72px 40px;align-items:center;font-size:15px}
+.tpar .tr>span:nth-child(2){text-align:center}.tpar .tr>span:nth-child(3),.tpar .tr>span:nth-child(4){text-align:right}
+.tpar .tr.h{font-size:11px;font-weight:700;color:var(--label2)}
+.btn.prep{min-height:30px;padding:5px 10px;font-size:12px;font-weight:700;color:var(--label2);gap:5px}
+.btn.prep svg{width:14px;height:14px}
+.btn.prep.on{background:var(--orange);color:#fff}
+.prepbox{padding:10px 12px;border-radius:16px;background:color-mix(in srgb,var(--orange) 12%,transparent);border:1px solid color-mix(in srgb,var(--orange) 35%,transparent)}
+.prepbox .ell{min-width:0;max-width:40%}
+.courtwrap.campo{overflow:visible}
+.cpos{position:absolute;transform:translate(-50%,-50%);width:21%;max-width:84px;min-width:56px}
+.cpos .ficha{width:100%;min-height:56px}
+.cpos .ficha .d{font-size:19px}
+.hueco.cvac{min-height:52px;background:color-mix(in srgb,var(--bg) 40%,transparent)}
+.hueco.cvac b{font-family:var(--f-round);font-weight:900;font-size:14px}
+.menu.mini{padding:3px 6px 3px 8px;min-height:26px;font-size:11px;font-weight:700;border-radius:999px;background:color-mix(in srgb,var(--blue) 15%,transparent);color:var(--blue)}
+.menu.mini svg{width:9px;height:9px}
+.vozbtn{flex-shrink:0;margin-top:6px}
+.vozbtn svg{width:20px;height:20px}
+.vozbg{position:fixed;top:0;right:0;bottom:0;left:0;z-index:65;background:rgba(0,0,0,.45)}
+.vozbox{position:fixed;z-index:66;left:50%;top:50%;transform:translate(-50%,-50%);width:min(420px,calc(100% - 36px));display:flex;flex-direction:column;gap:14px;padding:18px;border-radius:26px;background:var(--sheet)!important;animation:fade .2s}
+@supports not (color-mix(in srgb,red 50%,blue)){.prepbox{background:rgba(255,149,0,.12);border-color:rgba(255,149,0,.35)}.menu.mini{background:rgba(0,122,255,.15)}.hueco.cvac{background:rgba(127,127,127,.12)}}
+
 .tres{--label:#000;--label2:rgba(60,60,67,.6);--label3:rgba(60,60,67,.3);--fill2:rgba(0,0,0,.06);--blue:#007AFF;--indigo:#5856D6;--green:#34C759;--red:#FF3B30;--orange:#FF9500;--naranja:#FEA50E}
 .tabbar.mini .in{width:auto;padding:3px}
 .tabbar.mini button{flex-direction:row;gap:6px;padding:7px 14px;font-size:12px}
@@ -632,6 +668,7 @@ var P={
  upCircle:'<circle cx="12" cy="12" r="10" fill="currentColor" stroke="none"/><path d="M12 17V7.5M7.8 11.5L12 7.3l4.2 4.2" stroke="#fff" stroke-width="2.2"/>',
  downCircle:'<circle cx="12" cy="12" r="10" fill="currentColor" stroke="none"/><path d="M12 7v9.5M7.8 12.5l4.2 4.2 4.2-4.2" stroke="#fff" stroke-width="2.2"/>',
  check:'<path d="M5 12.5l4.5 4.5L19 7"/>',
+ mic:'<rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="currentColor" stroke="none"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3.5M8.5 21.5h7"/>',
  dashPlus:'<circle cx="12" cy="12" r="9.5" stroke-dasharray="3 3"/><path d="M12 7.8v8.4M7.8 12h8.4"/>',
  pencil:'<path d="M4 20l1.1-4.2L16.3 4.6a2.1 2.1 0 0 1 3 3L8.2 18.9z"/>',
  cloud:'<path d="M7 19a5 5 0 0 1-.6-10A6.5 6.5 0 0 1 19 10.5 4.3 4.3 0 0 1 18 19z" fill="currentColor" stroke="none"/>',
@@ -666,15 +703,20 @@ var ZONAS=[
  {id:'Lateral Derecho',ab:'LD',et:'LATERAL',x:256,y:156,c:'var(--blue)'},
  {id:'Central',ab:'C',et:'CENTRAL',x:160,y:218,c:'var(--blue)'}];
 var ZPORT={1:'Arriba izq.',2:'Arriba centro',3:'Arriba der.',4:'Medio izq.',5:'Centro',6:'Medio der.',7:'Abajo izq.',8:'Abajo centro',9:'Abajo der.'};
+/* Puestos en la pista (opcional por jugador). Puntos sobre la media pista de 320 × 300, portería arriba */
+var PUESTOS=[
+ {id:'Portero',ab:'POR',x:160,y:30},{id:'Extremo izquierdo',ab:'EI',x:38,y:64},{id:'Lateral izquierdo',ab:'LI',x:64,y:178},
+ {id:'Central',ab:'C',x:160,y:240},{id:'Lateral derecho',ab:'LD',x:256,y:178},{id:'Extremo derecho',ab:'ED',x:282,y:64},{id:'Pivote',ab:'P',x:160,y:108}];
+function puestoDe(id){return PUESTOS.find(function(p){return p.id===id;})||null;}
 var MAX_ACTA=16, MAX_CAMBIOS_ACTA=2;
-var MARCA={app:'Si Handball',autor:'Juanma Simón',anio:2026,version:'1.0 (web 9)'};
+var MARCA={app:'Si Handball',autor:'Juanma Simón',anio:2026,version:'1.0 (web 10)'};
 function copyright(){var a=new Date().getFullYear();return '© '+(a>MARCA.anio?MARCA.anio+'–'+a:MARCA.anio)+' '+MARCA.autor;}
 function temporadaDe(ms){var d=new Date(ms),y=d.getFullYear(),m=d.getMonth()+1,i=m>=7?y:y-1;return i+'/'+(i+1);}
 function temporadaAnterior(t){var i=parseInt(t.slice(0,4),10);return isNaN(i)?null:(i-1)+'/'+i;}
 function ordenAlin(js){return js.slice().sort(function(a,b){var ap=a.posicion==='Portero',bp=b.posicion==='Portero';if(ap!==bp)return ap?-1:1;return a.dorsal-b.dorsal;});}
 
 /* ---------- ajustes del dispositivo (@AppStorage) ---------- */
-var AJ=Object.assign({modoPabellon:false,vistaAlineacion:'En el partido',ocultarGuia:false,anotarTipo:false},lsGet('sh_ajustes')||{});
+var AJ=Object.assign({modoPabellon:true,vistaAlineacion:'En el partido',ocultarGuia:false,anotarTipo:false,zonaPerdida:false,voz:true,enCampo:false},lsGet('sh_ajustes')||{});
 function guardarAjustes(){lsSet('sh_ajustes',AJ);}
 
 /* ---------- almacén de equipos y partidos (EquiposStore) ---------- */
@@ -701,7 +743,7 @@ function exportarJSON(soloPlantillas){
   var ps=ST.partidos.map(function(p){var q=limpio(p);q.fecha=(p.fecha-REF2001)/1000;return q;});
   return JSON.stringify({listaEquipos:eq,historicoPartidos:ps});
 }
-function normalizarJugador(j){return {id:String(j.id||uuid()),nombre:String(j.nombre||''),dorsal:Number(j.dorsal)||0,posicion:POS.indexOf(j.posicion)>=0?j.posicion:'Primera Línea'};}
+function normalizarJugador(j){var r={id:String(j.id||uuid()),nombre:String(j.nombre||''),dorsal:Number(j.dorsal)||0,posicion:POS.indexOf(j.posicion)>=0?j.posicion:'Primera Línea'};if(j.puesto&&PUESTOS.some(function(p){return p.id===j.puesto;}))r.puesto=j.puesto;return r;}
 function normalizarEquipo(e){var r={id:String(e.id||uuid()),nombre:String(e.nombre||'Equipo'),jugadores:(e.jugadores||[]).map(normalizarJugador)};if(e.categoria&&CATS.some(function(c){return c.v===e.categoria;}))r.categoria=e.categoria;return r;}
 function normalizarPartido(p){
   var f=typeof p.fecha==='number'?(p.fecha>1e11?p.fecha:REF2001+p.fecha*1000):(Date.parse(p.fecha)||Date.now());
@@ -750,7 +792,7 @@ function nuevoManager(){return {
   timerRunning:false,ultimoTick:null,tmActivo:false,finTM:null,tmLocal:0,tmRival:0,
   exclusiones:[],descalificados:[],exclusionesRival:[],pista:[],tiempoJugado:{},racha:{},
   espAtaque:null,espDefensa:null,activarEsp:false,activarAlertas:true,
-  dorsalesRivales:[],modoDorsal:'No anotar',anotarTipo:false,reservasActa:[],cambiosActa:0,
+  dorsalesRivales:[],modoDorsal:'No anotar',anotarTipo:false,anotarZonaPerdida:false,reservasActa:[],cambiosActa:0,preparados:[],
   historial:[],pila:[],pistaPrevia:null,aviso:null,avisoId:0,guardadoEn:Date.now()};}
 M=nuevoManager();
 
@@ -805,8 +847,9 @@ var MM={
   },
   avanzar:function(conSonido){
     if(M.segundos<59)M.segundos++;else{M.segundos=0;M.minutos++;}
-    M.pista.forEach(function(id){M.tiempoJugado[id]=(M.tiempoJugado[id]||0)+1;var s=(M.racha[id]||0)+1;M.racha[id]=s;if(s%600===0)MM.avisarFatiga(id,s);});
-    Object.keys(M.racha).forEach(function(id){if(!MM.enPista(id))delete M.racha[id];});
+    var enCampo=M.pista.slice();(M.pistaPrevia||[]).forEach(function(id){if(enCampo.indexOf(id)<0)enCampo.push(id);});
+    enCampo.forEach(function(id){M.tiempoJugado[id]=(M.tiempoJugado[id]||0)+1;var s=(M.racha[id]||0)+1;M.racha[id]=s;if(s%600===0)MM.avisarFatiga(id,s);});
+    Object.keys(M.racha).forEach(function(id){if(enCampo.indexOf(id)<0)delete M.racha[id];});
     if(M.exclusiones.length){
       var term=[];
       M.exclusiones.forEach(function(e){if(e.restante>0){e.restante--;if(conSonido&&e.restante<=10&&e.restante>0)sonido(1200,.06);}});
@@ -854,6 +897,14 @@ var MM={
   intercambiar:function(sale,entra){if(sale===entra||!MM.enPista(sale)||MM.enPista(entra)||MM.estaExcluido(entra))return;M.pista=M.pista.filter(function(x){return x!==sale;}).concat([entra]);MM.vibrar(10);},
   faseAtaque:function(){if(!M.activarEsp||!M.espAtaque)return;if(M.espDefensa)M.pista=M.pista.filter(function(x){return x!==M.espDefensa;});if(!MM.estaExcluido(M.espAtaque)&&M.pista.length<7&&!MM.enPista(M.espAtaque))M.pista.push(M.espAtaque);},
   faseDefensa:function(){if(!M.activarEsp||!M.espDefensa)return;if(M.espAtaque)M.pista=M.pista.filter(function(x){return x!==M.espAtaque;});if(!MM.estaExcluido(M.espDefensa)&&M.pista.length<7&&!MM.enPista(M.espDefensa))M.pista.push(M.espDefensa);},
+  /* Cambios preparados: se dejan listos y se hacen de golpe */
+  enPreparado:function(id){return M.preparados.some(function(c){return c.sale===id||c.entra===id;});},
+  prepararCambio:function(sale,entra){if(M.preparados.length>=3||sale===entra||MM.enPreparado(sale)||MM.enPreparado(entra))return;M.preparados.push({id:uuid(),sale:sale,entra:entra});MM.vibrar(10);},
+  quitarPreparado:function(id){M.preparados=M.preparados.filter(function(c){return c.id!==id;});},
+  preparadoVigente:function(c){return MM.enPista(c.sale)&&!MM.enPista(c.entra)&&!MM.estaExcluido(c.entra);},
+  hacerPreparados:function(){var nueva=M.pista.slice(),n=0;
+    M.preparados.forEach(function(c){if(nueva.indexOf(c.sale)>=0&&nueva.indexOf(c.entra)<0&&!MM.estaExcluido(c.entra)){nueva=nueva.filter(function(x){return x!==c.sale;});nueva.push(c.entra);n++;}});
+    M.preparados=[];if(n){M.pista=nueva;MM.vibrar(20);}return n;},
   cambioAuto:function(sale,entra){if(!M.activarEsp||!sale||!entra||sale===entra||!MM.enPista(sale)||MM.enPista(entra)||MM.estaExcluido(entra))return;M.pista=M.pista.filter(function(x){return x!==sale;}).concat([entra]);},
   cambioAnticipado:function(tipo,res){if(!M.activarEsp||!(res==='Gol'||res==='Parada')||M.pistaPrevia)return;var antes=M.pista.slice();
     if(tipo==='Ataque')MM.cambioAuto(M.espAtaque,M.espDefensa);else MM.cambioAuto(M.espDefensa,M.espAtaque);
@@ -862,8 +913,9 @@ var MM={
 
   registrarAccion:function(tipo,res,porteria,disparo,j,dorsalRival,tipoLanz){
     var previa=M.pistaPrevia;M.pistaPrevia=null;var sit=MM.situacion();
+    var momento=previa||M.pista,nombres=res==='Gol'?MM.jugadores().filter(function(x){return momento.indexOf(x.id)>=0&&x.posicion!=='Portero';}).map(function(x){return x.nombre;}):null;
     MM.conPunto(previa,function(){
-      var a=MM.accion({tipo:tipo,resultado:res,situacion:sit});
+      var a=MM.accion({tipo:tipo,resultado:res,situacion:sit});if(nombres)a.pistaNombres=nombres;
       if(porteria!=null)a.zonaPorteria=porteria; if(disparo)a.zonaDisparo=disparo; if(j){a.jugadorId=j.id;a.jugadorNombre=j.nombre;}
       if(dorsalRival!=null)a.dorsalRival=dorsalRival; if(tipoLanz)a.tipoLanzamiento=tipoLanz;
       M.historial.push(a);
@@ -968,6 +1020,99 @@ function sinColorMix(v){var g=0;while(v.indexOf('color-mix(')>=0&&g++<50){var i=
 function arreglarColorMix(root){if(CM)return;(root||document).querySelectorAll('[style*="color-mix"]').forEach(function(el){el.setAttribute('style',sinColorMix(el.getAttribute('style')));});}
 
 /* =====================================================================
+   Análisis avanzado (AnalisisAvanzado.swift)
+   ===================================================================== */
+/* Reparto de los titulares en los siete puestos (VistaCampo.swift) */
+function repartoEnPista(tit){
+  var rep={},pend=[],sin=[];
+  tit.forEach(function(j){if(j.puesto&&puestoDe(j.puesto)&&!rep[j.puesto])rep[j.puesto]=j;else pend.push(j);});
+  pend.forEach(function(j){var pref=j.posicion==='Portero'?['Portero']:j.posicion==='Pivote'?['Pivote']:j.posicion==='Extremo'?['Extremo izquierdo','Extremo derecho']:['Lateral izquierdo','Central','Lateral derecho'];
+    var p=pref.find(function(x){return !rep[x];});if(p)rep[p]=j;else sin.push(j);});
+  var orden=['Lateral izquierdo','Central','Lateral derecho','Extremo izquierdo','Extremo derecho','Pivote','Portero'];
+  sin.forEach(function(j){var p=orden.find(function(x){return !rep[x];});if(p)rep[p]=j;});
+  return rep;
+}
+/* Parciales por tramos de 5 minutos (4 o 3 si el periodo no es múltiplo de 5), sin cruzar periodos */
+function parciales(acc,durPeriodo,actual){
+  var dur=Math.max(1,durPeriodo|0),tam=dur%5===0?5:(dur%4===0?4:3),tpp=Math.ceil(dur/tam);
+  function idx(per,min){var p=Math.max(1,per||1)-1,k=Math.min(Math.max(0,min|0)/tam|0,tpp-1);return p*tpp+k;}
+  var goles=acc.filter(function(a){return a.resultado==='Gol'&&(a.tipo==='Ataque'||a.tipo==='Defensa');}),ult=-1;
+  goles.forEach(function(g){ult=Math.max(ult,idx(g.periodo,g.minuto));});
+  if(actual)ult=Math.max(ult,idx(actual[0],actual[1]));
+  if(ult<0)return [];
+  var tr=[];for(var i=0;i<=ult;i++){var p=i/tpp|0,k=i%tpp,de=p*dur+k*tam;tr.push({id:i,periodo:p+1,desde:de,hasta:Math.min(de+tam,(p+1)*dur),favor:0,contra:0,af:0,ac:0});}
+  goles.forEach(function(g){var t=tr[idx(g.periodo,g.minuto)];if(g.tipo==='Ataque')t.favor++;else t.contra++;});
+  var af=0,ac=0;tr.forEach(function(t){af+=t.favor;ac+=t.contra;t.af=af;t.ac=ac;t.dif=t.favor-t.contra;t.et=t.desde+"'–"+t.hasta+"'";});
+  return tr;
+}
+/* Goles seguidos de un mismo equipo al final (3 o más) */
+function rachaGoles(acc,min){min=min||3;var n=0,nuestra=null;
+  for(var i=acc.length-1;i>=0;i--){var a=acc[i];if(a.resultado!=='Gol'||(a.tipo!=='Ataque'&&a.tipo!=='Defensa'))continue;var es=a.tipo==='Ataque';if(nuestra===null)nuestra=es;if(nuestra===es)n++;else break;}
+  return nuestra!==null&&n>=min?{nuestra:nuestra,goles:n}:null;}
+/* Más/menos por jugador de campo y parejas en pista (solo goles que guardaron quién estaba en pista) */
+function rendimientoEnPista(acc,minPareja){
+  minPareja=minPareja||3;var par={},jug={};
+  acc.forEach(function(a){if(a.resultado!=='Gol'||(a.tipo!=='Ataque'&&a.tipo!=='Defensa')||!a.pistaNombres||!a.pistaNombres.length)return;
+    var f=a.tipo==='Ataque',ns=a.pistaNombres.filter(function(x,i,l){return l.indexOf(x)===i;}).sort();
+    ns.forEach(function(n){var j=jug[n]||(jug[n]={id:n,favor:0,contra:0});if(f)j.favor++;else j.contra++;});
+    for(var i=0;i<ns.length;i++)for(var k=i+1;k<ns.length;k++){var c=ns[i]+'|'+ns[k],p=par[c]||(par[c]={id:c,nombres:ns[i]+' + '+ns[k],favor:0,contra:0});if(f)p.favor++;else p.contra++;}});
+  function dif(x){return x.favor-x.contra;}
+  var lp=Object.keys(par).map(function(k){return par[k];}).filter(function(p){return p.favor+p.contra>=minPareja;}).sort(function(a,b){return dif(b)-dif(a)||(b.favor+b.contra)-(a.favor+a.contra);});
+  var lj=Object.keys(jug).map(function(k){return jug[k];}).sort(function(a,b){return dif(b)-dif(a)||(a.id<b.id?-1:1);});
+  return {parejas:lp,jugadores:lj};
+}
+/* Cierre de cada parte: últimos 5 minutos frente al resto */
+function calculoCierre(ps){var u=5,ci={f:0,c:0,p:0,t:0},re={f:0,c:0,p:0,t:0};
+  ps.forEach(function(p){var c=cat(p.categoria),dur=c.d,per=c.p;if(dur<=u)return;ci.t+=per;re.t+=per*(dur-u)/u;
+    p.acciones.forEach(function(a){var x=a.minuto>=dur-u?ci:re;if(a.resultado==='Gol'&&a.tipo==='Ataque')x.f++;else if(a.resultado==='Gol'&&a.tipo==='Defensa')x.c++;else if(a.resultado==='Pérdida'&&a.tipo==='Ataque')x.p++;});});
+  [ci,re].forEach(function(x){x.bal=x.t?(x.f-x.c)/x.t:0;x.per=x.t?x.p/x.t:0;});
+  return {cierre:ci,resto:re,hay:ci.t>0&&ci.f+ci.c+re.f+re.c>0};}
+function coincideRival(a,b){var l=function(s){return String(s||'').trim().toLowerCase();};return !!l(a)&&l(a)===l(b);}
+
+/* =====================================================================
+   Dictado por voz (EntradaVoz.swift)
+   ===================================================================== */
+var InterpreteVoz=(function(){
+  var NUM={cero:0,un:1,uno:1,una:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,once:11,doce:12,trece:13,catorce:14,quince:15,dieciseis:16,diecisiete:17,dieciocho:18,diecinueve:19,veinte:20,veintiun:21,veintiuno:21,veintiuna:21,veintidos:22,veintitres:23,veinticuatro:24,veinticinco:25,veintiseis:26,veintisiete:27,veintiocho:28,veintinueve:29,treinta:30,cuarenta:40};
+  function norm(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,' ').trim().split(' ').filter(Boolean);}
+  function izq(t){return t.indexOf('izq')===0;} function der(t){return t.indexOf('der')===0;}
+  function primerNumero(tk){for(var i=0;i<tk.length;i++){var t=tk[i];if(/^\d+$/.test(t)){var n=+t;if(n>=0&&n<=99)return n;}
+    if(NUM[t]!=null){var b=NUM[t];if(b>=20&&i+2<tk.length&&tk[i+1]==='y'&&NUM[tk[i+2]]!=null&&NUM[tk[i+2]]<10)return b+NUM[tk[i+2]];return b;}}return null;}
+  function interpretar(texto){
+    var tk=norm(texto),r={dorsal:null,porteria:null,campo:null},i=0;
+    while(i<tk.length){var t=tk[i],s=i+1<tk.length?tk[i+1]:'';
+      if((t==='extremo'||t==='extremos')&&(izq(s)||der(s))){r.campo=izq(s)?'Extremo Izquierdo':'Extremo Derecho';tk.splice(i,2);continue;}
+      if((t==='lateral'||t==='laterales')&&(izq(s)||der(s))){r.campo=izq(s)?'Lateral Izquierdo':'Lateral Derecho';tk.splice(i,2);continue;}
+      if((t==='siete'||t==='7')&&s.indexOf('metro')===0){r.campo=TL.zona7;tk.splice(i,2);continue;}
+      if(t==='penalti'||t==='penalty'||t==='penal'){r.campo=TL.zona7;tk.splice(i,1);continue;}
+      if(t==='pivote'||t==='pivot'||t==='pivotes'){r.campo='Pivote';tk.splice(i,1);continue;}
+      if(t==='central'||t==='centrales'){r.campo='Central';tk.splice(i,1);continue;}
+      i++;}
+    r.dorsal=primerNumero(tk);
+    var fila=null,col=null,cen=0;
+    tk.forEach(function(t){if(['arriba','alto','alta','angulo'].indexOf(t)>=0)fila=0;else if(['medio','media','mitad'].indexOf(t)>=0)fila=1;else if(['abajo','bajo','baja','raso','rasa','suelo'].indexOf(t)>=0)fila=2;else if(izq(t))col=0;else if(der(t))col=2;else if(t==='centro')cen++;});
+    if(cen>0){if(fila===null&&col!==null)fila=1;else if(col===null)col=1;}
+    if(fila!==null&&col===null)r.porteria=fila*3+2;else if(fila!==null&&col!==null)r.porteria=fila*3+col+1;else if(fila===null&&col===1)r.porteria=5;
+    return r;}
+  return {interpretar:interpretar};
+})();
+var Voz={rec:null,gen:0,
+  disponible:function(){return !!(window.SpeechRecognition||window.webkitSpeechRecognition);},
+  empezar:function(st,alCambiar){
+    Voz.cancelar();st.texto='';st.error=null;
+    var R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){st.error='Este navegador no permite el dictado por voz.';return;}
+    var g=++Voz.gen,r;try{r=new R();}catch(e){st.error='No se pudo activar el reconocimiento de voz.';return;}
+    r.lang='es-ES';r.interimResults=true;r.continuous=false;r.maxAlternatives=1;
+    r.onresult=function(e){if(g!==Voz.gen)return;var t='';for(var i=0;i<e.results.length;i++)t+=e.results[i][0].transcript+' ';st.texto=t.trim();alCambiar();};
+    r.onerror=function(e){if(g!==Voz.gen)return;var c=e&&e.error;st.error=(c==='not-allowed'||c==='service-not-allowed')?'Permite el micrófono para esta página en los ajustes del navegador.':c==='no-speech'?'No se ha oído nada. Pulsa Repetir.':c==='aborted'?null:'No se pudo usar el reconocimiento de voz.';alCambiar();};
+    r.onend=function(){if(g!==Voz.gen)return;st.escuchando=false;Voz.rec=null;alCambiar();};
+    try{r.start();Voz.rec=r;st.escuchando=true;}catch(e){st.error='No se pudo activar el micrófono.';st.escuchando=false;}
+  },
+  detener:function(){if(Voz.rec){try{Voz.rec.stop();}catch(e){}}},
+  cancelar:function(){Voz.gen++;if(Voz.rec){try{Voz.rec.abort();}catch(e){}}Voz.rec=null;}
+};
+
+/* =====================================================================
    Componentes (equivalentes a Desingsystem.swift)
    ===================================================================== */
 var LOGO_SRC='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwMDAgQDAwMEBAQFBgoGBgUFBgwICQcKDgwPDg4MDQ0PERYTDxAVEQ0NExoTFRcYGRkZDxIbHRsYHRYYGRj/2wBDAQQEBAYFBgsGBgsYEA0QGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBj/wAARCAEsASwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD4/ooor6o+dCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAopM0U7CFopKKLDFopKKLALRSd6KLALRSUUWAWikoosAtFJRRY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eKKMUoU4wVoqw5zlN3kwo70tJVkBTlVncIqlmJwABkk+1Nr37wB4Y8J/CzS4PHHxOuY4dZkUS6bo5XfPEvaQx9d57ZwE9c9PGzrOaeV0VPlc6ktIQjrKT7Jdl1eyXyT9HLsvljanLzKMFrKT2S/rZdTpfg18DY9IW38V+NLQPqXElpp0gytr6PIO8novRfr09K8Z/FDwZ4FiZda1VZL3GV0+2/e3DfVc/L9WIr528c/tE+KvEPm2PhtW0DT2yu+Nt11IPeTon0Xn3rx2SR5ZmlldndzuZ3JJY+pJ6mvzalwHmOf4n+0OIavLfanHou19Ul6Xb6u59hPifCZXR+q5TC/eT6vvbd/Oy8rHsXjP9ovxfr/m2nh1V8P2LcB4W33LD3k6L/wED6147JI8srSSuzuxLMzHJYnqST1NNpa/TsryXA5VS9lgqSgutt36vd/NnxeNzHE46fPiZuT/AAXotkJ2ope9JXqHELRRSUAFFFFAAOtfVHwi17wN8Nvg7aSeIPEem2mo6mxvpoBJ5kwB4jUomW4QA4I6sa+V6BgdMDPpXz3EnD8M9w0cJVqOELpvltd22V3eyvrs9ketlGayyys69OClK1lfZeZ9W65+094SsyyaFo+p6rIOkku22jP55b/x2vNNc/aT8f6iWTSotN0aM9DDD50n/fUmR+S147RXl5f4e5FgrNUOd95vm/B+7+B24vivM8To6vKu0dPx3/E1dd8S+IPE9+t74h1i81KdQVR7mTdsBOcKOij2ArKpaK+xpUadGCp04qMVskrJfJHz86kqknKbu31YlFLSVoQFLSd6WgBKKKKACjvRQKQxaKKKQBRRRQAUUUUAFFFFABRRRQAUUUUAXNL1O50fVI9RshF9qhO6GSRA/lP2cA8bh1BIODz1AqK+vb3U9Qlv9RvJ7u6lO6SeeQu7n1LHk1BRWfsoc/tLe9a1+tu3oVzy5eS+nYTFLiiitCQooooAKKKKACjFFFABRiiigAooooAKMUUUAFFFFABRiiigAxRiiigAxRRRQAmKWiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/9k=';
@@ -978,7 +1123,7 @@ function ins(s,c,t){return '<span class="ins" style="--c:'+(c||'var(--acento)')+
 function fm(t,v,c){return '<div class="fm"><span class="sec">'+esc(t)+'</span><span class="v"'+(c?' style="color:'+c+'"':'')+'>'+esc(v)+'</span></div>';}
 function pil(s,t,v,c){return '<div class="pil glass" style="color:'+c+'">'+ic(s)+'<span class="sec">'+esc(t)+'</span><span class="v">'+esc(v)+'</span></div>';}
 function attrs(o){var s='';if(!o)return s;Object.keys(o).forEach(function(k){if(o[k]!=null&&o[k]!==false)s+=' data-'+k+'="'+esc(o[k])+'"';});return s;}
-function bc(o){return '<button class="bc press" style="--c:'+(o.c||'var(--blue)')+';min-height:'+(o.h||64)+'px"'+attrs(o.d)+(o.dis?' disabled':'')+'><span class="t">'+(o.i?ic(o.i):'')+'<span>'+esc(o.t)+'</span></span>'+(o.s?'<span class="s">'+esc(o.s)+'</span>':'')+'</button>';}
+function bc(o){return '<button class="bc press'+(o.big?' big':'')+'" style="--c:'+(o.c||'var(--blue)')+';min-height:'+(o.h||64)+'px"'+attrs(o.d)+(o.dis?' disabled':'')+'><span class="t">'+(o.i?ic(o.i):'')+'<span>'+esc(o.t)+'</span></span>'+(o.s?'<span class="s">'+esc(o.s)+'</span>':'')+'</button>';}
 function bj(o){var col=!!o.c;return '<button class="bj press '+(o.v?'v':'h')+(col?' tint2':' glass')+'" style="'+(col?'--c:'+o.c+';':'')+'min-height:'+(o.h||52)+'px'+(o.w?';width:'+o.w+'px;flex:none':'')+'"'+attrs(o.d)+(o.dis?' disabled':'')+'>'+
   (o.v?'<span class="d">'+esc(o.n1)+'</span><span class="n">'+esc(o.n2)+'</span>':'<span class="d">'+esc(o.n1)+'</span><span class="n">'+esc(o.n2)+'</span>')+'</button>';}
 function seg(act,ops,val,extra){return '<div class="seg" role="tablist">'+ops.map(function(o){var v=Array.isArray(o)?o[0]:o,l=Array.isArray(o)?o[1]:o;return '<button role="tab" aria-selected="'+(v===val)+'" class="'+(v===val?'on':'')+'" data-a="'+act+'" data-v="'+esc(v)+'"'+(extra?attrs(extra):'')+'>'+esc(l)+'</button>';}).join('')+'</div>';}
@@ -1046,6 +1191,59 @@ function tablaEficacia(grupos,orden){
     return '<div class="r"><span class="f-sub sb">'+esc(k)+'</span>'+celda(g.tf?g.gf/g.tf*100:0,g.gf+'/'+g.tf,g.tf>0,'var(--blue)')+celda(ap?g.par/ap*100:0,g.par+'/'+ap,ap>0,'var(--indigo)')+'</div>';}).join('')+'</div>';
 }
 
+/* ---------- Análisis avanzado: componentes ---------- */
+function signo(n){return n>0?'+'+n:String(n);}
+function colorDif(n){return n>0?'var(--green)':n<0?'var(--red)':'var(--gray)';}
+function barraPct(v,c){v=Math.min(Math.max(v,0),1);return '<div class="barra" aria-hidden="true"><i style="width:'+(v*100).toFixed(1)+'%;background:'+c+'"></i></div>';}
+function graficoParciales(tr){
+  var W=340,H=120,x0=24,x1=W-6,y0=8,y1=H-18,n=tr.length,mx=Math.max(1,Math.max.apply(null,tr.map(function(t){return Math.abs(t.dif);}))),st=(x1-x0)/n,bw=Math.min(22,st*.62),ym=(y0+y1)/2;
+  function Y(v){return ym-(ym-y0)*v/mx;}
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Diferencia de goles por tramo">';
+  [mx,0,-mx].forEach(function(v){s+='<line x1="'+x0+'" x2="'+x1+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="var(--label)" stroke-opacity="'+(v===0?.35:.08)+'"/><text x="'+(x0-5)+'" y="'+(Y(v)+3)+'" text-anchor="end">'+signo(v)+'</text>';});
+  var cada=n<=8?1:n<=14?2:3;
+  tr.forEach(function(t,i){var x=x0+st*i+st/2,y=Y(Math.max(t.dif,0)),h=Math.abs(Y(t.dif)-ym);
+    if(t.dif!==0)s+='<rect x="'+(x-bw/2).toFixed(1)+'" y="'+(t.dif>0?y:ym).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.max(h,1).toFixed(1)+'" rx="3" fill="'+(t.dif>0?'var(--green)':'var(--red)')+'"/>';
+    else s+='<rect x="'+(x-bw/2).toFixed(1)+'" y="'+(ym-1)+'" width="'+bw.toFixed(1)+'" height="2" fill="var(--gray)" opacity=".5"/>';
+    if(i%cada===0)s+='<text x="'+x.toFixed(1)+'" y="'+(H-4)+'" text-anchor="middle">'+t.desde+"'</text>";});
+  return '<div class="chartbox">'+s+'</svg></div>';
+}
+function tablaParciales(tr){
+  var h='<div class="tpar">'+(tr.length>1?graficoParciales(tr):'')+'<div class="tr h"><span>Tramo</span><span>Parcial</span><span>Marcador</span><span>Dif.</span></div>';
+  tr.forEach(function(t){h+='<div class="tr"><span class="sb">'+t.et+'</span><span class="r b tn">'+t.favor+'–'+t.contra+'</span><span class="r tn sec">'+t.af+'–'+t.ac+'</span><span class="r b tn" style="color:'+colorDif(t.dif)+'">'+signo(t.dif)+'</span></div>';});
+  var mej=null,peo=null;tr.forEach(function(t){if(!mej||t.dif>mej.dif)mej=t;if(!peo||t.dif<peo.dif)peo=t;});
+  var notas=[];if(mej&&mej.dif>0)notas.push('Mejor tramo: '+mej.et+' ('+mej.favor+'–'+mej.contra+')');if(peo&&peo.dif<0)notas.push('Peor tramo: '+peo.et+' ('+peo.favor+'–'+peo.contra+')');
+  return h+(notas.length?'<div class="f-cap sec">'+notas.join('<br>')+'</div>':'')+'</div>';
+}
+function mapaPerdidas(acc){
+  var per=acc.filter(function(a){return a.tipo==='Ataque'&&a.resultado==='Pérdida';}),cu={},hay=false;
+  per.forEach(function(a){if(a.zonaDisparo){cu[a.zonaDisparo]=(cu[a.zonaDisparo]||0)+1;hay=true;}});
+  var h='<div class="glass panel stack12">'+etq('DÓNDE PERDEMOS EL BALÓN','perdida');
+  if(!hay)return h+'<div class="f-foot sec">'+(per.length?'Hay '+per.length+' pérdidas, pero ninguna con zona. Activa «Zona de las pérdidas» al empezar el partido.':'Todavía no hay balones perdidos.')+'</div></div>';
+  var mx=Math.max(1,Math.max.apply(null,Object.keys(cu).map(function(k){return cu[k];}))),halos='',marks='';
+  ZONAS.forEach(function(z){var n=cu[z.id]||0,f=n/mx,d=70+60*f;
+    if(n)halos+='<div style="position:absolute;left:'+(z.x/320*100)+'%;top:'+(z.y/300*100)+'%;width:'+(d/320*100)+'%;height:0;padding-top:'+(d/320*100)+'%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,'+colorCalor(f,.85)+','+colorCalor(f,0)+' 70%)"></div>';
+    marks+='<div class="hmark" style="left:'+(z.x/320*100)+'%;top:'+(z.y/300*100)+'%"><b style="width:34px;background:rgba(255,255,255,'+(n?.85:.35)+');color:'+(n?'#000':'var(--label2)')+'">'+(n||'–')+'</b><span>'+z.ab+'</span></div>';});
+  return h+'<div class="hcourt"><div class="pad-court"></div>'+pistaSVG()+halos+marks+'</div><div class="f-cap2 sec">Cada marca: balones perdidos desde esa zona</div></div>';
+}
+function tarjetaParejas(acc,minP){
+  var d=rendimientoEnPista(acc,minP);if(!d.jugadores.length)return '';
+  function fila(t,f,c){var x=f-c;return '<div class="row"><span class="f-sub sb grow" style="min-width:0">'+esc(t)+'</span><span class="r tn sec f-sub">'+f+'–'+c+'</span><span class="r b tn f-sub" style="width:40px;text-align:right;color:'+colorDif(x)+'">'+signo(x)+'</span></div>';}
+  var h='<div class="stack10">'+etq('MÁS/MENOS POR JUGADOR DE CAMPO','person2')+d.jugadores.map(function(j){return fila(j.id,j.favor,j.contra);}).join('')+'<div class="f-cap sec">Goles de cada equipo mientras ese jugador estaba en pista.</div>';
+  if(d.parejas.length){h+='<hr class="divider">'+etq('MEJORES PAREJAS EN PISTA','equipo')+d.parejas.slice(0,5).map(function(p){return fila(p.nombres,p.favor,p.contra);}).join('');
+    var peo=d.parejas.slice(-3).filter(function(p){return p.favor-p.contra<0;}).reverse();
+    if(peo.length)h+='<div style="padding-top:4px">'+etq('PAREJAS A REVISAR','alerta')+'</div>'+peo.map(function(p){return fila(p.nombres,p.favor,p.contra);}).join('');
+    h+='<div class="f-cap sec">Parejas con al menos '+minP+' goles juntos en pista.</div>';}
+  return h+'</div>';
+}
+function tarjetaCierre(ps){
+  var c=calculoCierre(ps);if(!c.hay)return '';var a=c.cierre,b=c.resto;
+  function sg(v){return (v>=0?'+':'')+v.toFixed(2).replace('.',',');}
+  function fila(t,x,y){return '<div class="row"><span class="f-sub grow">'+t+'</span><span class="r b tn f-sub" style="width:76px;text-align:right">'+x+'</span><span class="r tn sec f-sub" style="width:76px;text-align:right">'+y+'</span></div>';}
+  var txt=a.bal<b.bal-.25?'El equipo rinde menos en los minutos finales de cada parte.':a.bal>b.bal+.25?'El equipo mejora en los minutos finales de cada parte.':'El rendimiento en el cierre es parecido al del resto del partido.';
+  return '<div class="stack8">'+etq('CIERRE DE CADA PARTE (ÚLTIMOS 5 MIN)','exclusion')+'<div class="row f-cap2 b sec"><span class="grow"></span><span style="width:58px;text-align:right">Cierre</span><span style="width:58px;text-align:right">Resto</span></div>'+
+    fila('Goles a favor / en contra',a.f+'–'+a.c,b.f+'–'+b.c)+fila("Balance por tramo de 5'",sg(a.bal),sg(b.bal))+fila("Pérdidas por tramo de 5'",a.per.toFixed(2).replace('.',','),b.per.toFixed(2).replace('.',','))+'<div class="f-cap sec">'+txt+'</div></div>';
+}
+
 /* =====================================================================
    Pestaña «Partido» · Nuevo partido (SetupView)
    ===================================================================== */
@@ -1074,7 +1272,11 @@ function vNuevo(){
   h+='<div class="glass panel stack12">'+etq('COLORES DEL MARCADOR','palette')+selColor('Tu equipo','colorLocal')+selColor('Equipo rival','colorRival')+
     (F.colorLocal===F.colorRival?'<div class="warn">'+ic('alerta')+'<span>Los dos equipos tienen el mismo color: en el marcador no se distinguirán.</span></div>':'')+'</div>';
   h+='<div class="glass panel stack12">'+etq('RIVAL','rival')+'<input class="tf" id="f-rival" placeholder="Nombre del rival" autocapitalize="words" value="'+esc(F.rival)+'" data-bind="rival" data-rerender="1">'+
-    seg('fModo',MODOS_DORSAL,F.modoDorsal)+'<div class="f-cap sec">Anotar el dorsal rival permite analizar desde dónde y a dónde tira cada jugador.</div></div>';
+    seg('fModo',MODOS_DORSAL,F.modoDorsal)+'<div class="f-cap sec">Anotar el dorsal rival permite analizar desde dónde y a dónde tira cada jugador.</div>'+
+    (function(){var n=ST.partidos.filter(function(p){return coincideRival(p.nombreRival,F.rival);}).length;return n?'<button class="btn gl glass wfull" style="font-weight:600" data-a="informeRival">'+ic('docMag')+'Informe del rival ('+n+' '+(n===1?'partido':'partidos')+')</button>':'';})()+'</div>';
+  h+='<div class="glass panel stack12">'+etq('QUÉ SE ANOTA EN CADA JUGADA','squarePencil')+
+    '<div class="row" style="gap:12px;align-items:flex-start"><div class="grow"><div class="f-sub sb">Zona de las pérdidas</div><div class="f-cap sec">Al perder un balón, toca la zona de la pista donde se perdió. Añade un paso por pérdida.</div></div>'+sw('f-zper',AJ.zonaPerdida,'fZonaPerdida')+'</div>'+
+    '<hr class="divider"><div class="row" style="gap:12px;align-items:flex-start"><div class="grow"><div class="f-sub sb">Dictado por voz</div><div class="f-cap sec">'+(Voz.disponible()?'Botón de micrófono al elegir la zona: di «22, arriba izquierda, pivote» y confirma.':'Este navegador no permite el dictado por voz. Prueba con Safari o Chrome.')+'</div></div>'+sw('f-voz',AJ.voz&&Voz.disponible(),'fVoz')+'</div></div>';
   var dis=!e||!F.rival.trim()||!convocados().length;
   h+='<button class="btn prom lg wfull" id="b-comenzar" data-a="comenzar"'+(dis?' disabled':'')+' style="margin-top:4px">'+ic('play')+'Comenzar partido</button>';
   return h+'</div>';
@@ -1124,7 +1326,7 @@ function vAjustes(){
       '<div class="row" style="gap:8px"><input class="tf rb grow" id="ge-jn-'+e.id+'" placeholder="Nombre" value="'+esc(GE.jNombre)+'" data-bindg="jNombre"><input class="tf rb center" id="ge-jd-'+e.id+'" placeholder="Nº" inputmode="numeric" style="width:54px" value="'+esc(GE.jDorsal)+'" data-bindg="jDorsal">'+menu('ge-jp-'+e.id,POS.map(function(p){return [p,cap(p)];}),GE.jPos,'geJPos')+'</div>'+
       '<button class="btn prom wfull" data-a="geInscribir" data-id="'+e.id+'">'+ic('personPlus')+'Inscribir jugador en la ficha</button><hr class="divider">'+
       etq('JUGADORES EN ACTA (DORSAL CRECIENTE)','jugador')+
-      (e.jugadores.length?'<div class="stack8">'+e.jugadores.map(function(j){return '<div class="row" style="padding:4px 0">'+chipN(j.dorsal,'var(--blue)',28)+'<span class="f-foot sb grow">'+esc(j.nombre)+'</span><span class="f-cap2 sec">'+esc(cap(j.posicion))+'</span><button class="c-red press" style="display:inline-flex;width:22px;padding:2px" data-a="geBorrarJ" data-id="'+e.id+'" data-v="'+j.id+'" aria-label="Quitar '+esc(j.nombre)+'">'+ic('trash')+'</button></div>';}).join('')+'</div>':'<div class="f-cap sec">Plantilla vacía.</div>')+
+      (e.jugadores.length?'<div class="stack8">'+e.jugadores.map(function(j){return '<div class="row" style="padding:4px 0">'+chipN(j.dorsal,'var(--blue)',28)+'<span class="f-foot sb grow">'+esc(j.nombre)+'</span><span class="f-cap2 sec">'+esc(cap(j.posicion))+'</span>'+menu('ge-pu-'+j.id,[['','Automático']].concat(PUESTOS.map(function(p){return [p.id,p.id];})),j.puesto||'','geJPuesto',{d:{id:e.id,j:j.id},label:j.puesto&&puestoDe(j.puesto)?puestoDe(j.puesto).ab:'Auto'},'mini')+'<button class="c-red press" style="display:inline-flex;width:22px;padding:2px" data-a="geBorrarJ" data-id="'+e.id+'" data-v="'+j.id+'" aria-label="Quitar '+esc(j.nombre)+'">'+ic('trash')+'</button></div>';}).join('')+'</div>':'<div class="f-cap sec">Plantilla vacía.</div>')+
       '</div>';
     }
     return swipe('<div class="disc'+(open?' open':'')+'">'+head+body+'</div>','geBorrarEq',{v:e.id});
@@ -1174,6 +1376,8 @@ function vAcum(){
       '<div class="frow">'+fm('Efectividad media de defensa',pct1(par+gc?par/(par+gc)*100:0),'var(--indigo)').replace('class="fm"','class="fm grow"')+'</div>';
     if(Object.keys(sit).some(function(k){return k!==SIT.ig;}))met+='<div class="frow"><div class="grow stack8">'+etq('SUPERIORIDAD E INFERIORIDAD','person2')+tablaEficacia(sit,SIT.todas)+'</div></div>';
     if(Object.keys(tip).some(function(k){return hayDatos(tip[k]);}))met+='<div class="frow"><div class="grow stack8">'+etq('POR TIPO DE LANZAMIENTO','porteria')+tablaEficacia(tip,TL.todos)+'</div></div>';
+    var tc=tarjetaCierre(ps);if(tc)met+='<div class="frow"><div class="grow">'+tc+'</div></div>';
+    var tp=tarjetaParejas(acc,4);if(tp)met+='<div class="frow"><div class="grow">'+tp+'</div></div>';
     h+=fsec('Métricas colectivas de la temporada','historico',met);
     h+=fsec('Lista de partidos','listBullet',ps.length?ps.map(function(p){return swipe('<div class="frow"><button class="c-acento press" style="display:inline-flex;width:28px" data-a="excelPartido" data-v="'+p.id+'" aria-label="Exportar a Excel">'+ic('shareFill')+'</button><div class="grow"><div class="f-sub sb ell">'+esc(p.nombreRival)+'</div><div class="f-cap sec">'+fechaCorta(p.fecha)+'</div></div><span class="r b f-title3 tn">'+p.golesLocal+' - '+p.golesVisitante+'</span><button class="press c-blue" style="display:inline-flex;width:26px" data-a="resumen" data-v="'+p.id+'" aria-label="Ver resumen">'+ic('docMag')+'</button></div>','acBorrar',{v:p.id});}).join(''):'<div class="frow sec">No hay partidos.</div>');
   }else{
@@ -1237,6 +1441,8 @@ function vMatch(){
   h+=marcador();
   var sit=MM.situacion();
   if(sit!==SIT.ig){var sup=sit===SIT.sup;h+='<div class="situ" style="background:'+(sup?'var(--green)':'var(--red)')+'">'+ic(sup?'upCircle':'downCircle')+'<span>'+sit.toUpperCase()+' · '+MM.textoSituacion()+'</span></div>';}
+  var ra=rachaGoles(M.historial);
+  if(ra)h+='<div class="situ racha" style="background:'+(ra.nuestra?'var(--green)':'var(--red)')+'">'+ic(ra.nuestra?'flame':'alerta')+'<span class="grow center">'+(ra.nuestra?'RACHA NUESTRA':'RACHA RIVAL')+' · '+ra.goles+' SEGUIDOS</span>'+(!ra.nuestra&&M.tmLocal<3?'<button class="btn prom sm" style="--tint:var(--orange);font-weight:800" data-a="to" data-v="1">T.O.</button>':'')+'</div>';
   h+='<div class="row">'+pil('ataque','Ataque',pct0(MM.pctAtaque()),'var(--blue)')+pil('defensa','Portería',pct0(MM.pctPorteria()),'var(--indigo)')+'</div>';
   h+=avisos();
   var esp=function(id){var j=id&&MM.jug(id);return j?'#'+j.dorsal:'—';};
@@ -1248,10 +1454,23 @@ function vMatch(){
   if(!M.exclusiones.length&&!M.exclusionesRival.length)h+='<div class="f-foot sec">Sin exclusiones.</div>';
   else h+='<div class="stack8">'+M.exclusiones.map(function(e){return fexRow(e.jugador.dorsal,e.jugador.nombre,mss(e.restante),'ex:'+e.id);}).join('')+'</div>';
   h+='</div></div>';
-  return h;
+  return h+avisoJugada();
+}
+/* Aviso de la última jugada con «Deshacer» (4 s) */
+function avisoJugada(){var a=S.avisoJ;if(!a)return '';
+  return '<div class="avj anim-down" style="background:'+a.c+'" role="status"><div class="grow" style="min-width:0"><div class="f-sub" style="font-weight:800">'+esc(a.t)+'</div>'+(a.d?'<div class="f-cap ell" style="opacity:.92">'+esc(a.d)+'</div>':'')+'</div>'+
+    (MM.puedeDeshacer()?'<button class="btn sm" style="background:rgba(255,255,255,.22);color:#fff;font-weight:700;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6)" data-a="avisoDeshacer">Deshacer</button>':'')+'</div>';}
+function mostrarAvisoJugada(){
+  var ac=M.historial[M.historial.length-1];if(!ac||(ac.tipo!=='Ataque'&&ac.tipo!=='Defensa'))return;
+  var n=ac.tipo==='Ataque',r=ac.resultado,t,c;
+  if(n){if(r==='Gol'){t='¡GOL!';c='var(--green)';}else if(r==='Parada'){t='Parada del portero rival';c='var(--orange)';}else if(r==='Fuera'){t='Tiro fuera';c='var(--gray)';}else{t='Balón perdido';c='var(--red)';}}
+  else{if(r==='Gol'){t='Gol en contra';c='var(--red)';}else if(r==='Parada'){t='¡Parada!';c='var(--green)';}else{t='Tiro rival fuera';c='var(--gray)';}}
+  var d=[ac.jugadorNombre,ac.dorsalRival!=null?'Rival #'+ac.dorsalRival:null,ac.tipoLanzamiento,pad2(ac.minuto)+':'+pad2(ac.segundo)].filter(Boolean).join(' · ');
+  var id=(S.avisoJ&&S.avisoJ.id||0)+1;S.avisoJ={t:t,d:d,c:c,id:id};
+  setTimeout(function(){if(S.avisoJ&&S.avisoJ.id===id){S.avisoJ=null;render();}},4000);
 }
 function zonaInferior(){
-  return '<div class="zinf"><div class="wrap"><div class="row">'+bc({t:'ATAQUE',s:'Registrar jugada',i:'ataque',c:'var(--blue)',d:{a:'flow',v:'ataque'}})+bc({t:'DEFENSA',s:'Registrar jugada',i:'defensa',c:'var(--red)',d:{a:'flow',v:'defensa'}})+'</div>'+
+  return '<div class="zinf"><div class="wrap"><div class="row">'+bc({t:'ATAQUE',s:'Registrar jugada',i:'ataque',c:'var(--blue)',h:88,big:true,d:{a:'flow',v:'ataque'}})+bc({t:'DEFENSA',s:'Registrar jugada',i:'defensa',c:'var(--red)',h:88,big:true,d:{a:'flow',v:'defensa'}})+'</div>'+
     '<div class="mesa"><button class="glass press" style="--c:var(--indigo)" data-a="sheet" data-v="exclusion">'+ic('exclusion')+'2 min</button><button class="glass press" style="--c:var(--orange)" data-a="sheet" data-v="tarjetas">'+ic('tarjeta')+'Tarjetas</button><button class="glass press" style="--c:var(--green)" data-a="dlgFinalizar">'+ic('finalizar')+'Finalizar</button></div></div></div>';
 }
 function marcador(){
@@ -1261,7 +1480,8 @@ function marcador(){
   function casilla(n,g,col,p){return '<div class="casilla'+(p?' pulse':'')+'" style="background:'+colorCss(col)+';color:'+colorTexto(col)+(necesitaBorde(col)?';box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--label) 30%,transparent)':'')+'"><span class="n">'+esc(n)+'</span><span class="g">'+g+'</span></div>';}
   var h='<div class="glass panel stack" style="gap:14px"><div class="row" style="justify-content:space-between">'+to(true,M.colorLocal)+'<span class="reloj" data-live="reloj">'+pad2(M.minutos)+':'+pad2(M.segundos)+'</span>'+to(false,M.colorRival)+'</div>'+
     '<div class="row">'+casilla(nl,M.golesLocal,M.colorLocal,pulsoL)+'<button class="playbtn press" style="--c:'+(M.timerRunning?'var(--orange)':'var(--green)')+'" data-a="reloj" aria-label="'+(M.timerRunning?'Parar el reloj':'Poner en marcha el reloj')+'">'+ic(M.timerRunning?'pause':'play')+'</button>'+casilla(nr,M.golesVisitante,M.colorRival,pulsoR)+'</div>';
-  if(pt){h+=MM.esUltimoPeriodo()?'<div class="row c-green sb f-sub" style="justify-content:center;gap:6px"><span style="display:inline-flex;width:18px">'+ic('finalizar')+'</span>Fin del partido</div>':'<button class="btn prom wfull" style="--tint:var(--orange)" data-a="sigPeriodo">'+ic('forwardEnd')+'Empezar el siguiente periodo</button>';}
+  if(pt){h+=MM.esUltimoPeriodo()?'<div class="row c-green sb f-sub" style="justify-content:center;gap:6px"><span style="display:inline-flex;width:18px">'+ic('finalizar')+'</span>Fin del partido</div>':'<button class="btn prom wfull" style="--tint:var(--orange)" data-a="sigPeriodo">'+ic('forwardEnd')+'Empezar el siguiente periodo</button>';
+    h+='<button class="btn gl glass wfull" style="font-weight:600" data-a="sheet" data-v="descanso">'+ic('clip')+'Resumen del periodo</button>';}
   return h+'</div>';
 }
 function avisos(){
@@ -1278,7 +1498,7 @@ function avisos(){
 }
 
 /* Alineación */
-function estadoFicha(j){var mk=S.sel&&MM.jug(S.sel);if(!mk)return '';if(mk.id===j.id)return 'marcada';if(MM.enPista(mk.id)!==MM.enPista(j.id)&&!MM.estaExcluido(j.id))return 'candidata';return 'atenuada';}
+function estadoFicha(j){if(S.preparando&&MM.enPreparado(j.id)&&j.id!==S.sel)return 'atenuada';var mk=S.sel&&MM.jug(S.sel);if(!mk)return '';if(mk.id===j.id)return 'marcada';if(MM.enPista(mk.id)!==MM.enPista(j.id)&&!MM.estaExcluido(j.id))return 'candidata';return 'atenuada';}
 function colorFicha(j){if(MM.estaExcluido(j.id))return 'var(--red)';if(MM.enPista(j.id))return j.posicion==='Portero'?'var(--indigo)':'var(--blue)';return null;}
 function ficha(j,big,w){var c=colorFicha(j),e=estadoFicha(j),lab=MM.etiquetaSancion(j.id)||j.nombre;
   return '<button class="ficha press'+(c?' col':' glass')+(big?' big':'')+(e?' '+e:'')+'" style="'+(c?'--c:'+c+';':'')+(w?'width:'+w+'px;flex:none':'')+'" data-a="ficha" data-v="'+j.id+'"><span class="d">'+(j.posicion==='Portero'?ic('parada'):'')+j.dorsal+'</span><span class="n" data-live="lab:'+j.id+'">'+esc(lab)+'</span>'+(e==='candidata'?'<span class="badge">'+ic('cambio')+'</span>':'')+'</button>';}
@@ -1286,19 +1506,37 @@ function alineacion(big){
   var pl=ordenAlin(MM.jugadores());if(!pl.length)return '';
   var tit=pl.filter(function(j){return MM.enPista(j.id);}),sup=pl.filter(function(j){return !MM.enPista(j.id);});
   var h='<div class="glass panel p12 stack10"><div class="row" style="gap:8px">'+etq('EN PISTA '+tit.length+'/7','partido')+'<span class="grow"></span>'+
+    (big?'<button class="cbtn glass press" style="width:34px;height:34px" data-a="enCampo" aria-label="'+(AJ.enCampo?'Ver titulares en fila':'Ver titulares en el campo')+'">'+ic(AJ.enCampo?'grid':'pista')+'</button>':'')+
     (MM.actaAbierta()?'<button class="btn gl glass sm" style="font-weight:700;font-size:12px" data-a="sheet" data-v="cambioActa">'+ic('clip')+'Acta '+M.cambiosActa+'/'+MAX_CAMBIOS_ACTA+'</button>':'')+
     (!big?'<button class="cbtn glass press" style="width:34px;height:34px" data-a="alinGrande" aria-label="Ver la alineación en grande">'+ic('expand')+'</button>':'')+'</div>'+
-    (!S.sel?'<div class="'+(big?'f-foot':'f-cap')+' sec" style="margin-top:-4px">Toca un jugador para cambiarlo</div>':'');
+    '<div class="row" style="gap:8px;margin-top:-4px"><span class="'+(big?'f-foot':'f-cap')+' sec grow">'+(S.sel?'':(S.preparando?'Preparar: toca al que sale y al que entra. Se hará cuando pulses el botón.':'Toca un jugador para cambiarlo'))+'</span>'+
+    '<button class="btn sm prep'+(S.preparando?' on':' glass')+'" data-a="preparar" aria-pressed="'+!!S.preparando+'">'+ic('exclusion')+'Preparar</button></div>'+panelPreparados();
   var mk=S.sel&&MM.jug(S.sel);
-  if(mk){var ep=MM.enPista(mk.id);h+='<div class="banner-cambio">'+ic('cambio')+'<span class="grow">'+(ep?'Sale #'+mk.dorsal+' '+esc(mk.nombre)+' · toca el suplente que entra':'Entra #'+mk.dorsal+' '+esc(mk.nombre)+' · toca el titular que sale')+'</span>'+
-    (ep?'<button class="btn sm" style="background:rgba(255,255,255,.55);color:#000;font-weight:700" data-a="sacar">Sacar</button>':'')+'<button style="display:inline-flex;width:22px" data-a="selNone" aria-label="Cancelar cambio">'+ic('xfill')+'</button></div>';}
+  if(mk){var ep=MM.enPista(mk.id);h+='<div class="banner-cambio">'+ic('cambio')+'<span class="grow">'+(S.preparando?'Preparar · ':'')+(ep?'Sale #'+mk.dorsal+' '+esc(mk.nombre)+' · toca el suplente que entra':'Entra #'+mk.dorsal+' '+esc(mk.nombre)+' · toca el titular que sale')+'</span>'+
+    (ep&&!S.preparando?'<button class="btn sm" style="background:rgba(255,255,255,.55);color:#000;font-weight:700" data-a="sacar">Sacar</button>':'')+'<button style="display:inline-flex;width:22px" data-a="selNone" aria-label="Cancelar cambio">'+ic('xfill')+'</button></div>';}
   var slots='';for(var i=0;i<7;i++)slots+=i<tit.length?ficha(tit[i],big):'<div class="hueco'+(big?' big':'')+'">'+ic('plus')+'</div>';
-  h+=big?'<div class="grid4">'+slots+'</div>':'<div class="tit7">'+slots+'</div>';
+  if(big&&AJ.enCampo)h+=campoAlineacion(tit);
+  else h+=big?'<div class="grid4">'+slots+'</div>':'<div class="tit7">'+slots+'</div>';
   h+='<div class="stack8">'+etq('SUPLENTES','person2');
   if(!sup.length)h+='<div class="f-cap sec">Sin suplentes</div>';
   else if(big)h+='<div class="grid4" style="padding:4px 0">'+sup.map(function(j){return ficha(j,true);}).join('')+'</div>';
   else h+='<div class="supl" data-sid="supl">'+sup.map(function(j){return ficha(j,false);}).join('')+'</div>';
   return h+'</div></div>';
+}
+/* Titulares colocados en su puesto sobre la media pista (VistaCampo.swift) */
+function campoAlineacion(tit){
+  var rep=repartoEnPista(tit),h='<div class="courtwrap campo"><div class="pad-court"></div>'+pistaSVG();
+  PUESTOS.forEach(function(p){var j=rep[p.id],x=Math.min(Math.max(p.x,38),282);
+    h+='<div class="cpos" style="left:'+(x/320*100)+'%;top:'+(p.y/300*100)+'%">'+(j?ficha(j,false):'<div class="hueco cvac"><b>'+p.ab+'</b></div>')+'</div>';});
+  return h+'</div><div class="f-cap2 sec center">El puesto de cada jugador se fija en Ajustes y clubes (si no, se reparte por su posición).</div>';
+}
+function panelPreparados(){
+  if(!M.preparados.length)return '';
+  function nom(id){var j=MM.jug(id);return j?'#'+j.dorsal+' '+j.nombre:'—';}
+  var vig=M.preparados.filter(MM.preparadoVigente).length;
+  return '<div class="prepbox stack8">'+etq('CAMBIOS PREPARADOS','cambio')+M.preparados.map(function(c){var v=MM.preparadoVigente(c);
+    return '<div class="row f-foot sb" style="gap:8px;opacity:'+(v?1:.5)+'"><span class="ell">'+esc(nom(c.sale))+'</span><span class="c-orange" style="display:inline-flex;width:14px;flex:none">'+ic('chevR')+'</span><span class="ell">'+esc(nom(c.entra))+'</span><span class="grow"></span>'+(v?'':'<span class="f-cap2 b c-red" style="flex:none">ya no vale</span>')+'<button class="sec press" style="display:inline-flex;width:24px;flex:none" data-a="quitarPreparado" data-v="'+c.id+'" aria-label="Quitar este cambio">'+ic('xfill')+'</button></div>';}).join('')+
+    '<button class="btn prom lg wfull" style="--tint:var(--orange);font-weight:700" data-a="hacerPreparados"'+(vig?'':' disabled')+'>'+ic('cambio')+(vig===1?'Hacer el cambio':'Hacer los '+vig+' cambios')+'</button></div>';
 }
 function alineacionResumen(){
   var tit=ordenAlin(MM.jugadores()).filter(function(j){return MM.enPista(j.id);}),c='';
@@ -1307,6 +1545,9 @@ function alineacionResumen(){
 }
 function tocarFicha(id){
   if(MM.estaExcluido(id))return;var ep=MM.enPista(id);
+  if(S.preparando){if(MM.enPreparado(id))return;
+    if(!S.sel||S.sel===id){S.sel=S.sel===id?null:id;return;}
+    var mp=MM.enPista(S.sel);if(mp!==ep){if(mp)MM.prepararCambio(S.sel,id);else MM.prepararCambio(id,S.sel);S.sel=null;}else S.sel=id;return;}
   if(S.sel&&S.sel!==id){var me=MM.enPista(S.sel);if(me!==ep){if(me)MM.intercambiar(S.sel,id);else MM.intercambiar(id,S.sel);S.sel=null;}else S.sel=id;return;}
   if(S.sel===id){S.sel=null;return;}
   if(!ep&&M.pista.length<7){MM.conmutar(id);return;}
@@ -1319,7 +1560,7 @@ function tocarFicha(id){
 var FL=null;
 function flPasos(){
   var p=['resultado'];
-  if(FL.t==='ataque'){if(FL.res==='Pérdida')return ['resultado','jugador'];if(M.anotarTipo)p.push('tipo');p.push('porteria');if(FL.tipo!==TL.m7)p.push('campo');p.push('jugador');return p;}
+  if(FL.t==='ataque'){if(FL.res==='Pérdida')return M.anotarZonaPerdida?['resultado','campo','jugador']:['resultado','jugador'];if(M.anotarTipo)p.push('tipo');p.push('porteria');if(FL.tipo!==TL.m7)p.push('campo');p.push('jugador');return p;}
   if(M.anotarTipo)p.push('tipo');if(!FL.res||FL.res==='Gol'||FL.res==='Parada')p.push('porteria');if(FL.tipo!==TL.m7)p.push('campo');if(preguntaDorsal())p.push('rival');p.push('portero');return p;
 }
 function preguntaDorsal(){if(M.modoDorsal==='No anotar')return false;if(M.modoDorsal==='Solo goles')return !FL.res||FL.res==='Gol';return true;}
@@ -1333,14 +1574,15 @@ function vFlow(){
   var p=FL.paso;
   if(p==='resultado'){
     h+='<div class="f-title3 b center" style="margin-bottom:4px">'+(at?'Fin de la jugada de ataque':'Fin de la jugada de defensa')+'</div>';
-    if(at)h+=bc({t:'GOL NUESTRO',i:'gol',c:'var(--green)',d:{a:'flRes',v:'Gol'}})+bc({t:'PARADA DEL PORTERO RIVAL',i:'parada',c:'var(--orange)',d:{a:'flRes',v:'Parada'}})+bc({t:'NUESTRO TIRO VA FUERA',i:'fuera',c:'var(--gray)',d:{a:'flRes',v:'Fuera'}})+bc({t:'BALÓN PERDIDO / FALTA',i:'perdida',c:'var(--red)',d:{a:'flRes',v:'Pérdida'}});
-    else h+=bc({t:'GOL EN CONTRA',i:'alerta',c:'var(--red)',d:{a:'flRes',v:'Gol'}})+bc({t:'PARADA DE NUESTRO PORTERO',i:'parada',c:'var(--green)',d:{a:'flRes',v:'Parada'}})+bc({t:'EL RIVAL LA TIRA FUERA',i:'fuera',c:'var(--gray)',d:{a:'flRes',v:'Fuera'}});
+    if(at)h+=bc({t:'GOL NUESTRO',i:'gol',c:'var(--green)',h:72,d:{a:'flRes',v:'Gol'}})+bc({t:'PARADA DEL PORTERO RIVAL',i:'parada',c:'var(--orange)',h:72,d:{a:'flRes',v:'Parada'}})+bc({t:'NUESTRO TIRO VA FUERA',i:'fuera',c:'var(--gray)',h:72,d:{a:'flRes',v:'Fuera'}})+bc({t:'BALÓN PERDIDO / FALTA',i:'perdida',c:'var(--red)',h:72,d:{a:'flRes',v:'Pérdida'}});
+    else h+=bc({t:'GOL EN CONTRA',i:'alerta',c:'var(--red)',h:72,d:{a:'flRes',v:'Gol'}})+bc({t:'PARADA DE NUESTRO PORTERO',i:'parada',c:'var(--green)',h:72,d:{a:'flRes',v:'Parada'}})+bc({t:'EL RIVAL LA TIRA FUERA',i:'fuera',c:'var(--gray)',h:72,d:{a:'flRes',v:'Fuera'}});
   }else if(p==='tipo'){
     h+='<div class="f-title3 b center" style="margin-bottom:4px">¿Qué tipo de lanzamiento fue?</div>'+bc({t:'ATAQUE POSICIONAL',s:'Juego organizado',i:'grid',c:col,d:{a:'flTipo',v:TL.pos}})+bc({t:'CONTRAATAQUE',s:'Transición rápida',i:'hare',c:'var(--orange)',d:{a:'flTipo',v:TL.ca}})+bc({t:'7 METROS',s:'Penalti',i:'seven',c:'var(--purple)',d:{a:'flTipo',v:TL.m7}});
   }else if(p==='porteria'){
     h+='<div class="center"><div class="f-title3 b">¿Por dónde entró o se paró el balón?</div><div class="f-sub sec">Toca la zona de la portería</div></div>'+chipsTipo(col)+porteriaSeleccionable('flPort')+'<div class="f-cap sec center">Vista desde el lanzador</div>';
   }else if(p==='campo'){
-    h+='<div class="center"><div class="f-title3 b">¿Desde dónde se armó el lanzamiento?</div><div class="f-sub sec">Toca la zona de la pista</div></div>'+chipsTipo(col)+'<div style="padding:0 0">'+pistaSeleccionable('flCampo')+'</div>';
+    if(FL.res==='Pérdida')h+='<div class="center"><div class="f-title3 b">¿Dónde se perdió el balón?</div><div class="f-sub sec">Toca la zona de la pista</div></div>'+pistaSeleccionable('flCampo');
+    else h+='<div class="center"><div class="f-title3 b">¿Desde dónde se armó el lanzamiento?</div><div class="f-sub sec">Toca la zona de la pista</div></div>'+chipsTipo(col)+'<div style="padding:0 0">'+pistaSeleccionable('flCampo')+'</div>';
   }else if(p==='jugador'){
     var pista=MM.pistaDuranteLaJugada(),pl=ordenAlin(MM.jugadores()),ord=pl.filter(function(j){return pista.indexOf(j.id)>=0;}).concat(pl.filter(function(j){return pista.indexOf(j.id)<0;}));
     if(!ord.length)h+='<button class="btn prom lg wfull" data-a="flJug" data-v="">Guardar sin jugador asignado</button>';
@@ -1355,7 +1597,39 @@ function vFlow(){
     if(!por.length)h+='<button class="btn prom lg wfull" data-a="flPortero" data-v="">Guardar sin portero asignado</button>';
     else h+='<div><div class="f-head">¿Qué portero intervino?</div><div class="f-cap sec">En índigo, el guardameta activo ahora en pista.</div></div><div class="grid2">'+por.map(function(j){var s=MM.etiquetaSancion(j.id),c=MM.estaExcluido(j.id)?'var(--red)':pd.indexOf(j.id)>=0?'var(--indigo)':null;return bj({n1:j.dorsal,n2:s||j.nombre,c:c,h:54,d:{a:'flPortero',v:j.id},dis:!!s});}).join('')+'</div>';
   }
-  return h+'</div></div></div>';
+  if(puedeDictar())h+='<div class="grow"></div><button class="btn prom lg wfull vozbtn" style="--tint:'+col+'" data-a="vozAbrir">'+ic('mic')+'Dictar jugada</button>';
+  h+='</div></div></div>';
+  if(FL.voz)h+=vDictado(at,col);
+  return h;
+}
+/* ---------- Dictado por voz ---------- */
+function puedeDictar(){return AJ.voz&&Voz.disponible()&&FL&&FL.res&&FL.res!=='Pérdida'&&(FL.paso==='porteria'||FL.paso==='campo');}
+function vozEspera(at){return {dorsal:at?true:preguntaDorsal(),porteria:at?true:FL.res!=='Fuera',campo:FL.tipo!==TL.m7};}
+function jugadorPorDorsal(n){var c=MM.jugadores().filter(function(j){return j.dorsal===n;}),pd=MM.pistaDuranteLaJugada();return c.find(function(j){return pd.indexOf(j.id)>=0;})||c[0]||null;}
+function validarDorsalVoz(at,n){if(!at)return n>0?'Rival':null;var j=jugadorPorDorsal(n);return j&&!MM.etiquetaSancion(j.id)?j.nombre:null;}
+function vozAplicable(at){var r=InterpreteVoz.interpretar(FL.voz.texto),e=vozEspera(at);
+  if(!e.dorsal||(r.dorsal!=null&&validarDorsalVoz(at,r.dorsal)==null))r.dorsal=null;if(!e.porteria)r.porteria=null;if(!e.campo)r.campo=null;return r;}
+function vDictado(at,col){
+  var v=FL.voz,e=vozEspera(at),ent=InterpreteVoz.interpretar(v.texto),ap=vozAplicable(at),vacio=ap.dorsal==null&&ap.porteria==null&&ap.campo==null;
+  var ej=[];if(e.dorsal)ej.push(at?'22':'6');if(e.porteria)ej.push('arriba izquierda');if(e.campo)ej.push('pivote');
+  function fila(t,val,ok){return '<div class="row f-sub"><span class="sb sec grow">'+t+'</span><span class="b" style="color:'+(ok?'var(--label)':'var(--orange)')+'">'+esc(val||'—')+'</span><span style="display:inline-flex;width:20px;color:'+(ok?'var(--green)':'var(--label2)')+'">'+ic(ok?'checkFill':'circle')+'</span></div>';}
+  var td=null;if(ent.dorsal!=null){var nm=validarDorsalVoz(at,ent.dorsal);td=nm?'#'+ent.dorsal+' · '+nm:'#'+ent.dorsal+' no válido';}
+  return '<div class="vozbg" data-a="vozCerrar"></div><div class="vozbox glass anim-up" role="dialog" aria-modal="true" aria-label="Dictado"><div class="f-title3 b center">'+(v.escuchando?'Escuchando…':'Dictado')+'</div>'+
+    '<div class="center f-sub" style="min-height:44px;color:'+(v.texto?'var(--label)':'var(--label2)')+'">'+(v.texto?'“'+esc(v.texto)+'”':'Di, por ejemplo: '+ej.join(', '))+'</div>'+
+    (v.error?'<div class="f-foot sb c-red center">'+esc(v.error)+'</div>':'')+
+    '<div class="stack8">'+(e.dorsal?fila(at?'Jugador':'Rival',td,ap.dorsal!=null):'')+(e.porteria?fila('Portería',ent.porteria?ZPORT[ent.porteria]:null,ent.porteria!=null):'')+(e.campo?fila('Pista',ent.campo,ent.campo!=null):'')+'</div>'+
+    '<div class="row"><button class="btn gl glass lg grow" data-a="vozRepetir">'+ic(v.escuchando?'pause':'mic')+(v.escuchando?'Parar':'Repetir')+'</button><button class="btn prom lg grow" style="--tint:'+col+'" data-a="vozUsar"'+(v.escuchando||vacio?' disabled':'')+'>'+ic('check')+'Usar</button></div>'+
+    '<button class="sec f-sub" style="min-height:36px" data-a="vozCerrar">Cancelar</button></div>';
+}
+function aplicarVoz(){
+  var at=FL.t==='ataque',r=vozAplicable(at);Voz.cancelar();FL.voz=null;
+  if(r.porteria!=null)FL.zp=r.porteria;
+  if(r.campo&&FL.tipo!==TL.m7){FL.zd=r.campo;if(r.campo===TL.zona7&&!FL.tipo)FL.tipo=TL.m7;}
+  if(at){var j=r.dorsal!=null?jugadorPorDorsal(r.dorsal):null;
+    if(FL.zp==null)FL.paso='porteria';else if(FL.tipo!==TL.m7&&!FL.zd)FL.paso='campo';else if(j){FLA.flJug({v:j.id});}else FL.paso='jugador';return;}
+  if(r.dorsal!=null&&preguntaDorsal()){if(M.dorsalesRivales.indexOf(r.dorsal)<0){M.dorsalesRivales.push(r.dorsal);M.dorsalesRivales.sort(function(a,b){return a-b;});}FL.dorsal=r.dorsal;}
+  var necP=FL.res==='Gol'||FL.res==='Parada';
+  if(necP&&FL.zp==null)FL.paso='porteria';else if(FL.tipo!==TL.m7&&!FL.zd)FL.paso='campo';else if(preguntaDorsal()&&FL.dorsal==null)FL.paso='rival';else flIrPortero();
 }
 function chipsTipo(col){
   var ops=[[TL.pos,'Posicional',col],[TL.ca,'Contraataque','var(--orange)'],[TL.m7,'7 metros','var(--purple)']];
@@ -1363,11 +1637,11 @@ function chipsTipo(col){
     return '<button class="tipo press'+(on?' on':' glass')+'" style="--c:'+o[2]+'" data-a="flTipoChip" data-v="'+o[0]+'" aria-pressed="'+on+'">'+o[1]+'</button>';}).join('')+'</div></div>';
 }
 function abrirFlow(t){FL={t:t,paso:'resultado',res:null,tipo:null,zp:null,zd:null,dorsal:null};if(t==='ataque')MM.faseAtaque();else MM.faseDefensa();}
-function cerrarFlow(){FL=null;}
+function cerrarFlow(){if(FL&&FL.voz)Voz.cancelar();FL=null;}
 var FLA={
   flCancel:function(){MM.cancelarCambioAnticipado();cerrarFlow();},
   flRes:function(d){FL.res=d.v;
-    if(FL.t==='ataque'){if(d.v==='Pérdida'){FL.paso='jugador';return;}MM.cambioAnticipado('Ataque',d.v);FL.paso=M.anotarTipo?'tipo':'porteria';}
+    if(FL.t==='ataque'){if(d.v==='Pérdida'){FL.paso=M.anotarZonaPerdida?'campo':'jugador';return;}MM.cambioAnticipado('Ataque',d.v);FL.paso=M.anotarTipo?'tipo':'porteria';}
     else{MM.cambioAnticipado('Defensa',d.v);FL.paso=M.anotarTipo?'tipo':((d.v==='Gol'||d.v==='Parada')?'porteria':'campo');}},
   flTipoChip:function(d){
     if(FL.tipo===d.v){FL.tipo=null;if(d.v===TL.m7&&FL.zd===TL.zona7)FL.zd=null;return;}
@@ -1381,7 +1655,7 @@ var FLA={
   flCampo:function(d){FL.zd=d.v;if(FL.t==='ataque')FL.paso='jugador';else flDespuesCampo();},
   flJug:function(d){var j=d.v?MM.jug(d.v):null;var f=FL;cerrarFlow();
     var tipo=f.tipo||(f.zd===TL.zona7?TL.m7:null);
-    var gl=M.golesLocal;MM.registrarAccion('Ataque',f.res,f.zp,f.zd,j,null,tipo);if(M.golesLocal>gl)S.pulso='L';},
+    var gl=M.golesLocal;MM.registrarAccion('Ataque',f.res,f.zp,f.zd,j,null,f.res==='Pérdida'?null:tipo);if(M.golesLocal>gl)S.pulso='L';mostrarAvisoJugada();},
   flDorsal:function(d){FL.dorsal=d.v===''?null:+d.v;flIrPortero();},
   flOtro:function(){S.alert={t:'Dorsal del rival',input:'Número',ok:'Añadir',a:'flOtroOk'};},
   flPortero:function(d){flGuardarDef(d.v?MM.jug(d.v):null);},
@@ -1390,8 +1664,8 @@ var FLA={
     if(at){
       if(p==='tipo')alRes();
       else if(p==='porteria'){if(M.anotarTipo&&FL.res!=='Pérdida'){FL.tipo=null;FL.zd=null;FL.paso='tipo';}else alRes();}
-      else if(p==='campo'){FL.zp=null;FL.paso='porteria';}
-      else if(p==='jugador'){if(FL.res==='Pérdida'){FL.res=null;FL.paso='resultado';}else if(FL.tipo===TL.m7){FL.zp=null;FL.paso='porteria';}else{FL.zd=null;FL.paso='campo';}}
+      else if(p==='campo'){if(FL.res==='Pérdida'){FL.zd=null;FL.res=null;FL.paso='resultado';}else{FL.zp=null;FL.paso='porteria';}}
+      else if(p==='jugador'){if(FL.res==='Pérdida'){if(M.anotarZonaPerdida){FL.zd=null;FL.paso='campo';}else{FL.res=null;FL.paso='resultado';}}else if(FL.tipo===TL.m7){FL.zp=null;FL.paso='porteria';}else{FL.zd=null;FL.paso='campo';}}
       return;}
     function antesPort(){if(M.anotarTipo){FL.tipo=null;FL.zd=null;FL.paso='tipo';}else alRes();}
     function antesRival(){if(FL.tipo===TL.m7){if(FL.res==='Gol'||FL.res==='Parada'){FL.zp=null;FL.paso='porteria';}else antesPort();}else{FL.zd=null;FL.paso='campo';}}
@@ -1406,7 +1680,7 @@ function flDespuesCampo(){if(preguntaDorsal())FL.paso='rival';else flIrPortero()
 function flIrPortero(){var act=MM.jugadores().filter(function(j){return j.posicion==='Portero'&&MM.pistaDuranteLaJugada().indexOf(j.id)>=0&&!MM.estaExcluido(j.id);});
   if(act.length===1)flGuardarDef(act[0]);else FL.paso='portero';}
 function flGuardarDef(por){var f=FL;cerrarFlow();var gv=M.golesVisitante;
-  MM.registrarAccion('Defensa',f.res,f.zp,f.zd,por,f.dorsal,f.tipo||(f.zd===TL.zona7?TL.m7:null));if(M.golesVisitante>gv)S.pulso='R';}
+  MM.registrarAccion('Defensa',f.res,f.zp,f.zd,por,f.dorsal,f.tipo||(f.zd===TL.zona7?TL.m7:null));if(M.golesVisitante>gv)S.pulso='R';mostrarAvisoJugada();}
 
 /* =====================================================================
    Hojas del partido
@@ -1428,6 +1702,7 @@ function shEditJugada(sh){
   var h='<div class="wrap form" style="padding-top:6px">';
   h+=fsec('Jugada',null,'<div class="frow"><span class="grow">Momento</span><span class="sec tn">P'+(j.periodo||1)+' · '+pad2(j.minuto)+':'+pad2(j.segundo)+'</span></div><div class="frow"><span class="grow">Resultado</span>'+menu('ej-res',res,j.resultado,'ejSet',{d:{k:'resultado'}})+'</div>');
   h+=fsec(at?'Jugador':'Portero',null,'<div class="frow"><span class="grow">'+(at?'Jugador':'Portero')+'</span>'+menu('ej-jug',[['','Sin asignar']].concat(cand.map(function(x){return [x.id,'#'+x.dorsal+' '+x.nombre];})),j.jugadorId||'','ejSet',{d:{k:'jugadorId'}})+'</div>');
+  if(j.resultado==='Pérdida')h+=fsec('Pérdida',null,'<div class="frow"><span class="grow">Zona de pista</span>'+menu('ej-zd',[['','Sin anotar']].concat(ZONAS.map(function(z){return [z.id,z.id];})),j.zonaDisparo||'','ejSet',{d:{k:'zonaDisparo'}})+'</div>');
   if(j.resultado!=='Pérdida'){
     var zp=[['','Sin anotar']];for(var i=1;i<=9;i++)zp.push([String(i),i+' · '+ZPORT[i]]);
     h+=fsec('Lanzamiento',null,'<div class="frow"><span class="grow">Zona de portería</span>'+menu('ej-zp',zp,j.zonaPorteria!=null?String(j.zonaPorteria):'','ejSet',{d:{k:'zonaPorteria'}})+'</div>'+
@@ -1489,10 +1764,12 @@ function shStats(sh){
   if(sh.tab===0){
     var par=M.historial.filter(function(a){return a.tipo.indexOf('Ataque')>=0&&a.resultado==='Parada';}).length,fue=M.historial.filter(function(a){return a.tipo.indexOf('Ataque')>=0&&a.resultado==='Fuera';}).length,
       per=M.historial.filter(function(a){return a.tipo.indexOf('Ataque')>=0&&a.resultado==='Pérdida';}).length,tir=M.golesLocal+par+fue,pa=tir?M.golesLocal/tir*100:0;
-    h+=tarjeta('EFECTIVIDAD DE ATAQUE','ataque','<div class="r blk c-blue" style="font-size:40px">'+pct1(pa)+'</div><hr class="divider">'+fm('Goles / tiros totales',M.golesLocal+' G / '+tir+' T')+fm('Lanzamientos parados',String(par),'var(--orange)')+fm('Balones perdidos',String(per),'var(--red)'));
-    h+=tarjeta('RENDIMIENTO DE LA PORTERÍA','defensa','<div class="r blk c-indigo" style="font-size:40px">'+pct1(MM.pctPorteria())+'</div><hr class="divider">'+fm('Paradas / tiros recibidos',MM.paradas()+' P / '+MM.lanzRecibidos()+' T')+fm('Goles encajados',String(M.golesVisitante),'var(--red)'));
+    h+=tarjeta('EFECTIVIDAD DE ATAQUE','ataque','<div class="r blk c-blue" style="font-size:40px">'+pct1(pa)+'</div>'+barraPct(pa/100,'var(--blue)')+'<hr class="divider">'+fm('Goles / tiros totales',M.golesLocal+' G / '+tir+' T')+fm('Lanzamientos parados',String(par),'var(--orange)')+fm('Balones perdidos',String(per),'var(--red)'));
+    h+=tarjeta('RENDIMIENTO DE LA PORTERÍA','defensa','<div class="r blk c-indigo" style="font-size:40px">'+pct1(MM.pctPorteria())+'</div>'+barraPct(MM.pctPorteria()/100,'var(--indigo)')+'<hr class="divider">'+fm('Paradas / tiros recibidos',MM.paradas()+' P / '+MM.lanzRecibidos()+' T')+fm('Goles encajados',String(M.golesVisitante),'var(--red)'));
+    if(M.golesLocal+M.golesVisitante>0)h+=tarjeta('PARCIALES DEL MARCADOR','stats',tablaParciales(parciales(M.historial,MM.dur(),[M.periodo,M.minutos])));
     var si=eficacia(M.historial,'situacion');if(Object.keys(si).some(function(k){return hayDatos(si[k]);}))h+=tarjeta('SUPERIORIDAD E INFERIORIDAD','person2',tablaEficacia(si,SIT.todas));
     var ti=eficacia(M.historial,'tipoLanzamiento');if(Object.keys(ti).some(function(k){return hayDatos(ti[k]);}))h+=tarjeta('POR TIPO DE LANZAMIENTO','porteria',tablaEficacia(ti,TL.todos));
+    var tp=tarjetaParejas(M.historial,3);if(tp)h+='<div class="glass panel">'+tp+'</div>';
     h+=tarjeta('RENDIMIENTO POR POSICIONES','equipo',POS.map(function(p,i){var s=MM.porPuesto(p);return (i?'<hr class="divider">':'')+'<div class="row"><span class="f-sub sb grow">'+cap(p)+'</span><span class="mono sec">'+s.g+' / '+s.t+'</span><span class="mono b" style="width:76px;text-align:right;color:'+(p==='Portero'?'var(--indigo)':'var(--green)')+'">'+pct1(s.p)+'</span></div>';}).join(''));
   }else if(sh.tab===1){
     h+=tarjeta('ELIGE UN JUGADOR','jugador','<div class="supl" data-sid="stjug" style="gap:8px">'+MM.jugadores().map(function(j){return bj({n1:j.dorsal,n2:j.nombre,c:sh.jug===j.id?'var(--blue)':null,v:true,h:58,w:68,d:{a:'stJug',v:j.id}});}).join('')+'</div>');
@@ -1502,7 +1779,7 @@ function shStats(sh){
       h+=tarjeta('SANCIONES Y REGLAMENTO','tarjeta',fm('Exclusiones (2 minutos)',String(s.dm),s.dm?'var(--red)':null)+fm('Tarjetas amarillas',String(s.am),s.am?'var(--yellow)':null)+fm('Tarjetas rojas',String(s.ro),s.ro?'var(--red)':null)+fm('Tarjetas azules',String(s.az),s.az?'var(--blue)':null));
     }else h+='<div class="f-foot sec center" style="padding:0 16px">Selecciona un jugador para ver su minutaje y su acta disciplinaria en este partido.</div>';
   }else if(sh.tab===2){
-    h+=seg('stMapa',[['1','Atacamos'],['0','Nos atacan']],sh.mapa?'1':'0')+mapaCalor(M.historial,sh.mapa?'equipoAtaca':'equipoRecibe');
+    h+=seg('stMapa',[['1','Atacamos'],['0','Nos atacan'],['2','Pérdidas']],sh.mapa)+(sh.mapa==='2'?mapaPerdidas(M.historial):mapaCalor(M.historial,sh.mapa==='1'?'equipoAtaca':'equipoRecibe'));
   }else h+=analisisRivales(M.historial,sh);
   return {title:'Estadísticas en directo',right:tbtn('Volver','closeSheet'),body:h+'</div>'};
 }
@@ -1573,6 +1850,7 @@ function tarjetaResumen(p){
     '<div class="row" style="gap:12px;margin:6px 0"><span class="f-sub sb grow center">'+esc(p.nombreTuEquipo)+'</span><span class="sc">'+p.golesLocal+' – '+p.golesVisitante+'</span><span class="f-sub sb grow center">'+esc(p.nombreRival)+'</span></div><div class="f-cap" style="opacity:.85">'+fechaLarga(p.fecha)+'</div></div><div class="stack" style="gap:16px;padding:18px">';
   if(d.periodos.length)h+='<div class="stack8">'+tit('MARCADOR POR PERIODOS','flagCheck')+d.periodos.map(function(x){return fl('Periodo '+x.id,x.l+' – '+x.r);}).join('')+'</div>';
   if(p.golesLocal+p.golesVisitante>0)h+='<div class="stack8">'+tit('EVOLUCIÓN DEL MARCADOR','chartLine')+graficoEvolucion(p)+'</div>';
+  var trp=parciales(p.acciones,c.d);if(trp.length>1)h+='<div class="stack8">'+tit('PARCIALES DEL MARCADOR','stats')+tablaParciales(trp)+'</div>';
   function caja(n,v,det,col){return '<div class="caja" style="background:color-mix(in srgb,'+col+' 10%,#fff)"><div class="f-cap sb" style="color:#8E8E93">'+n+'</div><div class="r blk" style="font-size:30px;color:'+col+'">'+pct0(v)+'</div><div class="f-cap2" style="color:#8E8E93">'+det+'</div></div>';}
   h+='<div class="stack8">'+tit('EFECTIVIDAD','stats')+'<div class="row">'+caja('Ataque',d.tA?d.gA/d.tA*100:0,d.gA+' goles / '+d.tA+' tiros','#007AFF')+caja('Portería',d.tR?d.par/d.tR*100:0,d.par+' paradas / '+d.tR+' tiros','#5856D6')+'</div></div>';
   var si=eficacia(p.acciones,'situacion'),ti=eficacia(p.acciones,'tipoLanzamiento');
@@ -1613,6 +1891,48 @@ function shResumen(sh){
 }
 
 /* =====================================================================
+   Resumen del periodo (ResumenDescansoView) e informe del rival
+   ===================================================================== */
+function shDescanso(){
+  var per=M.periodo,acc=M.historial.filter(function(a){return (a.periodo||1)===per;});
+  function n(t,r){return acc.filter(function(a){return a.tipo===t&&a.resultado===r;}).length;}
+  var gf=n('Ataque','Gol'),gc=n('Defensa','Gol'),pe=n('Ataque','Pérdida'),tf=acc.filter(function(a){return a.tipo==='Ataque'&&['Gol','Parada','Fuera'].indexOf(a.resultado)>=0;}).length,pa=n('Defensa','Parada');
+  function tarj(t,i,c){return '<div class="glass panel stack12">'+etq(t,i)+c+'</div>';}
+  var h='<div class="wrap stack" style="padding-top:6px">';
+  h+=tarj('MARCADOR','partido','<div class="r blk tn" style="font-size:44px">'+M.golesLocal+' – '+M.golesVisitante+'</div>'+fm('En este periodo',gf+' – '+gc,gf>=gc?'var(--green)':'var(--red)')+fm('Tiempos muertos (nosotros / rival)',M.tmLocal+' / '+M.tmRival));
+  var tr=parciales(M.historial,MM.dur(),[per,M.minutos]).filter(function(t){return t.periodo===per;});
+  if(tr.length>1)h+=tarj('PARCIALES','stats',tablaParciales(tr));
+  h+=tarj('EFICACIA DEL PERIODO','stats',fm('Ataque',tf?pct0(gf/tf*100)+' ('+gf+'/'+tf+')':'–','var(--blue)')+fm('Portería',pa+gc?pct0(pa/(pa+gc)*100)+' ('+pa+'/'+(pa+gc)+')':'–','var(--indigo)')+fm('Balones perdidos',String(pe),'var(--red)'));
+  var si=eficacia(acc,'situacion');if(Object.keys(si).some(function(k){return k!==SIT.ig;}))h+=tarj('SUPERIORIDAD E INFERIORIDAD','person2',tablaEficacia(si,SIT.todas));
+  var cu={};acc.forEach(function(a){if(a.tipo==='Ataque'&&a.resultado==='Gol'){var k=a.jugadorNombre||'Sin asignar';cu[k]=(cu[k]||0)+1;}});
+  var gol=Object.keys(cu).sort(function(a,b){return cu[b]-cu[a]||(a<b?-1:1);}).slice(0,3);
+  if(gol.length)h+=tarj('GOLEADORES','gol',gol.map(function(k){return fm(k,cu[k]+' goles');}).join(''));
+  return {title:'Resumen del periodo '+per,right:tbtn('Cerrar','closeSheet',true),body:h+'</div>'};
+}
+function shInformeRival(sh){
+  var nom=sh.rival,prev=ST.partidos.filter(function(p){return coincideRival(p.nombreRival,nom);}).sort(function(a,b){return b.fecha-a.fecha;}),acc=[];
+  prev.forEach(function(p){acc=acc.concat(p.acciones);});
+  function tarj(t,i,c){return '<div class="glass panel stack10">'+etq(t,i)+c+'</div>';}
+  var h='<div class="wrap stack" style="padding-top:6px">';
+  if(!prev.length)return {title:'Informe: '+nom,right:tbtn('Cerrar','closeSheet',true),body:h+'<div class="glass panel f-foot sec">Todavía no hay partidos guardados contra '+esc(nom)+'.</div></div>'};
+  h+=tarj('PARTIDOS ANTERIORES','historico',prev.map(function(p){var r=p.golesLocal>p.golesVisitante?['V','var(--green)']:p.golesLocal<p.golesVisitante?['D','var(--red)']:['E','var(--orange)'];
+    return '<div class="row"><span class="f-cap" style="font-weight:800;color:#fff;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:'+r[1]+';flex:none">'+r[0]+'</span><span class="f-sub grow">'+new Date(p.fecha).toLocaleDateString(ES,{day:'numeric',month:'short',year:'numeric'})+'</span><span class="r b tn f-sub">'+p.golesLocal+' – '+p.golesVisitante+'</span></div>';}).join(''));
+  var tiros=acc.filter(function(a){return a.tipo==='Defensa'&&['Gol','Parada','Fuera'].indexOf(a.resultado)>=0;});
+  var mp={};tiros.forEach(function(a){if(a.dorsalRival==null)return;var l=mp[a.dorsalRival]||(mp[a.dorsalRival]={id:a.dorsalRival,t:0,g:0});l.t++;if(a.resultado==='Gol')l.g++;});
+  var ls=Object.keys(mp).map(function(k){return mp[k];}).sort(function(a,b){return b.g-a.g||b.t-a.t;}).slice(0,5);
+  if(ls.length)h+=tarj('SUS LANZADORES MÁS PELIGROSOS','rival',ls.map(function(l){return '<div class="row f-sub"><span class="b">#'+l.id+'</span><span class="grow"></span><span class="r tn">'+l.g+' goles / '+l.t+' tiros</span><span class="r b tn c-red" style="width:50px;text-align:right">'+pct0(l.t?l.g/l.t*100:0)+'</span></div>';}).join(''));
+  function top(k){var c={};tiros.forEach(function(a){var v=a[k];if(v!=null&&v!=='')c[v]=(c[v]||0)+1;});return Object.keys(c).sort(function(a,b){return c[b]-c[a];}).slice(0,3).map(function(x){return [x,c[x]];});}
+  var NZ={1:'arriba izquierda',2:'arriba centro',3:'arriba derecha',4:'medio izquierda',5:'centro',6:'medio derecha',7:'abajo izquierda',8:'abajo centro',9:'abajo derecha'};
+  var zp=top('zonaDisparo');if(zp.length)h+=tarj('DESDE DÓNDE TIRAN MÁS','pista',zp.map(function(z){return fm(z[0],z[1]+' tiros');}).join(''));
+  var zt=top('zonaPorteria');if(zt.length)h+=tarj('A QUÉ ZONA DE LA PORTERÍA','porteria',zt.map(function(z){return fm(NZ[z[0]]||'Zona '+z[0],z[1]+' tiros');}).join(''));
+  var tl=top('tipoLanzamiento');if(tl.length)h+=tarj('CÓMO LANZAN','porteria',tl.map(function(z){return fm(z[0],z[1]+' tiros');}).join(''));
+  var tr=parciales(acc,cat(prev[0].categoria).d);
+  if(tr.length>1){var peo=null;tr.forEach(function(t){if(!peo||t.dif<peo.dif)peo=t;});
+    h+=tarj('EN QUÉ TRAMOS NOS HACEN DAÑO','stats','<div class="f-sub">'+(peo&&peo.dif<0?'Donde más nos superan: el tramo '+peo.et+', con un parcial de '+peo.favor+'–'+peo.contra+' para nosotros sumando todos los partidos.':'Sin un tramo claro en el que nos superen.')+'</div>');}
+  return {title:'Informe: '+nom,right:tbtn('Cerrar','closeSheet',true),body:h+'</div>'};
+}
+
+/* =====================================================================
    Guía de uso (GuiaView, 9 páginas)
    ===================================================================== */
 var EJ=[{id:'g1',nombre:'Lucas',dorsal:1,posicion:'Portero'},{id:'g2',nombre:'Hugo',dorsal:7,posicion:'Primera Línea'},{id:'g3',nombre:'Mario',dorsal:9,posicion:'Primera Línea'},{id:'g4',nombre:'Álex',dorsal:11,posicion:'Extremo'},{id:'g5',nombre:'Pablo',dorsal:14,posicion:'Pivote'},{id:'g6',nombre:'Dani',dorsal:18,posicion:'Extremo'},{id:'g7',nombre:'Iker',dorsal:21,posicion:'Primera Línea'}];
@@ -1630,13 +1950,13 @@ var GUIA=[
    '<div class="row" style="gap:8px">'+COLORES.map(function(c){return '<span style="width:26px;height:26px;border-radius:50%;background:'+c[1]+';box-shadow:0 0 0 1px color-mix(in srgb,var(--label) 20%,transparent)"></span>';}).join('')+'</div><div class="center">'+gPill('Comenzar partido','play','var(--acento)')+'</div></div>';}],
  ['3. Marcador y reloj','Pulsa ▶︎ para poner el reloj en marcha y ❚❚ para pararlo. El reloj sigue contando aunque bloquees el móvil.',['T.O.: tiempo muerto de cada equipo (con su color)','Al marcar, la casilla destella','Al acabar un periodo aparece el botón para empezar el siguiente'],
   function(){return '<div class="stack"><div class="row" style="justify-content:space-between">'+gPill('T.O.','tm','var(--blue)')+'<span class="r b tn" style="font-size:40px">18:42</span>'+gPill('T.O.','tm','var(--red)')+'</div><div class="row">'+gCasilla('Tarazona',14,'Azul')+'<span class="playbtn" style="--c:var(--orange);width:52px;height:52px">'+ic('pause')+'</span>'+gCasilla('Rival',11,'Rojo')+'</div></div>';}],
- ['4. Registra cada jugada','Cuando termina un ataque o una defensa, toca el botón y sigue los pasos del asistente.',['Resultado → zona de portería → zona de pista → jugador','‹ Atrás vuelve al paso anterior; ⓧ cancela la jugada','Opcional: tipo de lanzamiento (posicional, contraataque, 7 m)','Con el botón de lista ☰ corriges o borras cualquier jugada'],
+ ['4. Registra cada jugada','Cuando termina un ataque o una defensa, toca el botón y sigue los pasos del asistente.',['Resultado → zona de portería → zona de pista → jugador','‹ Atrás vuelve al paso anterior; ⓧ cancela la jugada','Opcional: tipo de lanzamiento (posicional, contraataque, 7 m)','Opcional: dicta la jugada con el micrófono, por ejemplo «22, arriba izquierda, pivote»','Tras cada jugada sale un aviso arriba con el botón Deshacer'],
   function(){return '<div class="stack"><div class="row">'+bc({t:'ATAQUE',s:'Registrar jugada',i:'ataque',c:'var(--blue)'})+bc({t:'DEFENSA',s:'Registrar jugada',i:'defensa',c:'var(--red)'})+'</div><div class="row" style="gap:6px;justify-content:center;flex-wrap:wrap">'+['Resultado','Portería','Pista','Jugador'].map(function(p,i){return '<span class="f-cap2 b" style="padding:5px 8px;border-radius:999px;'+(i?'background:color-mix(in srgb,var(--label) 10%,transparent)':'background:var(--blue);color:#fff')+'">'+p+'</span>'+(i<3?'<span class="sec" style="display:inline-flex;width:10px">'+ic('chevR')+'</span>':'');}).join('')+'</div></div>';}],
- ['5. Alineación y cambios','Toca al jugador que sale (se marca en amarillo) y después al suplente que entra (en verde).',['Si hay hueco en pista, basta con tocar al suplente','Completar rellena la pista hasta 7 automáticamente','Con ⤢ ves la alineación en grande, en una pantalla aparte'],
+ ['5. Alineación y cambios','Toca al jugador que sale (se marca en amarillo) y después al suplente que entra (en verde).',['Si hay hueco en pista, basta con tocar al suplente','Completar rellena la pista hasta 7 automáticamente','Preparar: deja hasta 3 cambios listos y hazlos de un toque','Con ⤢ ves la alineación en grande, también colocada en el campo'],
   function(){return '<div class="stack12">'+etq('EN PISTA 7/7','partido')+'<div class="row" style="gap:4px">'+EJ.slice(0,4).map(function(j,i){return gFicha(j,j.posicion==='Portero'?'var(--indigo)':'var(--blue)',i===2?'marcada':'');}).join('')+'</div>'+etq('SUPLENTES','person2')+'<div class="row" style="gap:6px">'+EJ.slice(4).map(function(j){return gFicha(j,null,'candidata',62);}).join('')+'</div></div>';}],
  ['6. Sanciones y deshacer','Desde la barra inferior anotas exclusiones de 2 minutos y tarjetas. El jugador sale de la pista y la cuenta atrás avisa cuando puede volver.',['2 min, amarilla, roja y azul (también al banquillo)','Anota también las exclusiones del rival: verás si jugáis en superioridad o inferioridad','La flecha ↶ de arriba deshace la última jugada','Finalizar guarda el partido y muestra el resumen'],
   function(){return '<div class="stack">'+fexRow('14','Pablo','1:24')+'<div class="row" style="gap:14px">'+[['var(--yellow)','Amarilla'],['var(--red)','Roja'],['var(--blue)','Azul']].map(function(c){return '<div class="col" style="align-items:center;gap:4px"><span style="width:26px;height:36px;border-radius:4px;background:'+c[0]+'"></span><span class="f-cap2">'+c[1]+'</span></div>';}).join('')+'<span class="grow"></span><span class="c-acento" style="display:inline-flex;width:40px">'+ic('undo')+'</span></div><div class="row" style="gap:8px;flex-wrap:wrap">'+gPill('2 min','exclusion','var(--indigo)')+gPill('Tarjetas','tarjeta','var(--orange)')+gPill('Finalizar','finalizar','var(--green)')+'</div></div>';}],
- ['7. Estadísticas y acumulado','Durante el partido, el botón de la gráfica muestra las estadísticas en directo. En la pestaña Acumulado tienes toda la temporada.',['Porcentajes por jugador, por puesto y en superioridad/inferioridad','Mapas de calor y evolución de cada jugador en la temporada','Resumen del partido y exportación a Excel'],
+ ['7. Estadísticas y acumulado','Durante el partido, el botón de la gráfica muestra las estadísticas en directo. En la pestaña Acumulado tienes toda la temporada.',['Parciales por tramos, rachas y resumen de cada periodo','Más/menos y parejas en pista; mapa de pérdidas','Informe del rival, cierre de cada parte y Excel'],
   function(){return '<div class="stack"><div class="row">'+pil('ataque','Ataque','58%','var(--blue)')+pil('defensa','Portería','34%','var(--indigo)')+'</div><div class="row" style="align-items:flex-end;height:110px;gap:10px">'+[.45,.8,.6,.95,.35,.7].map(function(a,i){return '<span style="flex:1;height:'+(110*a)+'px;border-radius:6px;background:'+(i===3?'var(--naranja)':'color-mix(in srgb,var(--acento) 75%,transparent)')+'"></span>';}).join('')+'</div><div class="row" style="gap:8px;justify-content:center">'+gPill('Resumen','docMag','var(--acento)')+gPill('Excel','share','var(--green)')+'</div></div>';}],
  ['8. Ajústala a tu gusto','En Ajustes y clubes puedes cambiar cómo se ve la app en el pabellón.',['Modo pabellón ☀︎: más contraste y números más grandes','Vista de la alineación: en el partido o en pantalla aparte','Esta guía siempre está en Ajustes y clubes → Guía de uso'],
   function(){return '<div class="stack"><div class="row" style="gap:14px;justify-content:center">'+ins('sunFill','var(--naranja)',56)+ins('rectRect','var(--acento)',56)+ins('question','var(--green)',56)+'</div><div class="row" style="justify-content:space-between"><span class="f-sub sb">Modo pabellón</span><span style="width:50px;height:30px;border-radius:15px;background:var(--green);position:relative"><span style="position:absolute;right:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff"></span></span></div><div class="seg"><button class="on">En el partido</button><button>Pantalla aparte</button></div></div>';}]
@@ -1655,8 +1975,8 @@ function vGuia(){
 /* =====================================================================
    Estado de la interfaz y renderizado
    ===================================================================== */
-var S={tab:'partido',stackP:['nuevo'],stackA:[{v:'acum'}],sheets:[],dlg:null,alert:null,guide:null,gNo:false,sel:null,draft:cargarBorrador(),toast:null,pulso:null,incompleta:false};
-var SB={convocatoria:shConvocatoria,jugadas:shJugadas,editJugada:shEditJugada,alinGrande:shAlinGrande,dorsales:shDorsales,tarjetas:shTarjetas,exclusion:shExclusion,stats:shStats,especialistas:shEspecialistas,cambioActa:shCambioActa,resumen:shResumen,texto:shTexto};
+var S={tab:'partido',stackP:['nuevo'],stackA:[{v:'acum'}],sheets:[],dlg:null,alert:null,guide:null,gNo:false,sel:null,draft:cargarBorrador(),toast:null,pulso:null,incompleta:false,preparando:false,avisoJ:null};
+var SB={convocatoria:shConvocatoria,jugadas:shJugadas,editJugada:shEditJugada,alinGrande:shAlinGrande,dorsales:shDorsales,tarjetas:shTarjetas,exclusion:shExclusion,stats:shStats,especialistas:shEspecialistas,cambioActa:shCambioActa,resumen:shResumen,texto:shTexto,descanso:shDescanso,informeRival:shInformeRival};
 function topSheet(){return S.sheets[S.sheets.length-1];}
 function abrirSheet(t,o){var sh=Object.assign({t:t,fresh:true},o||{});S.sheets.push(sh);return sh;}
 function shTexto(sh){return {title:sh.nombre,right:tbtn('Listo','closeSheet',true),body:'<div class="wrap stack" style="padding-top:8px"><div class="f-foot sec">No se ha podido descargar el archivo en esta vista. Copia el texto y guárdalo en un archivo con este nombre: <b>'+esc(sh.nombre)+'</b></div><textarea class="tf" id="tx-out" readonly style="min-height:240px;font-family:var(--f-mono);font-size:12px">'+esc(sh.data)+'</textarea><button class="btn prom lg wfull" data-a="copiarTexto">Copiar</button></div>'};}
@@ -1754,7 +2074,7 @@ function comenzar(){
   descartarBorrador();S.draft=null;
   MM.reiniciar(eq);
   M.nombreRival=F.rival.trim();M.torneo=F.torneo;M.esLocal=F.esLocal;M.categoria=catEfectiva();M.duracionPersonalizada=esAmistoso()?F.minAmistoso:null;
-  M.modoDorsal=F.modoDorsal;M.colorLocal=F.colorLocal;M.colorRival=F.colorRival;M.anotarTipo=false;
+  M.modoDorsal=F.modoDorsal;M.colorLocal=F.colorLocal;M.colorRival=F.colorRival;M.anotarTipo=false;M.anotarZonaPerdida=!!AJ.zonaPerdida;S.preparando=false;S.avisoJ=null;
   var enActa={};eq.jugadores.forEach(function(j){enActa[j.id]=1;});
   var propios=ordenAlin(e.jugadores).filter(function(j){return !enActa[j.id];}),otros=[];
   ST.equipos.filter(function(o){return o.id!==e.id;}).forEach(function(o){ordenAlin(o.jugadores).forEach(function(j){if(!enActa[j.id])otros.push(j);});});
@@ -1772,7 +2092,7 @@ var A={
     if(d.v==='dorsales')o={modo:M.modoDorsal==='No anotar'?'Solo goles':M.modoDorsal,txt:''};
     if(d.v==='tarjetas')o={obj:null,cumple:false};
     if(d.v==='exclusion')o={ban:false};
-    if(d.v==='stats')o={tab:0,jug:null,mapa:true,dorsal:null};
+    if(d.v==='stats')o={tab:0,jug:null,mapa:'1',dorsal:null};
     if(d.v==='especialistas')o={rol:!M.espAtaque?'ataque':!M.espDefensa?'defensa':'ataque',fin:Date.now()+12000};
     if(d.v==='cambioActa')o={sale:null,entra:null};
     abrirSheet(d.v,o);},
@@ -1781,7 +2101,7 @@ var A={
   gNav:function(d){S.guide=Math.max(0,Math.min(GUIA.length-1,S.guide+(+d.v)));var gp=document.getElementById('gpage');if(gp)gp.scrollTop=0;},
   gClose:function(){AJ.ocultarGuia=S.gNo;guardarAjustes();S.guide=null;},
   /* nuevo partido */
-  reanudar:function(){if(!M.activo&&S.draft){M=Object.assign(nuevoManager(),S.draft);M.timerRunning=false;M.ultimoTick=null;M.pila=[];M.pistaPrevia=null;M.activo=true;if(M.tmActivo&&(!M.finTM||M.finTM<Date.now())){M.tmActivo=false;M.finTM=null;}S.draft=null;}
+  reanudar:function(){if(!M.activo&&S.draft){M=Object.assign(nuevoManager(),S.draft);M.timerRunning=false;M.ultimoTick=null;M.pila=[];M.pistaPrevia=null;M.preparados=M.preparados||[];M.activo=true;S.preparando=false;S.avisoJ=null;if(M.tmActivo&&(!M.finTM||M.finTM<Date.now())){M.tmActivo=false;M.finTM=null;}S.draft=null;}
     S.stackP=['nuevo','match'];S.irArriba=true;},
   dlgDescartar:function(){dialogo('¿Descartar el partido en curso?','Se perderá lo registrado hasta ahora.',[{t:'Descartar',red:true,fn:function(){descartarBorrador();M=Object.assign(nuevoManager(),{espAtaque:M.espAtaque,espDefensa:M.espDefensa,activarEsp:M.activarEsp,activarAlertas:M.activarAlertas});S.draft=null;}}]);},
   fColor:function(d){F[d.k]=d.v;},
@@ -1821,6 +2141,16 @@ var A={
   elegirYo:function(){if(AJ.vistaAlineacion==='En el partido'){setTimeout(function(){var el=document.querySelector('.tit7');if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},30);}else abrirSheet('alinGrande');},
   finTM:function(){MM.finalizarTM();},
   cerrarAviso:function(){M.aviso=null;},
+  avisoDeshacer:function(){if(MM.puedeDeshacer())MM.deshacer();S.avisoJ=null;},
+  preparar:function(){S.preparando=!S.preparando;S.sel=null;},
+  quitarPreparado:function(d){MM.quitarPreparado(d.v);},
+  hacerPreparados:function(){var n=MM.hacerPreparados();S.preparando=false;S.sel=null;if(n)toast(n===1?'Cambio hecho':n+' cambios hechos');},
+  enCampo:function(){AJ.enCampo=!AJ.enCampo;guardarAjustes();},
+  informeRival:function(){if(F.rival.trim())abrirSheet('informeRival',{rival:F.rival.trim()});},
+  vozAbrir:function(){if(!FL)return;FL.voz={texto:'',escuchando:false,error:null};Voz.empezar(FL.voz,function(){render();});},
+  vozRepetir:function(){if(!FL||!FL.voz)return;if(FL.voz.escuchando)Voz.detener();else Voz.empezar(FL.voz,function(){render();});},
+  vozUsar:function(){if(FL&&FL.voz)aplicarVoz();},
+  vozCerrar:function(){Voz.cancelar();if(FL)FL.voz=null;},
   alinGrande:function(){abrirSheet('alinGrande');},
   ficha:function(d){tocarFicha(d.v);},
   sacar:function(){if(S.sel)MM.conmutar(S.sel);S.sel=null;},
@@ -1830,7 +2160,7 @@ var A={
   /* hojas del partido */
   editJugada:function(d){var a=M.historial.find(function(x){return x.id===d.v;});if(a)abrirSheet('editJugada',{orig:clone(a),j:clone(a)});},
   borrarJugada:function(d){MM.borrarAccion(d.v);},
-  ejGuardar:function(){var sh=topSheet(),f=clone(sh.j);if(f.resultado==='Pérdida'){delete f.zonaPorteria;delete f.zonaDisparo;delete f.tipoLanzamiento;}MM.editarAccion(f);cerrarSheet();},
+  ejGuardar:function(){var sh=topSheet(),f=clone(sh.j);if(f.resultado==='Pérdida'){delete f.zonaPorteria;delete f.tipoLanzamiento;delete f.dorsalRival;}MM.editarAccion(f);cerrarSheet();},
   dlgBorrarJugada:function(){var sh=topSheet();dialogo('¿Borrar esta jugada?','',[{t:'Borrar',red:true,fn:function(){MM.borrarAccion(sh.orig.id);S.sheets=S.sheets.filter(function(x){return x!==sh;});}}]);},
   drQuitar:function(d){M.dorsalesRivales=M.dorsalesRivales.filter(function(n){return n!==+d.v;});},
   drToggle:function(d){var n=+d.v;if(M.dorsalesRivales.indexOf(n)>=0)M.dorsalesRivales=M.dorsalesRivales.filter(function(x){return x!==n;});else{M.dorsalesRivales.push(n);M.dorsalesRivales.sort(function(a,b){return a-b;});}},
@@ -1845,7 +2175,7 @@ var A={
   exRival:function(){MM.exclusionRival();cerrarSheet();},
   exJug:function(d){var j=MM.jug(d.v);if(!j||MM.estaExcluido(j.id))return;if(topSheet().ban)MM.exclusionBanquillo(j);else MM.agregarExclusion(j);cerrarSheet();},
   stTab:function(d){topSheet().tab=+d.v;},
-  stMapa:function(d){topSheet().mapa=d.v==='1';},
+  stMapa:function(d){topSheet().mapa=d.v;},
   stJug:function(d){topSheet().jug=d.v;},
   rvDorsal:function(d){var sh=topSheet(),n=+d.v;sh.dorsal=sh.dorsal===n?null:n;},
   espRol:function(d){topSheet().rol=d.v;espReset();},
@@ -1876,6 +2206,9 @@ var C={
   fCat:function(el){F.categoria=el.value;},
   fLocal:function(el){F.esLocal=el.checked;},
   fTipo:function(el){AJ.anotarTipo=el.checked;guardarAjustes();},
+  fZonaPerdida:function(el){AJ.zonaPerdida=el.checked;guardarAjustes();},
+  fVoz:function(el){AJ.voz=el.checked;guardarAjustes();},
+  geJPuesto:function(el){var e=ST.equipos.find(function(x){return x.id===el.dataset.id;}),j=e&&e.jugadores.find(function(x){return x.id===el.dataset.j;});if(!j)return;if(el.value)j.puesto=el.value;else delete j.puesto;tocarEquipos();},
   convAddOtro:function(el){var id=el.value,f=null;ST.equipos.forEach(function(o){o.jugadores.forEach(function(j){if(j.id===id)f=j;});});if(f)F.apoyos.push(clone(f));},
   convPos:function(el){CONV.pos=el.value;},
   geCat:function(el){GE.cat=el.value;},
@@ -1930,7 +2263,7 @@ document.addEventListener('keydown',function(ev){
     if(el.id==='f-rival'){el.blur();render();return;}
   }
   if(ev.key==='Escape'){
-    if(S.alert)S.alert=null;else if(S.dlg)S.dlg=null;else if(S.guide!=null)A.gClose();else if(FL)A.flCancel();else if(S.sheets.length)cerrarSheet();else return;
+    if(S.alert)S.alert=null;else if(S.dlg)S.dlg=null;else if(S.guide!=null)A.gClose();else if(FL&&FL.voz)A.vozCerrar();else if(FL)A.flCancel();else if(S.sheets.length)cerrarSheet();else return;
     render();
   }
 });
