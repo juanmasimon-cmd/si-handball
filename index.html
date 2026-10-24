@@ -1341,7 +1341,7 @@ function vAjustes(){
     '<button class="frow btnrow tap" data-a="exportar" data-v="todo" style="color:var(--green)">'+ic('share')+'<span>Exportar todo (equipos + partidos)</span></button>'+
     '<label class="frow btnrow tap" style="color:var(--label);cursor:pointer">'+ic('down')+'<span>Importar copia de seguridad / fichero</span><input type="file" accept=".json,application/json" data-ch="importar" style="position:absolute;inset:0;opacity:0;width:100%;cursor:pointer"></label>',
     'Las copias son compatibles con las de la app de iPhone: puedes exportar desde el iPhone e importar aquí, y al revés.');
-  h+=fsec('Ayuda','question','<button class="frow btnrow tap" data-a="guia">'+ic('bookFill')+'<span>Guía de uso</span></button>');
+  h+=fsec('Ayuda','question','<button class="frow btnrow tap" data-a="guia">'+ic('bookFill')+'<span>Guía de uso</span></button><button class="frow btnrow tap" data-a="novedades" style="color:var(--naranja)">'+ic('flame')+'<span>Novedades de esta versión</span></button>');
   h+=fsec('Acerca de','infoC','<div class="frow" style="justify-content:center">'+acercaDe()+'</div>'+(typeof Acceso!=='undefined'&&Acceso.datos?'<div class="frow f-foot"><span class="grow sec">Acceso de '+esc(Acceso.datos.n)+'</span><span class="sb">hasta el '+esc(Acceso.fecha(Acceso.datos.e))+'</span></div>':''));
   return h+'</div>';
 }
@@ -1961,15 +1961,37 @@ var GUIA=[
  ['8. Ajústala a tu gusto','En Ajustes y clubes puedes cambiar cómo se ve la app en el pabellón.',['Modo pabellón ☀︎: más contraste y números más grandes','Vista de la alineación: en el partido o en pantalla aparte','Esta guía siempre está en Ajustes y clubes → Guía de uso'],
   function(){return '<div class="stack"><div class="row" style="gap:14px;justify-content:center">'+ins('sunFill','var(--naranja)',56)+ins('rectRect','var(--acento)',56)+ins('question','var(--green)',56)+'</div><div class="row" style="justify-content:space-between"><span class="f-sub sb">Modo pabellón</span><span style="width:50px;height:30px;border-radius:15px;background:var(--green);position:relative"><span style="position:absolute;right:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff"></span></span></div><div class="seg"><button class="on">En el partido</button><button>Pantalla aparte</button></div></div>';}]
 ];
+/* Novedades: se muestran una vez al abrir la app tras actualizarla */
+var NOV_VER='web 10';
+var NOVEDADES=[
+ ['Novedades de Si Handball','La app se ha actualizado con las mejoras de la versión de iPhone. Te las enseñamos en un minuto.',['Más rápida de usar durante el partido','Más estadísticas para analizar al equipo y al rival','Puedes volver a ver esto en Ajustes y clubes → Novedades'],
+  function(){return '<div class="col center" style="align-items:center;gap:14px">'+logo(110).replace('class="logo"','class="logo" style="box-shadow:0 8px 16px rgba(8,37,70,.4)"')+'<span class="pill" style="--c:var(--naranja)">'+ic('flame')+'Versión '+MARCA.version+'</span></div>';}],
+ ['Aviso de cada jugada','Al registrar un tiro o una pérdida sale una franja arriba durante unos segundos con lo que se ha anotado.',['Verde a favor, rojo en contra, gris lo neutro','Con el botón Deshacer la corriges al momento','Los botones de ATAQUE, DEFENSA y resultados son más grandes'],
+  function(){return '<div class="stack"><div class="row" style="gap:12px;padding:10px 14px;border-radius:18px;background:var(--green);color:#fff"><div class="grow"><div class="f-sub" style="font-weight:800">¡GOL!</div><div class="f-cap" style="opacity:.92">Hugo · Contraataque · 12:41</div></div><span class="f-cap b" style="padding:5px 12px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6)">Deshacer</span></div><div class="row">'+bc({t:'ATAQUE',s:'Registrar jugada',i:'ataque',c:'var(--blue)',h:88,big:true})+bc({t:'DEFENSA',s:'Registrar jugada',i:'defensa',c:'var(--red)',h:88,big:true})+'</div></div>';}],
+ ['Rachas y resumen del periodo','La pantalla del partido te avisa de lo que está pasando.',['Con 3 goles seguidos aparece la racha; si es del rival, con el botón de tiempo muerto','Al acabar cada parte: Resumen del periodo para el vestuario','Marcador, parciales, eficacia y goleadores del periodo'],
+  function(){return '<div class="stack"><div class="situ racha" style="background:var(--red)">'+ic('alerta')+'<span class="grow center">RACHA RIVAL · 3 SEGUIDOS</span><span class="f-cap b" style="padding:4px 12px;border-radius:999px;background:var(--orange)">T.O.</span></div><div class="situ racha" style="background:var(--green)">'+ic('flame')+'<span class="grow center">RACHA NUESTRA · 4 SEGUIDOS</span></div><div class="center">'+gPill('Resumen del periodo','clip','var(--acento)')+'</div></div>';}],
+ ['Dicta la jugada','En las pantallas de portería y de pista hay un botón de micrófono. Dices la jugada de una vez y la app rellena los pasos.',['Ataque: «22, arriba izquierda, pivote»','Defensa: «6, centro derecha, extremo derecho»','Antes de guardar ves lo que ha entendido y lo confirmas con Usar','Se activa o desactiva en Nuevo partido → Dictado por voz'],
+  function(){return '<div class="stack10"><div class="center f-sub">“22 arriba izquierda pivote”</div>'+[['Jugador','#22 · Iker'],['Portería','Arriba izq.'],['Pista','Pivote']].map(function(f){return '<div class="row f-sub"><span class="sb sec grow">'+f[0]+'</span><span class="b">'+f[1]+'</span><span style="display:inline-flex;width:20px;color:var(--green)">'+ic('checkFill')+'</span></div>';}).join('')+'<div class="center">'+gPill('Dictar jugada','mic','var(--blue)')+'</div></div>';}],
+ ['Cambios preparados','Durante el partido se va justo: deja los cambios listos antes y hazlos de un toque.',['Pulsa Preparar, toca al que sale y al que entra','Hasta 3 cambios a la vez; la ⓧ quita uno','Cuando toque, «Hacer los cambios»; si alguno ya no vale, se avisa'],
+  function(){return '<div class="prepbox stack8">'+etq('CAMBIOS PREPARADOS','cambio')+[['#7 Hugo','#12 Juan'],['#11 Álex','#3 Leo']].map(function(c){return '<div class="row f-foot sb" style="gap:8px"><span>'+c[0]+'</span><span class="c-orange" style="display:inline-flex;width:14px">'+ic('chevR')+'</span><span>'+c[1]+'</span></div>';}).join('')+'<span class="btn prom wfull" style="--tint:var(--orange);font-weight:700">'+ic('cambio')+'Hacer los 2 cambios</span></div>';}],
+ ['Alineación en el campo','En la pantalla grande de alineación, el botón de la pista coloca a los titulares en su puesto real.',['Portero, extremos, laterales, central y pivote','Los cambios se hacen igual: tocas al que sale y al que entra','El puesto fijo de cada jugador se elige en Ajustes y clubes (o Auto)'],
+  function(){var pos=[['1','Lucas',160,40,'var(--indigo)'],['18','Dani',282,70,'var(--blue)'],['11','Álex',38,70,'var(--blue)'],['14','Pablo',160,115,'var(--blue)'],['7','Hugo',64,185,'var(--blue)'],['22','Iker',256,185,'var(--blue)'],['9','Mario',160,245,'var(--blue)']];
+   return '<div class="courtwrap campo" style="max-width:300px;margin:0 auto"><div class="pad-court"></div>'+pistaSVG()+pos.map(function(p){return '<div class="cpos" style="left:'+(p[2]/320*100)+'%;top:'+(p[3]/300*100)+'%;min-width:48px"><div class="ficha col" style="--c:'+p[4]+';min-height:46px"><span class="d" style="font-size:16px">'+p[0]+'</span><span class="n">'+p[1]+'</span></div></div>';}).join('')+'</div>';}],
+ ['Más estadísticas','En la gráfica del partido y en Acumulado hay análisis nuevos.',['Parciales por tramos de 5 minutos, con gráfico','Más/menos de cada jugador y mejores y peores parejas en pista','Mapa de dónde perdemos el balón (activa «Zona de las pérdidas»)','Cierre de cada parte: los últimos 5 minutos frente al resto'],
+  function(){var t=[1,2,-1,0,3,-2];return '<div class="row" style="align-items:center;height:120px;gap:8px">'+t.map(function(v){return '<div class="col" style="flex:1;height:100%"><div class="col" style="flex:1;justify-content:flex-end"><span style="height:'+(Math.max(0,v)*16)+'px;border-radius:5px 5px 0 0;background:var(--green)"></span></div><span style="height:2px;background:var(--label3)"></span><div class="col" style="flex:1"><span style="height:'+(Math.max(0,-v)*16)+'px;border-radius:0 0 5px 5px;background:var(--red)"></span></div></div>';}).join('')+'</div><div class="row" style="gap:8px;justify-content:center;flex-wrap:wrap">'+gPill('Parciales','stats','var(--acento)')+gPill('Parejas','person2','var(--green)')+gPill('Pérdidas','perdida','var(--red)')+'</div>';}],
+ ['Informe del rival','Si ya habéis jugado contra ese equipo, al escribir su nombre en Nuevo partido aparece su informe.',['Resultados anteriores','Sus lanzadores más peligrosos y desde dónde tiran','En qué tramos del partido os hacen más daño','Y el modo pabellón ☀︎ viene activado de serie'],
+  function(){return '<div class="stack10"><div class="row"><span class="f-cap" style="font-weight:800;color:#fff;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--green)">V</span><span class="f-sub grow">14 oct 2026</span><span class="r b f-sub">27 – 24</span></div><div class="row f-sub"><span class="b">#9</span><span class="grow"></span><span>8 goles / 11 tiros</span><span class="b c-red" style="width:46px;text-align:right">73%</span></div><div class="center">'+gPill('Informe del rival','docMag','var(--acento)')+'</div></div>';}]
+];
+function paginasGuia(){return S.nov?NOVEDADES:GUIA;}
 function vGuia(){
-  var i=S.guide,g=GUIA[i],last=i===GUIA.length-1;
+  var PG=paginasGuia(),i=S.guide,g=PG[i],last=i===PG.length-1;
   return '<div class="guide'+(S.guideFresh?' anim-up':'')+'" role="dialog" aria-modal="true" aria-label="Guía de uso">'+amb()+
-    '<div class="gtop"><div class="wrap row" style="width:100%"><span class="f-head grow">Guía de uso</span>'+(!last?'<button class="sb c-acento" style="min-height:44px" data-a="gClose">Saltar</button>':'')+'</div></div>'+
+    '<div class="gtop"><div class="wrap row" style="width:100%"><span class="f-head grow">'+(S.nov?'Novedades':'Guía de uso')+'</span>'+(!last?'<button class="sb c-acento" style="min-height:44px" data-a="gClose">Saltar</button>':'')+'</div></div>'+
     '<div class="gpage" id="gpage"><div class="wrap stack" style="gap:20px;padding-top:8px;padding-bottom:12px"><div class="gil">'+g[3]()+'</div><div class="stack10"><div class="r blk f-title2">'+g[0]+'</div><div class="sec">'+g[1]+'</div>'+g[2].map(function(p){return '<div class="gpoint">'+ic('checkFill')+'<span>'+p+'</span></div>';}).join('')+'</div></div></div>'+
-    '<div class="gdots" aria-label="Página '+(i+1)+' de '+GUIA.length+'">'+GUIA.map(function(_,k){return '<i class="'+(k===i?'on':'')+'"></i>';}).join('')+'</div>'+
-    '<div class="wrap stack12" style="padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));position:relative;z-index:1;width:100%"><div class="row" style="justify-content:space-between"><span class="f-sub">No volver a mostrar al abrir la app</span>'+sw('g-no',S.gNo,'gNo','var(--naranja)')+'</div>'+
-    '<div class="row">'+(i>0?'<button class="btn gl glass lg grow" data-a="gNav" data-v="-1">'+ic('chevL')+'Atrás</button>':'')+'<button class="btn prom lg grow" style="font-weight:700" data-a="'+(last?'gClose':'gNav')+'" data-v="1">'+(last?'Empezar':'Siguiente')+'</button></div>'+
-    '<div class="f-cap2 sec center">Puedes volver a verla en Ajustes y clubes → Guía de uso, o con el botón ? de la pantalla de inicio.</div></div></div>';
+    '<div class="gdots" aria-label="Página '+(i+1)+' de '+PG.length+'">'+PG.map(function(_,k){return '<i class="'+(k===i?'on':'')+'"></i>';}).join('')+'</div>'+
+    '<div class="wrap stack12" style="padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));position:relative;z-index:1;width:100%">'+(S.nov?'':'<div class="row" style="justify-content:space-between"><span class="f-sub">No volver a mostrar al abrir la app</span>'+sw('g-no',S.gNo,'gNo','var(--naranja)')+'</div>')+
+    '<div class="row">'+(i>0?'<button class="btn gl glass lg grow" data-a="gNav" data-v="-1">'+ic('chevL')+'Atrás</button>':'')+'<button class="btn prom lg grow" style="font-weight:700" data-a="'+(last?'gClose':'gNav')+'" data-v="1">'+(last?(S.nov?'Entendido':'Empezar'):'Siguiente')+'</button></div>'+
+    '<div class="f-cap2 sec center">'+(S.nov?'Puedes volver a verlas en Ajustes y clubes → Novedades.':'Puedes volver a verla en Ajustes y clubes → Guía de uso, o con el botón ? de la pantalla de inicio.')+'</div></div></div>';
 }
 
 /* =====================================================================
@@ -2097,9 +2119,10 @@ var A={
     if(d.v==='cambioActa')o={sale:null,entra:null};
     abrirSheet(d.v,o);},
   closeSheet:function(){cerrarSheet();},
-  guia:function(){S.guide=0;S.gNo=AJ.ocultarGuia;S.guideFresh=true;},
-  gNav:function(d){S.guide=Math.max(0,Math.min(GUIA.length-1,S.guide+(+d.v)));var gp=document.getElementById('gpage');if(gp)gp.scrollTop=0;},
-  gClose:function(){AJ.ocultarGuia=S.gNo;guardarAjustes();S.guide=null;},
+  guia:function(){S.nov=false;S.guide=0;S.gNo=AJ.ocultarGuia;S.guideFresh=true;},
+  novedades:function(){S.nov=true;S.guide=0;S.guideFresh=true;},
+  gNav:function(d){S.guide=Math.max(0,Math.min(paginasGuia().length-1,S.guide+(+d.v)));var gp=document.getElementById('gpage');if(gp)gp.scrollTop=0;},
+  gClose:function(){if(S.nov)AJ.novVisto=NOV_VER;else{AJ.ocultarGuia=S.gNo;AJ.novVisto=NOV_VER;}guardarAjustes();S.guide=null;S.nov=false;},
   /* nuevo partido */
   reanudar:function(){if(!M.activo&&S.draft){M=Object.assign(nuevoManager(),S.draft);M.timerRunning=false;M.ultimoTick=null;M.pila=[];M.pistaPrevia=null;M.preparados=M.preparados||[];M.activo=true;S.preparando=false;S.avisoJ=null;if(M.tmActivo&&(!M.finTM||M.finTM<Date.now())){M.tmActivo=false;M.finTM=null;}S.draft=null;}
     S.stackP=['nuevo','match'];S.irArriba=true;},
@@ -2283,7 +2306,7 @@ document.addEventListener('focusout',function(ev){if(ev.target&&ev.target.id==='
 /* pasar páginas de la guía deslizando */
 (function(){var gx=null,gy=0;
   document.addEventListener('touchstart',function(e){if(S.guide==null||!e.target.closest('#gpage'))return;gx=e.touches[0].clientX;gy=e.touches[0].clientY;},{passive:true});
-  document.addEventListener('touchend',function(e){if(gx==null)return;var t=e.changedTouches[0],dx=t.clientX-gx,dy=t.clientY-gy;gx=null;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){S.guide=Math.max(0,Math.min(GUIA.length-1,S.guide+(dx<0?1:-1)));render();}},{passive:true});
+  document.addEventListener('touchend',function(e){if(gx==null)return;var t=e.changedTouches[0],dx=t.clientX-gx,dy=t.clientY-gy;gx=null;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){S.guide=Math.max(0,Math.min(paginasGuia().length-1,S.guide+(dx<0?1:-1)));render();}},{passive:true});
 })();
 
 /* =====================================================================
@@ -2331,7 +2354,8 @@ var Sync={activo:false,col:null,ultima:null,t:null,ultB:0,
 /* ---------- arranque ---------- */
 render();
 setTimeout(function(){var l=document.getElementById('loading');if(l){l.classList.add('out');setTimeout(function(){l.remove();},400);}
-  if(!AJ.ocultarGuia)setTimeout(function(){S.guide=0;S.gNo=AJ.ocultarGuia;S.guideFresh=true;render();},400);},1200);
+  if(!AJ.ocultarGuia)setTimeout(function(){S.nov=false;S.guide=0;S.gNo=AJ.ocultarGuia;S.guideFresh=true;render();},400);
+  else if(AJ.novVisto!==NOV_VER)setTimeout(function(){S.nov=true;S.guide=0;S.guideFresh=true;render();},400);},1200);
 setTimeout(Sync.init,0);
 
 
