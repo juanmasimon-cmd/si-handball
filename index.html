@@ -574,6 +574,33 @@ body.ipadh .zinf,body.ipadh .tabbar,body.ipadh .flow{left:var(--pw)}
 body.ipadh .avj{left:calc(var(--pw) + (100vw - var(--pw)) / 2);width:min(560px,calc(100vw - var(--pw) - 32px))}
 @supports not (color-mix(in srgb,red 50%,blue)){.panelfijo{border-right:1px solid rgba(127,127,127,.25)}}
 
+/* ---- web 12 ---- */
+.rch{position:absolute;top:-8px;z-index:2;display:inline-flex;align-items:center;gap:1px;padding:1px 4px;border-radius:99px;color:#fff;font:900 9px/1.2 var(--f-round);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.rch svg{width:9px;height:9px;stroke-width:3.2}
+.rch.l{left:-6px}.rch.r{right:-6px}
+.rch.in{position:static;vertical-align:middle;margin-left:2px}
+.rch.up{background:var(--green)}.rch.dn{background:var(--red)}
+.ficha.big .rch{font-size:11px;padding:2px 6px}.ficha.big .rch svg{width:11px;height:11px}
+.pasrow{gap:8px;flex-wrap:wrap}
+.pasrow>*{flex:1 1 auto;justify-content:center}
+.accpanel{max-height:calc(100% - 40px);overflow-y:auto}
+.accgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.accviva{--c:var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:74px;padding:6px;border-radius:16px;color:#fff;font-weight:850;font-size:14px;text-align:center;line-height:1.15;
+  background:linear-gradient(180deg,var(--c),color-mix(in srgb,var(--c) 72%,#000 0%));box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 4px 10px color-mix(in srgb,var(--c) 45%,transparent);text-shadow:0 1px 1px rgba(0,0,0,.3)}
+.accviva svg{width:24px;height:24px;stroke-width:2.4}
+.flow.pp .courtwrap{max-width:min(100%,440px);margin:0 auto}
+.flow.pp .cpos .ficha{min-height:58px}
+.dosmitades{display:flex;gap:6px;align-items:flex-start}
+.dosmitades>.mitad{flex:1;min-width:0}
+.dosmitades .cpos{min-width:40px;width:21%}
+.dosmitades .cpos .ficha{min-height:44px;border-radius:11px}
+.dosmitades .cpos .ficha .d{font-size:16px}
+.dosmitades .cpos .ficha .n{font-size:9px}
+.dosmitades .sisb{padding:4px 8px;font-size:11px}
+.dosmitades .defpista>.f-cap{display:none}
+body.ipadh.split{--pw:min(620px,50vw)}
+.gate .wrap{box-sizing:border-box}
+
 .tres{--label:#000;--label2:rgba(60,60,67,.6);--label3:rgba(60,60,67,.3);--fill2:rgba(0,0,0,.06);--blue:#007AFF;--indigo:#5856D6;--green:#34C759;--red:#FF3B30;--orange:#FF9500;--naranja:#FEA50E}
 .tabbar.mini .in{width:auto;padding:3px}
 .tabbar.mini button{flex-direction:row;gap:6px;padding:7px 14px;font-size:12px}
@@ -787,7 +814,7 @@ function importarJSON(txt){
 }
 
 /* Exportación para el Excel de análisis (misma cabecera que la app) */
-var CAB_EXCEL='ID Partido;Fecha;Rival;Competición;Categoría;Periodo;Tiempo;Fase Táctica;Resultado Acción;Jugador Implicado;Dorsal Rival;Zona Disparo;Zona Portería;Marcador Momento;Dorsal Propio;Posición;Tipo Lanzamiento;Situación;En Pista;Equipo\n';
+var CAB_EXCEL='ID Partido;Fecha;Rival;Competición;Categoría;Periodo;Tiempo;Fase Táctica;Resultado Acción;Jugador Implicado;Dorsal Rival;Zona Disparo;Zona Portería;Marcador Momento;Dorsal Propio;Posición;Tipo Lanzamiento;Situación;En Pista;Equipo;Tras Pasivo;Zona Defensiva\n';
 function idPartido(p){var d=new Date(p.fecha);return 'P'+d.getFullYear()+pad2(d.getMonth()+1)+pad2(d.getDate())+'-'+pad2(d.getHours())+pad2(d.getMinutes());}
 function filasExcel(p){
   var fichas={},eq=ST.equipos.find(function(e){return e.nombre===p.nombreTuEquipo;});
@@ -798,7 +825,7 @@ function filasExcel(p){
     if(a.tipo==='Ataque'&&a.resultado==='Gol')l++; if(a.tipo==='Defensa'&&a.resultado==='Gol')v++;
     var f=a.jugadorNombre?fichas[a.jugadorNombre]:null;
     out+=[id,fecha,rival,p.torneo,p.categoria,a.periodo!=null?a.periodo:'-',pad2(a.minuto)+':'+pad2(a.segundo),a.tipo,a.resultado,(a.jugadorNombre||'Mesa/Rival').replace(/;/g,','),
-      a.dorsalRival!=null?a.dorsalRival:'-',a.zonaDisparo||'-',a.zonaPorteria!=null?a.zonaPorteria:'-',l+' - '+v,f?f.dorsal:'-',f?cap(f.posicion):'-',a.tipoLanzamiento||'-',a.situacion||'-',(a.pistaNombres&&a.pistaNombres.length?a.pistaNombres.join('|').replace(/;/g,','):'-'),(p.nombreTuEquipo||'').replace(/;/g,',')].join(';')+'\n';
+      a.dorsalRival!=null?a.dorsalRival:'-',a.zonaDisparo||'-',a.zonaPorteria!=null?a.zonaPorteria:'-',l+' - '+v,f?f.dorsal:'-',f?cap(f.posicion):'-',a.tipoLanzamiento||'-',a.situacion||'-',(a.pistaNombres&&a.pistaNombres.length?a.pistaNombres.join('|').replace(/;/g,','):'-'),(p.nombreTuEquipo||'').replace(/;/g,','),a.pasivo?'Sí':(a.pasivoPropio?'Propio':'-'),a.zonaDefensiva||'-'].join(';')+'\n';
   });
   return out;
 }
@@ -1053,8 +1080,9 @@ function arreglarColorMix(root){if(CM)return;(root||document).querySelectorAll('
    ===================================================================== */
 /* Reparto de los titulares en los siete puestos (VistaCampo.swift) */
 function repartoEnPista(tit){
-  var rep={},pend=[],sin=[];
-  tit.forEach(function(j){if(j.puesto&&puestoDe(j.puesto)&&!rep[j.puesto])rep[j.puesto]=j;else pend.push(j);});
+  var rep={},pend=[],sin=[],man=(typeof M!=='undefined'&&M.activo&&M.puestosAt)||{},hecho={};
+  tit.forEach(function(j){var p=man[j.id];if(p&&puestoDe(p)&&!rep[p]){rep[p]=j;hecho[j.id]=1;}});
+  tit.forEach(function(j){if(hecho[j.id])return;if(j.puesto&&puestoDe(j.puesto)&&!rep[j.puesto])rep[j.puesto]=j;else pend.push(j);});
   pend.forEach(function(j){var pref=j.posicion==='Portero'?['Portero']:j.posicion==='Pivote'?['Pivote']:j.posicion==='Extremo'?['Extremo izquierdo','Extremo derecho']:['Lateral izquierdo','Central','Lateral derecho'];
     var p=pref.find(function(x){return !rep[x];});if(p)rep[p]=j;else sin.push(j);});
   var orden=['Lateral izquierdo','Central','Lateral derecho','Extremo izquierdo','Extremo derecho','Pivote','Portero'];
@@ -1134,11 +1162,15 @@ var InterpreteVoz=(function(){
       else if(at&&['perdida','perdidas','perdido','perdio','perdimos'].indexOf(t)>=0)o={k:'perdida'};
       else if(t==='falta'||t==='faltas')o=at?{k:'of',a:'Falta provocada'}:{k:'def',a:'Falta'};
       else if(at&&['provocada','provocado','recibida','recibido'].indexOf(t)>=0)o={k:'of',a:'Falta provocada'};
-      else if(!at&&['robo','robos','robado','robar','recuperacion','recuperado','recuperada','recupera'].indexOf(t)>=0)o={k:'def',a:'Robo'};
+      else if(!at&&(['robo','robos','robado','robar','toque','tocado','corte','cortado','cortada','contacto'].indexOf(t)>=0||/^(recuper|intercep|empuj)/.test(t)))o={k:'def',a:'Recuperación'};
       else if(!at&&['bloqueo','bloqueos','bloqueado','bloquea','tapon'].indexOf(t)>=0)o={k:'def',a:'Bloqueo'};
-      else if(!at&&['intercepcion','interceptado','interceptada','intercepta','corte','cortado','cortada'].indexOf(t)>=0)o={k:'def',a:'Intercepción'};
+      else if(!at&&(t==='amarilla'))o={k:'sancion',a:'Tarjeta amarilla'};
+      else if(!at&&(t==='roja'))o={k:'sancion',a:'Tarjeta roja'};
+      else if(!at&&(t==='exclusion'||t==='minutos'))o={k:'sancion',a:'2 minutos'};
       if(o)cand=o;}
     var metros=tk.some(function(t){return t.indexOf('metro')===0||t==='penalti'||t==='penal';});
+    if(at){if(tk.some(function(t){return t.indexOf('asist')===0;}))return {k:'of',a:'Asistencia'};
+      if(tk.some(function(t){return t.indexOf('exclusi')===0;}))return {k:'of',a:'Exclusión provocada'};}
     if(cand){if(at&&metros&&cand.k==='of')return {k:'of',a:'7 metros provocado'};return cand;}
     if(at&&metros)return {k:'of',a:'7 metros provocado'};
     return null;}
@@ -1166,17 +1198,21 @@ var Voz={rec:null,gen:0,t:null,
    Acciones individuales (AccionDefensiva.swift / AccionOfensiva.swift)
    ===================================================================== */
 var ACC_DEF={tipo:'Acción Defensiva',ops:[
-  {id:'Falta',pl:'Faltas',desc:'Falta cometida',i:'alerta',c:'var(--orange)'},
-  {id:'Robo',pl:'Robos',desc:'Balón robado al rival',i:'flame',c:'var(--green)'},
-  {id:'Bloqueo',pl:'Bloqueos',desc:'Lanzamiento bloqueado',i:'parada',c:'var(--blue)'},
-  {id:'Intercepción',pl:'Intercepciones',desc:'Pase interceptado',i:'cambio',c:'var(--purple)'}]};
+  {id:'Falta',pl:'Faltas',desc:'Falta cometida: se para el juego del rival',i:'alerta',c:'var(--orange)',p:.25},
+  {id:'Recuperación',pl:'Recuperaciones',desc:'Robo, toque, empujón o pase cortado: el rival pierde el balón',i:'bolt',c:'var(--green)',p:.75},
+  {id:'Bloqueo',pl:'Bloqueos',desc:'Lanzamiento bloqueado',i:'parada',c:'var(--blue)',p:.75}],
+  antiguas:{'Robo':.75,'Intercepción':.75,'Contacto':.5}};
 var ACC_OF={tipo:'Acción Ofensiva',ops:[
-  {id:'Falta provocada',pl:'Faltas provocadas',desc:'Falta del rival sobre nuestro jugador',i:'handTap',c:'var(--teal)'},
-  {id:'7 metros provocado',pl:'7 metros',desc:'Falta en el área: penalti a favor',i:'seven',c:'var(--red)'}]};
+  {id:'Falta provocada',pl:'Faltas provocadas',desc:'Falta del rival sobre nuestro jugador',i:'handTap',c:'var(--teal)',p:.25},
+  {id:'7 metros provocado',pl:'7 metros',desc:'Falta en el área: penalti a favor',i:'seven',c:'var(--red)',p:.75},
+  {id:'Asistencia',pl:'Asistencias',desc:'Pase que acaba en gol',i:'assist',c:'var(--indigo)',p:.75},
+  {id:'Exclusión provocada',pl:'Exclusiones provocadas',desc:'Provoca una exclusión de 2 minutos al rival',i:'exclusion',c:'var(--orange)',p:1.25}]};
+/* Sanciones que se anotan desde la defensa (SancionDefensiva) */
+var SANC_DEF=[{id:'2 minutos',r:'2 Minutos',i:'exclusion',c:'var(--indigo)'},{id:'Tarjeta amarilla',r:'Amarilla',i:'tarjeta',c:'var(--amarilloTarjeta)'},{id:'Tarjeta roja',r:'Roja',i:'tarjeta',c:'var(--red)'}];
 function filasDefensivas(acc,seg){
   var f={};function g(n){return f[n]||(f[n]={id:n,faltas:0,robos:0,bloq:0,inter:0,excl:0,seg:0});}
   acc.forEach(function(a){var n=a.jugadorNombre;if(!n||n==='Banquillo')return;
-    if(a.tipo===ACC_DEF.tipo){var x=g(n);if(a.resultado==='Falta')x.faltas++;else if(a.resultado==='Robo')x.robos++;else if(a.resultado==='Bloqueo')x.bloq++;else if(a.resultado==='Intercepción')x.inter++;}
+    if(a.tipo===ACC_DEF.tipo){var x=g(n);if(a.resultado==='Falta')x.faltas++;else if(a.resultado==='Recuperación'||a.resultado==='Robo'||a.resultado==='Contacto')x.robos++;else if(a.resultado==='Bloqueo')x.bloq++;else if(a.resultado==='Intercepción')x.inter++;}
     else if(a.tipo==='Sanción Disciplinaria'&&a.resultado==='2 Minutos')g(n).excl++;});
   return Object.keys(f).map(function(k){var x=f[k];x.seg=(seg||{})[k]||0;x.pos=x.robos+x.bloq+x.inter;x.bal=x.pos-x.faltas;x.duros=x.faltas+x.excl;x.rec=x.robos+x.inter;return x;}).filter(function(x){return x.faltas+x.pos+x.excl>0;});
 }
@@ -1186,7 +1222,7 @@ function parejasDefensivas(acc,minT){
     for(var i=0;i<ns.length;i++)for(var k=i+1;k<ns.length;k++){var c=ns[i]+'|'+ns[k];fn(p[c]||(p[c]={id:c,nombres:ns[i]+' + '+ns[k],tiros:0,goles:0,pos:0}));}}
   acc.forEach(function(a){if(!a.pistaNombres||!a.pistaNombres.length)return;
     if(a.tipo==='Defensa'&&['Gol','Parada','Fuera'].indexOf(a.resultado)>=0){var g=a.resultado==='Gol';sumar(a.pistaNombres,function(x){x.tiros++;if(g)x.goles++;});}
-    else if(a.tipo===ACC_DEF.tipo&&a.resultado!=='Falta')sumar(a.pistaNombres,function(x){x.pos++;});});
+    else if((a.tipo===ACC_DEF.tipo&&a.resultado!=='Falta')||a.tipo==='Pasivo')sumar(a.pistaNombres,function(x){x.pos++;});});
   return Object.keys(p).map(function(k){var x=p[k];x.pct=x.tiros?x.goles/x.tiros*100:0;return x;}).filter(function(x){return x.tiros>=minT;});
 }
 
@@ -1395,6 +1431,7 @@ function vNuevo(){
     '<div class="row" style="gap:12px;align-items:flex-start"><div class="grow"><div class="f-sub sb">Zona de las pérdidas</div><div class="f-cap sec">Al perder un balón, toca la zona de la pista donde se perdió. Añade un paso por pérdida.</div></div>'+sw('f-zper',AJ.zonaPerdida,'fZonaPerdida')+'</div>'+
     '<hr class="divider"><div class="row" style="gap:12px;align-items:flex-start"><div class="grow"><div class="f-sub sb">Dictado por voz</div><div class="f-cap sec">'+(Voz.disponible()?'Botón de micrófono al elegir la zona: di «22, arriba izquierda, pivote» y confirma.':'Este navegador no permite el dictado por voz. Prueba con Safari o Chrome.')+'</div></div>'+sw('f-voz',AJ.voz&&Voz.disponible(),'fVoz')+'</div></div>';
   var dis=!e||!F.rival.trim()||!convocados().length;
+  if(window.Licencia)h+=Licencia.avisoInicio();
   h+='<button class="btn prom lg wfull" id="b-comenzar" data-a="comenzar"'+(dis?' disabled':'')+' style="margin-top:4px">'+ic('play')+'Comenzar partido</button>';
   return h+'</div>';
 }
@@ -1451,6 +1488,8 @@ function vAjustes(){
   h+=fsec('Clubes activos y plantillas','shieldHalf',lista);
   h+=fsec('Pantalla','sun','<div class="frow"><span class="grow row" style="gap:10px"><span class="c-acento" style="display:inline-flex;width:22px">'+ic('sun')+'</span>Modo pabellón</span>'+sw('ge-pab',AJ.modoPabellon,'pabellon')+'</div>','Fondos sólidos, más contraste y reloj y marcador más grandes. Pensado para pabellones con mucha luz. También se activa durante el partido con el botón del sol.');
   h+=fsec('Alineación y cambios','cambio','<div class="frow">'+'<div class="grow">'+seg('vistaAlin',['En el partido','Pantalla aparte'],AJ.vistaAlineacion)+'</div></div>',descVista());
+  h+=fsec('iPad en horizontal','pista','<div class="frow"><div class="grow"><div>Vista dividida</div><div class="f-cap sec">Las dos mitades de la pista a la izquierda: tocas al jugador y eliges la acción.</div></div>'+sw('aj-div',!!AJ.vistaDividida,'fDividida')+'</div>');
+  if(window.Licencia)h+=fsec('Licencia','key',Licencia.resumenAjustes());
   var cuenta=Sync.activo;
   h+=fsec('Seguridad y respaldo de datos','lockShield',
     '<div class="frow">'+ins('cloud',cuenta?'var(--acento)':'var(--gray)')+'<div class="grow"><div class="f-sub sb">Copia automática</div><div class="f-cap sec">'+(cuenta?'Activa en tu cuenta de Claude'+(Sync.ultima?' · última copia '+haceEsp(Sync.ultima):'')+'. Solo tú ves tus datos.':'Solo en este navegador. Exporta una copia de vez en cuando.')+'</div></div></div>'+
@@ -1571,6 +1610,7 @@ function vMatch(){
   var ra=rachaGoles(M.historial);
   if(ra)h+='<div class="situ racha" style="background:'+(ra.nuestra?'var(--green)':'var(--red)')+'">'+ic(ra.nuestra?'flame':'alerta')+'<span class="grow center">'+(ra.nuestra?'RACHA NUESTRA':'RACHA RIVAL')+' · '+ra.goles+' SEGUIDOS</span>'+(!ra.nuestra&&M.tmLocal<3?'<button class="btn prom sm" style="--tint:var(--orange);font-weight:800" data-a="to" data-v="1">T.O.</button>':'')+'</div>';
   h+='<div class="row">'+pil('ataque','Ataque',pct0(MM.pctAtaque()),'var(--blue)')+pil('defensa','Portería',pct0(MM.pctPorteria()),'var(--indigo)')+'</div>';
+  h+='<div class="row pasrow">'+botonPasivo('ataque')+botonPasivo('defensa')+'</div>';
   h+=avisos();
   var esp=function(id){var j=id&&MM.jug(id);return j?'#'+j.dorsal:'—';};
   h+='<button class="glass panel p12 row press" style="width:100%;text-align:left;gap:12px" data-a="sheet" data-v="especialistas">'+ins('cambio',M.activarEsp?'var(--blue)':'var(--gray)',36)+
@@ -1598,7 +1638,7 @@ function mostrarAvisoJugada(){
   setTimeout(function(){if(S.avisoJ&&S.avisoJ.id===id){S.avisoJ=null;render();}},4000);
 }
 function zonaInferior(){
-  return '<div class="zinf"><div class="wrap"><div class="row">'+bc({t:'ATAQUE',s:'Registrar jugada',i:'ataque',c:'var(--blue)',h:88,big:true,d:{a:'flow',v:'ataque'}})+bc({t:'DEFENSA',s:'Registrar jugada',i:'defensa',c:'var(--red)',h:88,big:true,d:{a:'flow',v:'defensa'}})+'</div>'+
+  return '<div class="zinf"><div class="wrap"><div class="row">'+bc({t:'ATAQUE',s:'Registrar jugada',i:'ataque',c:'var(--blue)',h:88,big:true,d:{a:'ppAbrir',v:'ataque'}})+bc({t:'DEFENSA',s:'Registrar jugada',i:'defensa',c:'var(--red)',h:88,big:true,d:{a:'ppAbrir',v:'defensa'}})+'</div>'+
     '<div class="mesa"><button class="glass press" style="--c:var(--indigo)" data-a="sheet" data-v="exclusion">'+ic('exclusion')+'2 min</button><button class="glass press" style="--c:var(--orange)" data-a="sheet" data-v="tarjetas">'+ic('tarjeta')+'Tarjetas</button><button class="glass press" style="--c:var(--green)" data-a="dlgFinalizar">'+ic('finalizar')+'Finalizar</button></div></div></div>';
 }
 function marcador(){
@@ -1621,15 +1661,16 @@ function avisos(){
       (!vacia&&disp>0?'<div class="row" style="gap:8px"><button class="btn prom grow" style="--tint:var(--orange);font-size:13px;font-weight:700" data-a="completar">'+ic('personPlus')+'Completar</button><button class="btn gl glass grow" style="font-size:13px;font-weight:700" data-a="elegirYo">'+ic('handTap')+'Elegir yo</button></div>':'')+'</div>';
   }
   if(M.tmActivo)h+='<div class="glass panel p12 tint row" style="--tinte:var(--red);gap:12px">'+ins('tm','var(--red)',38)+'<span class="f-sub b tn grow" data-live="tm">Tiempo muerto: '+MM.segTM()+' s</span><button class="btn prom sm" data-a="finTM">Reanudar</button></div>';
-  if(M.aviso)h+='<div class="glass panel p12 tint row" style="--tinte:var(--orange);gap:12px">'+ins('cambio','var(--orange)',38)+'<span class="f-sub sb grow">'+esc(M.aviso)+'</span><button class="sec press" style="display:inline-flex;width:24px" data-a="cerrarAviso" aria-label="Cerrar aviso">'+ic('xfill')+'</button></div>';
+  if(M.aviso)h+='<div class="glass panel p12 tint row" style="--tinte:var(--orange);gap:12px">'+ins('cambio','var(--orange)',38)+'<span class="f-sub sb grow">'+esc(M.aviso)+'</span>'+(M.retornoId&&MM.enPista(M.retornoId)?'<button class="btn prom sm" style="--tint:var(--orange);font-weight:800" data-a="avisoCambiar">Cambiar</button>':'')+'<button class="sec press" style="display:inline-flex;width:24px" data-a="cerrarAviso" aria-label="Cerrar aviso">'+ic('xfill')+'</button></div>';
   return h;
 }
 
 /* Alineación */
 function estadoFicha(j){if(S.preparando&&MM.enPreparado(j.id)&&j.id!==S.sel)return 'atenuada';var mk=S.sel&&MM.jug(S.sel);if(!mk)return '';if(mk.id===j.id)return 'marcada';if(MM.enPista(mk.id)!==MM.enPista(j.id)&&!MM.estaExcluido(j.id))return 'candidata';return 'atenuada';}
 function colorFicha(j){if(MM.estaExcluido(j.id))return 'var(--red)';if(MM.enPista(j.id))return j.posicion==='Portero'?'var(--indigo)':'var(--blue)';return null;}
-function ficha(j,big,w){var c=colorFicha(j),e=estadoFicha(j),lab=MM.etiquetaSancion(j.id)||j.nombre;
-  return '<button class="ficha press'+(c?' col':' glass')+(big?' big':'')+(e?' '+e:'')+'" style="'+(c?'--c:'+c+';':'')+(w?'width:'+w+'px;flex:none':'')+'" data-a="ficha" data-v="'+j.id+'"><span class="d">'+(j.posicion==='Portero'?ic('parada'):'')+j.dorsal+'</span><span class="n" data-live="lab:'+j.id+'">'+esc(lab)+'</span>'+(e==='candidata'?'<span class="badge">'+ic('cambio')+'</span>':'')+'</button>';}
+var FICHA_A=null;
+function ficha(j,big,w){var c=colorFicha(j),e=FICHA_A?'':estadoFicha(j),lab=MM.etiquetaSancion(j.id)||j.nombre,ra=M.activo?MM.rachas(j):{a:0,d:0};
+  return '<button class="ficha press'+(c?' col':' glass')+(big?' big':'')+(e?' '+e:'')+'" style="'+(c?'--c:'+c+';':'')+(w?'width:'+w+'px;flex:none':'')+'" data-a="'+(FICHA_A||'ficha')+'" data-v="'+j.id+'">'+rachaBadge('A',ra.a,'l')+rachaBadge('D',ra.d,'r')+'<span class="d">'+(j.posicion==='Portero'?ic('parada'):'')+j.dorsal+'</span><span class="n" data-live="lab:'+j.id+'">'+esc(lab)+'</span>'+(e==='candidata'?'<span class="badge">'+ic('cambio')+'</span>':'')+'</button>';}
 function alineacion(big,panel){
   var pl=ordenAlin(MM.jugadores());if(!pl.length)return '';
   var tit=pl.filter(function(j){return MM.enPista(j.id);}),sup=pl.filter(function(j){return !MM.enPista(j.id);});
@@ -1646,7 +1687,7 @@ function alineacion(big,panel){
     (ep&&!S.preparando?'<button class="btn sm" style="background:rgba(255,255,255,.55);color:#000;font-weight:700" data-a="sacar">Sacar</button>':'')+'<button style="display:inline-flex;width:22px" data-a="selNone" aria-label="Cancelar cambio">'+ic('xfill')+'</button></div>';}
   var slots='';for(var i=0;i<7;i++)slots+=i<tit.length?ficha(tit[i],big):'<div class="hueco'+(big?' big':'')+'">'+ic('plus')+'</div>';
   if(panel)h+=pistaDefensiva(ladoDefensa());
-  else if(enCampo){h+=seg('pistaDef',[['1','Defensa'],['0','Ataque']],AJ.pistaDef?'1':'0');h+=AJ.pistaDef?pistaDefensiva(null):campoAlineacion(tit);}
+  else if(enCampo){h+=seg('pistaDef',[['1','Defensa'],['0','Ataque']],AJ.pistaDef?'1':'0');h+=AJ.pistaDef?pistaDefensiva(ladoDefensa()):campoAtaque(ladoAtaque());}
   else h+=big?'<div class="grid4">'+slots+'</div>':'<div class="tit7">'+slots+'</div>';
   h+='<div class="stack8">'+etq('SUPLENTES','person2');
   if(!sup.length)h+='<div class="f-cap sec">Sin suplentes</div>';
@@ -1728,8 +1769,8 @@ function vFlow(){
   var p=FL.paso;
   if(p==='resultado'){
     h+='<div class="f-title3 b center" style="margin-bottom:4px">'+(at?'Fin de la jugada de ataque':'Fin de la jugada de defensa')+'</div>';
-    if(at)h+=bc({t:'GOL NUESTRO',i:'gol',c:'var(--green)',h:72,d:{a:'flRes',v:'Gol'}})+bc({t:'PARADA DEL PORTERO RIVAL',i:'parada',c:'var(--orange)',h:72,d:{a:'flRes',v:'Parada'}})+bc({t:'NUESTRO TIRO VA FUERA',i:'fuera',c:'var(--gray)',h:72,d:{a:'flRes',v:'Fuera'}})+bc({t:'BALÓN PERDIDO / FALTA',i:'perdida',c:'var(--red)',h:72,d:{a:'flRes',v:'Pérdida'}})+bc({t:'FALTA PROVOCADA / 7 M',s:'Falta del rival o penalti a favor',i:'handTap',c:'var(--teal)',h:72,d:{a:'accAbrir',v:'of'}});
-    else h+=bc({t:'GOL EN CONTRA',i:'alerta',c:'var(--red)',h:72,d:{a:'flRes',v:'Gol'}})+bc({t:'PARADA DE NUESTRO PORTERO',i:'parada',c:'var(--green)',h:72,d:{a:'flRes',v:'Parada'}})+bc({t:'EL RIVAL LA TIRA FUERA',i:'fuera',c:'var(--gray)',h:72,d:{a:'flRes',v:'Fuera'}})+bc({t:'ACCIÓN DEFENSIVA',s:'Falta, robo, bloqueo, intercepción',i:'defensa',c:'var(--orange)',h:72,d:{a:'accAbrir',v:'def'}});
+    if(at)h+=bc({t:'GOL NUESTRO',i:'gol',c:'var(--green)',h:72,d:{a:'flRes',v:'Gol'}})+bc({t:'PARADA DEL PORTERO RIVAL',i:'parada',c:'var(--orange)',h:72,d:{a:'flRes',v:'Parada'}})+bc({t:'NUESTRO TIRO VA FUERA',i:'fuera',c:'var(--gray)',h:72,d:{a:'flRes',v:'Fuera'}})+bc({t:'BALÓN PERDIDO / FALTA',i:'perdida',c:'var(--red)',h:72,d:{a:'flRes',v:'Pérdida'}})+bc({t:'ACCIÓN OFENSIVA',s:'Falta o 7 m provocado, asistencia, exclusión provocada',i:'handTap',c:'var(--teal)',h:72,d:{a:'accAbrir',v:'of'}})+botonPasivoFlujo(true);
+    else h+=bc({t:'GOL EN CONTRA',i:'alerta',c:'var(--red)',h:72,d:{a:'flRes',v:'Gol'}})+bc({t:'PARADA DE NUESTRO PORTERO',i:'parada',c:'var(--green)',h:72,d:{a:'flRes',v:'Parada'}})+bc({t:'EL RIVAL LA TIRA FUERA',i:'fuera',c:'var(--gray)',h:72,d:{a:'flRes',v:'Fuera'}})+bc({t:'ACCIÓN DEFENSIVA',s:'Falta, recuperación, bloqueo',i:'defensa',c:'var(--orange)',h:72,d:{a:'accAbrir',v:'def'}})+botonPasivoFlujo(false);
   }else if(p==='tipo'){
     h+='<div class="f-title3 b center" style="margin-bottom:4px">¿Qué tipo de lanzamiento fue?</div>'+bc({t:'ATAQUE POSICIONAL',s:'Juego organizado',i:'grid',c:col,d:{a:'flTipo',v:TL.pos}})+bc({t:'CONTRAATAQUE',s:'Transición rápida',i:'hare',c:'var(--orange)',d:{a:'flTipo',v:TL.ca}})+bc({t:'7 METROS',s:'Penalti',i:'seven',c:'var(--purple)',d:{a:'flTipo',v:TL.m7}});
   }else if(p==='porteria'){
@@ -1802,12 +1843,12 @@ function vozCfg(){
   var fija=acc?(acc.accion?{k:acc.t==='def'?'def':'of',a:acc.accion}:null):ordenDeRes(FL.res);
   function pide(o){var n={propio:0,rival:0,porteria:0,campo:0};if(!o)return n;
     if(acc){if((acc.t==='def'&&o.k==='def')||(acc.t==='of'&&o.k==='of'))n.propio=2;return n;}
-    if(o.k==='def'||o.k==='of'){n.propio=2;return n;}
+    if(o.k==='def'||o.k==='of'||o.k==='sancion'){n.propio=2;return n;}
     if(at){if(o.k==='perdida'){n.propio=2;if(M.anotarZonaPerdida&&!FL.zd)n.campo=2;return n;}
       n.propio=2;if(FL.zp==null)n.porteria=2;if(FL.tipo!==TL.m7&&!FL.zd)n.campo=2;return n;}
     if(porterosDisp().length)n.propio=porteroEnPista()?1:2;
     if(o.k!=='fuera'&&FL.zp==null)n.porteria=2;if(FL.tipo!==TL.m7&&!FL.zd)n.campo=2;if(preguntaDorsalPara(o)&&FL.dorsal==null)n.rival=2;return n;}
-  function valida(o,d){if(acc||at||(o&&(o.k==='def'||o.k==='of'))){var j=jugadorPorDorsal(d);return j&&!MM.etiquetaSancion(j.id)?j.nombre:null;}
+  function valida(o,d){if(acc||at||(o&&(o.k==='def'||o.k==='of'||o.k==='sancion'))){var j=jugadorPorDorsal(d);return j&&!MM.etiquetaSancion(j.id)?j.nombre:null;}
     var p=porterosDisp().find(function(j){return j.dorsal===d&&!MM.etiquetaSancion(j.id);});return p?p.nombre:null;}
   return {ctx:ctx,fija:fija,pide:pide,valida:valida,etq:(acc||at)?'Jugador':'Portero'};
 }
@@ -1849,6 +1890,7 @@ function aplicarVoz(){
   var cfg=vozCfg(),c=entenderVoz(cfg,FL.voz.texto);Voz.cancelar();FL.voz=null;var o=c.o;if(!o)return;
   if(FL.acc){var A_=FL.acc;if(!A_.accion&&o.a)A_.accion=o.a;var jj=c.propio!=null?jugadorPorDorsal(c.propio):null;
     if(A_.accion&&jj)accElegirJugador(jj);else if(jj)A_.jugador=jj.id;return;}
+  if(o.k==='sancion'){var js=c.propio!=null?jugadorPorDorsal(c.propio):null;if(js){var tt=FL.t;cerrarFlow();aplicarSancion(o.a,js);}else toast('Di también el dorsal del jugador');return;}
   if(o.k==='def'||o.k==='of'){FL.acc={t:o.k,accion:o.a,jugador:null};var j2=c.propio!=null?jugadorPorDorsal(c.propio):null;if(j2)accElegirJugador(j2);return;}
   var at=FL.t==='ataque';
   if(!FL.res){FL.res={gol:'Gol',parada:'Parada',fuera:'Fuera',perdida:'Pérdida'}[o.k];if(o.k!=='perdida')MM.cambioAnticipado(at?'Ataque':'Defensa',FL.res);}
@@ -1960,6 +2002,7 @@ function shAlinGrande(){
 }
 function shDorsales(sh){
   var h='<div class="wrap stack" style="padding-top:6px">';
+  h+=controlRival();
   h+='<div class="glass panel stack10">'+etq('PREGUNTAR EL DORSAL','rival')+seg('drModo',MODOS_DORSAL,sh.modo)+'</div>';
   h+='<div class="glass panel stack10">'+etq('CARGADOS ('+M.dorsalesRivales.length+')','rival')+(M.dorsalesRivales.length?'<div class="gridN">'+M.dorsalesRivales.map(function(n){return '<button class="press row r b" style="justify-content:center;gap:4px;min-height:44px;border-radius:14px;background:var(--red);color:#fff;font-size:20px" data-a="drQuitar" data-v="'+n+'">'+n+'<span style="display:inline-flex;width:12px">'+ic('xfill')+'</span></button>';}).join('')+'</div><div class="f-cap sec">Toca uno para quitarlo</div>':'<div class="f-foot sec">Todavía no hay ninguno. Escríbelos abajo o tócalos en la rejilla.</div>')+'</div>';
   h+='<div class="glass panel stack10">'+etq('ESCRIBIR VARIOS','keyboard')+'<div class="row" style="background:var(--fill2);border-radius:14px;padding:6px 6px 6px 12px"><input class="tf plain grow" id="dr-txt" placeholder="Ej: 3 5 7 9 11 14" inputmode="text" value="'+esc(sh.txt||'')+'" data-binds="txt" enterkeyhint="done"><button class="btn gl glass sm" data-a="drAnadir">Añadir</button></div></div>';
@@ -2008,6 +2051,7 @@ function shStats(sh){
     var si=eficacia(M.historial,'situacion');if(Object.keys(si).some(function(k){return hayDatos(si[k]);}))h+=tarjeta('SUPERIORIDAD E INFERIORIDAD','person2',tablaEficacia(si,SIT.todas));
     var ti=eficacia(M.historial,'tipoLanzamiento');if(Object.keys(ti).some(function(k){return hayDatos(ti[k]);}))h+=tarjeta('POR TIPO DE LANZAMIENTO','porteria',tablaEficacia(ti,TL.todos));
     var tp=tarjetaParejas(M.historial,3);if(tp)h+='<div class="glass panel">'+tp+'</div>';
+    h+=tarjetaValoracion(M.historial);
     h+=tarjeta('RENDIMIENTO POR POSICIONES','equipo',POS.map(function(p,i){var s=MM.porPuesto(p);return (i?'<hr class="divider">':'')+'<div class="row"><span class="f-sub sb grow">'+cap(p)+'</span><span class="mono sec">'+s.g+' / '+s.t+'</span><span class="mono b" style="width:76px;text-align:right;color:'+(p==='Portero'?'var(--indigo)':'var(--green)')+'">'+pct1(s.p)+'</span></div>';}).join(''));
   }else if(sh.tab===1){
     h+=tarjeta('ELIGE UN JUGADOR','jugador','<div class="supl" data-sid="stjug" style="gap:8px">'+MM.jugadores().map(function(j){return bj({n1:j.dorsal,n2:j.nombre,c:sh.jug===j.id?'var(--blue)':null,v:true,h:58,w:68,d:{a:'stJug',v:j.id}});}).join('')+'</div>');
@@ -2185,10 +2229,10 @@ function analisisDefensivo(acc,seg,minT){
     var tot=function(r){return acc.filter(function(a){return a.tipo===ACC_DEF.tipo&&a.resultado===r;}).length;};
     h+=tarj('ACCIONES DEFENSIVAS','defensa',ACC_DEF.ops.map(function(o){return fm(o.pl,String(tot(o.id)),o.c);}).join(''));
     h+=rank('LOS MÁS DUROS','alerta','var(--orange)',fil.filter(function(x){return x.duros>0;}).sort(function(a,b){return b.duros-a.duros;}),function(x){return x.duros;},function(x){return x.faltas+' faltas · '+x.excl+' exclusiones';});
-    h+=rank('ANTICIPACIÓN (ROBOS + INTERCEPCIONES)','flame','var(--green)',fil.filter(function(x){return x.rec>0;}).sort(function(a,b){return b.rec-a.rec;}),function(x){return x.rec;},function(x){var r=por10(x,x.rec);return x.robos+' robos · '+x.inter+' intercepciones'+(r!=null?' · '+r.toFixed(1).replace('.',',')+' por 10 min':'');});
+    h+=rank('RECUPERACIONES','flame','var(--green)',fil.filter(function(x){return x.rec>0;}).sort(function(a,b){return b.rec-a.rec;}),function(x){return x.rec;},function(x){var r=por10(x,x.rec);return x.robos+' recuperaciones'+(x.inter?' · '+x.inter+' intercepciones':'')+(r!=null?' · '+r.toFixed(1).replace('.',',')+' por 10 min':'');});
     h+=rank('MUROS (BLOQUEOS)','parada','var(--blue)',fil.filter(function(x){return x.bloq>0;}).sort(function(a,b){return b.bloq-a.bloq;}),function(x){return x.bloq;},function(x){var r=por10(x,x.bloq);return r!=null?r.toFixed(1).replace('.',',')+' por 10 min':'bloqueos';});
     function cel(n,c){return '<span class="r b tn" style="width:42px;text-align:center;color:'+(n?c:'var(--label3)')+'">'+n+'</span>';}
-    h+=tarj('TODOS LOS JUGADORES','equipo','<div class="row f-cap2 b sec"><span class="grow">Jugador</span><span style="width:42px;text-align:center">Falt.</span><span style="width:42px;text-align:center">Robo</span><span style="width:42px;text-align:center">Bloq.</span><span style="width:42px;text-align:center">Inter.</span><span style="width:38px;text-align:center">Bal.</span></div>'+
+    h+=tarj('TODOS LOS JUGADORES','equipo','<div class="row f-cap2 b sec"><span class="grow">Jugador</span><span style="width:42px;text-align:center">Falt.</span><span style="width:42px;text-align:center">Recup.</span><span style="width:42px;text-align:center">Bloq.</span><span style="width:42px;text-align:center">Inter.</span><span style="width:38px;text-align:center">Bal.</span></div>'+
       fil.slice().sort(function(a,b){return b.bal-a.bal;}).map(function(x){return '<div class="row f-foot"><span class="sb grow ell" style="min-width:0">'+esc(x.id)+'</span>'+cel(x.faltas,'var(--orange)')+cel(x.robos,'var(--green)')+cel(x.bloq,'var(--blue)')+cel(x.inter,'var(--purple)')+'<span class="r b tn" style="width:38px;text-align:center;color:'+(x.bal>=0?'var(--green)':'var(--red)')+'">'+signo(x.bal)+'</span></div>';}).join('')+
       '<div class="f-cap2 sec">Balance = robos + bloqueos + intercepciones − faltas.</div>');
     var pj=parejasDefensivas(acc,minT).sort(function(a,b){return a.pct-b.pct||b.pos-a.pos;});
@@ -2206,7 +2250,7 @@ function analisisDefensivo(acc,seg,minT){
 
 /* iPad en horizontal: defensa fija a la izquierda */
 function panelFijo(){return !!(M.activo&&window.matchMedia&&window.matchMedia('(min-width: 900px) and (orientation: landscape)').matches);}
-function vPanelFijo(){return '<aside class="panelfijo"><div class="amb"></div><div class="pfin" data-sid="panelfijo">'+alineacion(false,true)+'</div></aside>';}
+function vPanelFijo(){return '<aside class="panelfijo"><div class="amb"></div><div class="pfin" data-sid="panelfijo">'+(divididaActiva()?panelDividido():alineacion(false,true)+(AJ.vistaDividida?'<button class="btn prom lg wfull" style="margin-top:10px" data-a="modoCambios">'+ic('pista')+'Volver a las pistas</button>':''))+'</div></aside>';}
 
 /* =====================================================================
    Guía de uso (GuiaView, 9 páginas)
@@ -2290,7 +2334,7 @@ function render(){
   else if(v==='acum')pg=vAcum();else{var top=S.stackA[S.stackA.length-1];pg=v==='evol'?vEvolucion(top.n,top.p):v==='acciones'?vAccionesTemporada():vMapaJugador(top.n,top.p);}
   var esMatch=v==='match',pf=esMatch&&panelFijo();
   if(M.activo)MM.reasignarDefensa(false);
-  document.body.classList.toggle('ipadh',!!pf);
+  document.body.classList.toggle('ipadh',!!pf);document.body.classList.toggle('split',!!(pf&&divididaActiva()));
   var h='<div class="screen'+(esMatch?' match':'')+'"><div class="amb fixed"></div><div class="content"><div class="wrap">'+pg+'</div>'+(esMatch?'':'<div class="pad-tab"></div>')+'</div></div>';
   if(esMatch)h+=zonaInferior();
   if(pf)h+=vPanelFijo();
@@ -2305,13 +2349,14 @@ function render(){
       '<div class="sh-body" data-sid="sh'+i+'-'+sh.t+'">'+r.body+'</div>'+(r.foot?'<div class="sh-foot">'+r.foot+'</div>':'')+'</div>';
     sh.fresh=false;});
   if(FL)L+=vFlow();
+  else{if(S.pp&&M.activo&&vista()==='match')L+=vPantallaPista();if(S.ppJ&&M.activo)L+=vAccionesJugador();}
   if(S.guide!=null){L+=vGuia();S.guideFresh=false;}
   if(S.dlg)L+='<div class="dlg-bg anim-fade" data-a="dlgCancel"></div><div class="dlg anim-up" role="dialog" aria-modal="true"><div class="box">'+(S.dlg.title?'<div class="hd"><b>'+esc(S.dlg.title)+'</b>'+esc(S.dlg.msg||'')+'</div>':'')+S.dlg.ops.map(function(o,i){return '<button class="op'+(o.red?' red':'')+'" data-a="dlgOp" data-v="'+i+'">'+esc(o.t)+'</button>';}).join('')+'</div><div class="box"><button class="op cancel" data-a="dlgCancel">Cancelar</button></div></div>';
   if(S.alert){var a=S.alert;L+='<div class="dlg-bg anim-fade"></div><div class="alert anim-fade" role="alertdialog" aria-modal="true"><div class="hd"><b>'+esc(a.t)+'</b>'+(a.msg?'<p>'+esc(a.msg)+'</p>':'')+(a.input?'<input class="tf rb" id="alert-in" inputmode="numeric" placeholder="'+esc(a.input)+'" style="margin-top:12px">':'')+'</div><div class="ops">'+(a.input?'<button data-a="alertCancel">Cancelar</button>':'')+'<button data-a="alertOk">'+esc(a.ok||'Entendido')+'</button></div></div>';}
   if(S.toast)L+='<div class="toast glass" role="status">'+esc(S.toast)+'</div>';
   document.getElementById('layer').innerHTML=L;
   arreglarColorMix(document.getElementById('page'));arreglarColorMix(document.getElementById('layer'));
-  var bloqueo=S.sheets.length||FL||S.guide!=null;html.style.overflow=bloqueo?'hidden':'';
+  var bloqueo=S.sheets.length||FL||S.guide!=null||(S.pp&&M.activo);html.style.overflow=bloqueo?'hidden':'';
   if(S.irArriba){window.scrollTo(0,0);S.irArriba=false;}else if(Math.abs(window.scrollY-y)>2)window.scrollTo(0,y);
   document.querySelectorAll('[data-sid]').forEach(function(el){var s=sc[el.getAttribute('data-sid')];if(s){el.scrollLeft=s[0];el.scrollTop=s[1];}});
   if(S.alert&&S.alert.input){var ai=document.getElementById('alert-in');if(ai)ai.focus();}
@@ -2595,12 +2640,14 @@ document.addEventListener('focusout',function(ev){if(ev.target&&ev.target.id==='
 })();
 /* arrastrar fichas en la pista defensiva: caen en el hueco más cercano (si está ocupado, se intercambian) */
 (function(){var d=null;
-  document.addEventListener('pointerdown',function(ev){var el=ev.target.closest('.dficha');if(!el)return;d={el:el,x0:ev.clientX,y0:ev.clientY,mov:false};},{passive:true});
+  document.addEventListener('pointerdown',function(ev){var el=ev.target.closest('.dficha,.aficha');if(!el)return;d={el:el,x0:ev.clientX,y0:ev.clientY,mov:false};},{passive:true});
   document.addEventListener('pointermove',function(ev){if(!d)return;var dx=ev.clientX-d.x0,dy=ev.clientY-d.y0;if(!d.mov&&Math.hypot(dx,dy)<10)return;d.mov=true;d.el.classList.add('drag');d.el.style.transform='translate(calc(-50% + '+dx+'px),calc(-50% + '+dy+'px))';},{passive:true});
   function fin(ev){if(!d)return;var o=d;d=null;if(!o.mov)return;o.el.classList.remove('drag');
     var cw=o.el.closest('.dcourt'),r=cw.getBoundingClientRect(),lado=cw.getAttribute('data-lado'),W=lado?300:320,Hh=lado?320:300;
     var X=(ev.clientX-r.left)/r.width*W,Y=(ev.clientY-r.top)/r.height*Hh,x=X,y=Y;if(lado==='izq'){y=X;x=320-Y;}else if(lado==='der'){y=300-X;x=Y;}
-    var sis=M.sisAsig,best=null;if(sis)SISTEMAS[sis].forEach(function(hu){var hx=Math.min(Math.max(hu.x,34),286),dd=Math.hypot(hx-x,hu.y-y);if(!best||dd<best.d)best={h:hu.id,d:dd};});
+    if(o.el.classList.contains('aficha')){var bp=null;PUESTOS.forEach(function(p){var pt=PUNTOS_ATAQUE[p.id],px=Math.min(Math.max(pt[0],38),282),dd=Math.hypot(px-x,pt[1]-y);if(!bp||dd<bp.d)bp={p:p.id,d:dd};});
+      if(bp&&bp.d<70)MM.moverAPuestoAtaque(o.el.getAttribute('data-jid'),bp.p);}
+    var sis=o.el.classList.contains('aficha')?null:M.sisAsig,best=null;if(sis)SISTEMAS[sis].forEach(function(hu){var hx=Math.min(Math.max(hu.x,34),286),dd=Math.hypot(hx-x,hu.y-y);if(!best||dd<best.d)best={h:hu.id,d:dd};});
     if(best&&best.d<60)MM.moverEnDefensa(o.el.getAttribute('data-jid'),best.h);
     var bloq=function(e){e.stopPropagation();e.preventDefault();document.removeEventListener('click',bloq,true);};document.addEventListener('click',bloq,true);setTimeout(function(){document.removeEventListener('click',bloq,true);},60);
     if(M.activo)guardarBorrador(true);render();}
@@ -2655,6 +2702,272 @@ var Sync={activo:false,col:null,ultima:null,t:null,ultB:0,
   }
 };
 
+/* =====================================================================
+   web 12 · Cambios de la app de iPhone/iPad (Xcode, noviembre 2026)
+   Pasivo, recuperación, sanciones desde la defensa, valoración y rachas,
+   pista con jugadores al pulsar Ataque/Defensa, vista dividida del iPad,
+   memoria de puestos, vuelta automática tras la exclusión, faltas del rival.
+   ===================================================================== */
+Object.assign(P,{
+  bolt:'<path d="M13.5 2.5L4.5 13.5H11l-1.5 8 9-11.5h-6.5z" fill="currentColor" stroke="none"/>',
+  assist:'<path d="M4 18.5c1.5-6 6-9.5 12.5-9.5"/><path d="M12.5 5l4.5 4-4.5 4"/>',
+  timer:'<circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4.2l2.6 1.8M9.5 2.5h5M12 2.5v3.5"/>',
+  arUp:'<path d="M12 20V5M5.5 11.5L12 5l6.5 6.5"/>',
+  arDn:'<path d="M12 4v15M5.5 12.5L12 19l6.5-6.5"/>',
+  key:'<circle cx="7.5" cy="12" r="4"/><path d="M11.5 12h10M18 12v3.5M21.5 12v2.5"/>'
+});
+MARCA.version='1.0 (web 12)';
+
+/* ---------- Valoración de jugadores y rachas (AccionDefensiva.swift · Valoracion) ---------- */
+var SANC_PEN={'Amarilla':.5,'2 Minutos':1.25,'Roja':3};
+function factorZona(z){return z==='Lateral'?1.25:(z==='Central'||z==='Avanzado')?1.5:1;}
+function puntosAccion(a){
+  if(a.tipo==='Ataque')return a.resultado==='Gol'?{d:'a',p:1}:(a.resultado==='Parada'||a.resultado==='Fuera')?{d:'a',p:-.75}:a.resultado==='Pérdida'?{d:'a',p:-1}:null;
+  if(a.tipo===ACC_OF.tipo){var o=ACC_OF.ops.find(function(x){return x.id===a.resultado;});return o?{d:'a',p:o.p}:null;}
+  if(a.tipo===ACC_DEF.tipo){var od=ACC_DEF.ops.find(function(x){return x.id===a.resultado;}),p=od?od.p:ACC_DEF.antiguas[a.resultado];return p!=null?{d:'d',p:p*factorZona(a.zonaDefensiva)}:null;}
+  if(a.tipo==='Sanción Disciplinaria'){var s=SANC_PEN[a.resultado];return s?{d:'d',p:-s}:null;}
+  return null;
+}
+function claveAccion(a){return a.jugadorNombre?(a.jugadorId||a.jugadorNombre):null;}
+function valoracionJugadores(acc){
+  var m={};acc.forEach(function(a){var n=a.jugadorNombre,k=claveAccion(a);if(!k||n==='Banquillo'||n==='Mesa/Rival')return;var p=puntosAccion(a);if(!p)return;
+    var v=m[k]||(m[k]={id:k,nombre:n,a:0,d:0});if(p.d==='a')v.a+=p.p;else v.d+=p.p;});
+  return Object.keys(m).map(function(k){var v=m[k];v.t=v.a+v.d;return v;}).sort(function(x,y){return y.t-x.t;});
+}
+function rachaDe(acc,coincide,dom,lon){lon=lon||3;var signo=0,cuenta=0;
+  for(var i=acc.length-1;i>=0;i--){var a=acc[i];if(!coincide(a))continue;var p=puntosAccion(a);if(!p||p.d!==dom||!p.p)continue;var s=p.p>0?1:-1;
+    if(!cuenta){signo=s;cuenta=1;}else if(s===signo)cuenta++;else break;if(cuenta>=lon)return signo;}
+  return 0;}
+function coincideJugador(j){return function(a){return a.jugadorId===j.id||(!a.jugadorId&&a.jugadorNombre===j.nombre);};}
+MM.rachas=function(j){var f=coincideJugador(j);return {a:rachaDe(M.historial,f,'a'),d:rachaDe(M.historial,f,'d')};};
+function rachaBadge(l,v,lado){return v?'<span class="rch '+lado+' '+(v>0?'up':'dn')+'" aria-label="'+(v>0?'Racha positiva':'Racha negativa')+' en '+(l==='A'?'ataque':'defensa')+'">'+l+ic(v>0?'arUp':'arDn')+'</span>':'';}
+function fmtP(x){var r=Math.round(x*100)/100;return (r>0?'+':'')+String(r).replace('.',',');}
+function tarjetaValoracion(acc){
+  var v=valoracionJugadores(acc);if(!v.length)return '';
+  function col(x){return x>0?'var(--green)':x<0?'var(--red)':'var(--label3)';}
+  return '<div class="glass panel stack10">'+etq('VALORACIÓN DE LOS JUGADORES','stats')+
+    '<div class="row f-cap2 b sec"><span class="grow">Jugador</span><span style="width:52px;text-align:center">Ataque</span><span style="width:52px;text-align:center">Defensa</span><span style="width:52px;text-align:center">Total</span></div>'+
+    v.map(function(x){var j=MM.jugadores().find(function(y){return y.id===x.id||y.nombre===x.nombre;}),ra=j&&M.activo?MM.rachas(j):{a:0,d:0};
+      return '<div class="row f-foot"><span class="sb grow ell" style="min-width:0">'+esc(x.nombre)+(ra.a?' '+rachaBadge('A',ra.a,'in'):'')+(ra.d?' '+rachaBadge('D',ra.d,'in'):'')+'</span><span class="r b tn" style="width:52px;text-align:center;color:'+col(x.a)+'">'+fmtP(x.a)+'</span><span class="r b tn" style="width:52px;text-align:center;color:'+col(x.d)+'">'+fmtP(x.d)+'</span><span class="r blk tn" style="width:52px;text-align:center;color:'+col(x.t)+'">'+fmtP(x.t)+'</span></div>';}).join('')+
+    '<div class="f-cap2 sec">Gol +1 · parada o fuera −0,75 · pérdida −1. Defensa: falta +0,25, recuperación y bloqueo +0,75 (×1,25 en lateral, ×1,5 en central o avanzado). Sanciones: amarilla −0,5, 2 min −1,25, roja −3. Flecha verde o roja: tres jugadas seguidas buenas o malas.</div></div>';
+}
+
+/* Vibra cuando una jugada abre una racha (3 seguidas) a algún jugador */
+(function(){var orig=MM.conPunto;MM.conPunto=function(pa,fn){var antes=M.historial.slice();orig.call(MM,pa,fn);avisarRachas(antes);};})();
+function avisarRachas(antes){
+  var n=M.historial.length-antes.length;if(n<=0)return;var claves={},nombres={};
+  M.historial.slice(-n).forEach(function(a){var k=claveAccion(a);if(k&&a.jugadorNombre!=='Banquillo'&&a.jugadorNombre!=='Mesa/Rival'){claves[k]=1;nombres[k]=a.jugadorNombre;}});
+  var pos=null,neg=null;
+  Object.keys(claves).forEach(function(k){var f=function(a){return claveAccion(a)===k;};
+    ['a','d'].forEach(function(d){var ah=rachaDe(M.historial,f,d);if(ah&&ah!==rachaDe(antes,f,d)){var t=nombres[k]+(d==='a'?' en ataque':' en defensa');if(ah>0)pos=t;else neg=t;}});});
+  if(!pos&&!neg)return;
+  setTimeout(function(){MM.vibrar(neg?[120,80,120]:[40,60,40]);toast(neg?'Racha negativa · '+neg:'Racha positiva · '+pos);render();},400);
+}
+
+/* ---------- Pasivo (MatchManager.swift) ---------- */
+MM.iniciarPasivo=function(l){M.pasivo=l;var f=M.pasivoF=(M.pasivoF||0)+1;MM.vibrar(10);setTimeout(function(){if(M.pasivoF===f&&M.pasivo){M.pasivo=null;render();}},120000);};
+MM.cancelarPasivo=function(){M.pasivo=null;M.pasivoF=(M.pasivoF||0)+1;};
+MM.resolverPasivo=function(l){if(M.pasivo!==l)return false;MM.cancelarPasivo();return true;};
+MM.extra=null;
+(function(){var orig=MM.registrarAccion;
+  MM.registrarAccion=function(tipo){var bajo=MM.resolverPasivo(tipo==='Ataque'?'ataque':'defensa'),ex=MM.extra||{};MM.extra=null;var n=M.historial.length;
+    orig.apply(MM,arguments);
+    if(M.historial.length>n){var a=M.historial[M.historial.length-1];if(bajo||ex.pasivo)a.pasivo=true;if(ex.pasivoPropio)a.pasivoPropio=true;}};
+})();
+MM.zonaEnDefensa=function(id){var s=M.sisAsig,h=(M.posDef||{})[id];if(!s||h==null||!SISTEMAS[s])return null;var hu=SISTEMAS[s].find(function(x){return x.id===h;});return hu?{ex:'Extremo',la:'Lateral',ce:'Central',av:'Avanzado'}[hu.t]:null;};
+(function(){var orig=MM.registrarIndividual;
+  MM.registrarIndividual=function(tipo,res,j){var pas=false,zona=null;
+    if(tipo===ACC_DEF.tipo){if(res!=='Falta'){if(MM.resolverPasivo('defensa'))pas=true;}else if(M.pasivo==='defensa')pas=true;MM.reasignarDefensa(false);zona=MM.zonaEnDefensa(j.id);}
+    else if(res==='7 metros provocado')MM.resolverPasivo('ataque');
+    var n=M.historial.length;orig.call(MM,tipo,res,j);
+    if(M.historial.length>n){var a=M.historial[M.historial.length-1];if(pas)a.pasivo=true;if(zona)a.zonaDefensiva=zona;}};
+})();
+MM.registrarPasivoAgotado=function(){MM.resolverPasivo('defensa');
+  var nombres=MM.jugadores().filter(function(x){return MM.enPista(x.id)&&x.posicion!=='Portero';}).map(function(x){return x.nombre;});
+  MM.conPunto(null,function(){var a=MM.accion({tipo:'Pasivo',resultado:'Pasivo agotado',situacion:MM.situacion(),pistaNombres:nombres});a.pasivo=true;M.historial.push(a);});MM.vibrar(25);};
+(function(){var orig=MM.borrarAccion;MM.borrarAccion=function(id){var a=M.historial.find(function(x){return x.id===id;});
+  if(a&&a.tipo==='Pasivo'){M.historial=M.historial.filter(function(x){return x.id!==id;});MM.recalcular();M.pila=[];return;}orig.call(MM,id);};})();
+function botonPasivo(l){var on=M.pasivo===l,c=l==='ataque'?'var(--blue)':'var(--red)';
+  if(on)return '<span class="row pasivo-on" style="gap:6px"><button class="btn prom sm" style="--tint:var(--red);font-weight:800" data-a="pasAgotado" data-v="'+l+'" aria-label="Pasivo agotado: confirmar">'+ic('checkFill')+'PASIVO · Agotado</button><button class="cbtn glass press" style="width:34px;height:34px;flex:none" data-a="pasCancel" aria-label="Quitar el pasivo sin anotar nada">'+ic('xfill')+'</button></span>';
+  return '<button class="btn sm glass" style="font-weight:800;color:'+c+'" data-a="pasIni" data-v="'+l+'" aria-label="Pasivo: el árbitro levanta el brazo">'+ic('timer')+(l==='ataque'?'Pasivo nuestro':'Pasivo rival')+'</button>';}
+function botonPasivoFlujo(at){var arm=FL&&FL.pasArm;
+  return bc({t:arm?'¿CONFIRMAS EL PASIVO? TOCA OTRA VEZ':'PASIVO AGOTADO',s:arm?'Si aún ha habido una acción (tiro, falta…), elígela arriba':(at?'Del equipo: perdemos el balón por juego pasivo':'El rival pierde la posesión por pasivo'),i:arm?'checkFill':'timer',c:arm?'var(--red)':'var(--teal)',h:72,d:{a:'flPasivo'}});}
+function pasivoAgotadoAtaque(){abrirFlow('ataque');FL.res='Pérdida';FL.pp=true;FL.paso=M.anotarZonaPerdida?'campo':'jugador';autoJugador();}
+
+/* ---------- Sanciones desde la defensa ---------- */
+function aplicarSancion(id,j){var s=SANC_DEF.find(function(x){return x.id===id;});if(!s||!j)return;
+  if(MM.estaExcluido(j.id)&&s.r==='2 Minutos'){toast('#'+j.dorsal+' ya está excluido');return;}
+  if(s.r==='2 Minutos')MM.agregarExclusion(j);else MM.registrarTarjeta(j,s.r);toast(s.id+' · #'+j.dorsal+' '+j.nombre);}
+
+/* ---------- Memoria de puestos: quien entra hereda el sitio; al volver recupera el suyo ---------- */
+function ladoAtaque(){return ladoDefensa()==='izq'?'der':'izq';}
+MM.titularesEnPista=function(){return ordenAlin(MM.jugadores()).filter(function(j){return MM.enPista(j.id);});};
+MM.puestoAtaqueDe=function(id){var rep=repartoEnPista(MM.titularesEnPista());for(var k in rep)if(rep[k]&&rep[k].id===id)return k;return null;};
+MM.moverAPuestoAtaque=function(id,p){var jj=MM.jug(id);if(!id||!p||!jj||(jj.posicion==='Portero')!==(p==='Portero'))return;var rep=repartoEnPista(MM.titularesEnPista()),act=MM.puestoAtaqueDe(id);if(act===p)return;M.puestosAt=M.puestosAt||{};
+  Object.keys(rep).forEach(function(k){if(rep[k])M.puestosAt[rep[k].id]=k;});var otro=rep[p];if(otro&&otro.id!==id){if(act)M.puestosAt[otro.id]=act;else delete M.puestosAt[otro.id];}M.puestosAt[id]=p;};
+MM.recordarSitio=function(id){(M.sitios=M.sitios||{})[id]={p:MM.puestoAtaqueDe(id),h:(M.posDef||{})[id]};};
+MM.restaurarSitio=function(id){var s=(M.sitios||{})[id];if(!s)return;M.puestosAt=M.puestosAt||{};var rep=repartoEnPista(MM.titularesEnPista());
+  if(s.p&&!rep[s.p])M.puestosAt[id]=s.p;var pd=M.posDef||(M.posDef={});if(s.h!=null&&Object.keys(pd).every(function(k){return pd[k]!==s.h;}))pd[id]=s.h;};
+MM.heredarSitio=function(sale,entra){var js=MM.jug(sale),je=MM.jug(entra);if(!js||!je||(js.posicion==='Portero')!==(je.posicion==='Portero'))return;
+  MM.recordarSitio(sale);var p=MM.puestoAtaqueDe(sale);M.puestosAt=M.puestosAt||{};if(p)M.puestosAt[entra]=p;delete M.puestosAt[sale];
+  var pd=M.posDef||{};if(pd[sale]!=null){pd[entra]=pd[sale];delete pd[sale];M.posDef=pd;}};
+(function(){
+  var oi=MM.intercambiar;MM.intercambiar=function(sale,entra){if(sale!==entra&&MM.enPista(sale)&&!MM.enPista(entra)&&!MM.estaExcluido(entra))MM.heredarSitio(sale,entra);oi.call(MM,sale,entra);};
+  var oc=MM.cambioAuto;MM.cambioAuto=function(s,e){if(M.activarEsp&&s&&e&&s!==e&&MM.enPista(s)&&!MM.enPista(e)&&!MM.estaExcluido(e))MM.heredarSitio(s,e);oc.call(MM,s,e);};
+  var om=MM.conmutar;MM.conmutar=function(id){if(!MM.estaExcluido(id)){if(MM.enPista(id))MM.recordarSitio(id);else if(M.pista.length<7)MM.restaurarSitio(id);}om.call(MM,id);};
+  var oe=MM.agregarExclusion;MM.agregarExclusion=function(j){if(j&&!MM.estaExcluido(j.id)&&MM.enPista(j.id))MM.recordarSitio(j.id);oe.call(MM,j);};
+  var oa=MM.mostrarAviso;MM.mostrarAviso=function(t){M.retornoId=null;oa.call(MM,t);};
+  var of=MM.avisarFatiga;MM.avisarFatiga=function(id,s){var antes=M.aviso;of.call(MM,id,s);if(M.aviso!==antes)M.retornoId=id;};
+})();
+/* Al acabar los 2 minutos vuelve solo a la pista (si hay hueco); el aviso permite cambiarlo por otro */
+MM.avisarFinExclusion=function(e){
+  if(e.descalificado||M.descalificados.indexOf(e.jugador.id)>=0){MM.mostrarAviso('Termina la inferioridad por roja: ya puede entrar otro jugador.');return;}
+  var id=e.jugador.id,vuelve=!!MM.jug(id)&&M.pista.length<7&&!MM.enPista(id);
+  if(vuelve){MM.restaurarSitio(id);M.pista.push(id);}
+  var t=vuelve?'Termina la exclusión de #'+e.jugador.dorsal+' '+e.jugador.nombre+': vuelve a la pista.':'Termina la exclusión de #'+e.jugador.dorsal+' '+e.jugador.nombre+': ya puede volver.';
+  if(M.espAtaque===id)t='Vuelve el especialista de ataque #'+e.jugador.dorsal+' '+e.jugador.nombre+'.';
+  else if(M.espDefensa===id)t='Vuelve el especialista de defensa #'+e.jugador.dorsal+' '+e.jugador.nombre+'.';
+  MM.mostrarAviso(t);M.retornoId=vuelve?id:null;
+};
+
+/* ---------- Faltas y exclusiones del rival por dorsal (Paneldorsalesrivales.swift) ---------- */
+MM.anotarFaltaRival=function(d){(M.faltasRival=M.faltasRival||[]).push(Math.max(d,0));MM.vibrar(10);};
+MM.quitarFaltaRival=function(d){var f=M.faltasRival||[],i=f.lastIndexOf(d);if(i>=0)f.splice(i,1);};
+MM.faltasDelRival=function(d){return (M.faltasRival||[]).filter(function(x){return x===d;}).length;};
+MM.corregirExclusionRival=function(d){var i=-1;M.historial.forEach(function(a,k){if(a.tipo==='Sanción Rival'&&a.dorsalRival===d)i=k;});if(i<0)return;
+  M.historial.splice(i,1);var ds=M.dorsalesExR||[],k=ds.lastIndexOf(d);if(k>=0&&k<M.exclusionesRival.length){M.exclusionesRival.splice(k,1);ds.splice(k,1);}M.pila=[];};
+function controlRival(){
+  var ds=M.dorsalesRivales.slice();
+  function cont(t,v,c,menos,mas,n){return '<div class="row" style="gap:8px"><span class="f-foot sb grow ell">'+t+'</span><button class="cbtn glass press" style="width:34px;height:34px" data-a="'+menos+'" data-v="'+n+'" aria-label="Quitar"'+(v?'':' disabled')+'>−</button><span class="r blk tn" style="width:28px;text-align:center;font-size:20px;color:'+(v?c:'var(--label3)')+'">'+v+'</span><button class="cbtn glass press" style="width:34px;height:34px" data-a="'+mas+'" data-v="'+n+'" aria-label="Añadir">+</button></div>';}
+  var h='<div class="glass panel stack10">'+etq('FALTAS Y EXCLUSIONES DEL RIVAL','rival');
+  if(!ds.length)h+='<div class="f-foot sec">Carga los dorsales rivales abajo y aquí irás anotando sus faltas y exclusiones.</div>';
+  ds.forEach(function(n){var f=MM.faltasDelRival(n),x=MM.exclusionesDelRival(n);
+    h+='<div class="row" style="gap:12px;padding:6px 0"><span class="r blk" style="flex:none;width:50px;height:50px;border-radius:14px;display:grid;place-items:center;color:#fff;font-size:22px;background:'+(x>=3?'var(--red)':'var(--indigo)')+'">'+n+'</span><div class="grow stack8" style="min-width:0">'+
+      cont('Faltas',f,'var(--orange)','frMenos','frMas',n)+cont(x>=3?'Exclusiones · DESCALIFICADO':'Exclusiones (2 min)',x,x>=2?'var(--red)':'var(--orange)','xrMenos','xrMas',n)+'</div></div>';});
+  var sf=MM.faltasDelRival(0),sx=MM.exclusionesDelRival(0);if(sf||sx)h+='<div class="f-foot sb sec">Sin dorsal: '+sf+' faltas · '+sx+' exclusiones</div>';
+  return h+'</div>';
+}
+
+/* ---------- Pista con los jugadores al pulsar Ataque o Defensa (pantallaPistaVertical) ---------- */
+function campoAtaque(lado){
+  var rep=repartoEnPista(MM.titularesEnPista()),W=lado?300:320,Hh=lado?320:300;
+  function pos(x,y){var X=x,Y=y;if(lado==='izq'){X=y;Y=320-x;}else if(lado==='der'){X=300-y;Y=x;}return {l:X/W*100,t:Y/Hh*100};}
+  var tr=lado==='izq'?' transform="matrix(0,-1,1,0,0,320)"':lado==='der'?' transform="matrix(0,1,-1,0,300,0)"':'';
+  var h='<div class="stack8"><div class="courtwrap campo dcourt acourt" data-lado="'+(lado||'')+'"><div style="padding-top:'+(Hh/W*100)+'%"></div><svg class="pista" viewBox="0 0 '+W+' '+Hh+'" preserveAspectRatio="none" aria-hidden="true"><g'+tr+'>'+pistaInner()+'</g></svg>';
+  PUESTOS.forEach(function(p){var j=rep[p.id],pt=PUNTOS_ATAQUE[p.id],q=pos(Math.min(Math.max(pt[0],38),282),pt[1]);
+    h+='<div class="cpos'+(j&&!FICHA_A?' aficha':'')+'" style="left:'+q.l+'%;top:'+q.t+'%" data-puesto="'+p.id+'"'+(j?' data-jid="'+j.id+'"':'')+'>'+(j?ficha(j,false):'<div class="hueco cvac"><b>'+p.ab+'</b></div>')+'</div>';});
+  return h+'</div>'+(FICHA_A?'':'<div class="f-cap sec">Arrastra una ficha a otro puesto; si está ocupado, se intercambian. Quien entra en un cambio hereda el puesto del que sale.</div>')+'</div>';
+}
+function vPantallaPista(){
+  var f=S.pp,at=f==='ataque',col=at?'var(--blue)':'var(--red)',lado=ladoDefensa();
+  var h='<div class="flow pp">'+amb(at?'blue':'red')+'<div class="cabflujo"><div class="wrap"><div class="top" style="--c:'+col+'"><button data-a="ppCerrar">'+ic('chevL')+'Volver</button><div class="t ell">'+(at?'Jugada de ataque':'Jugada de defensa')+'</div>'+
+    '<button class="btn gl glass sm" style="font-weight:700" data-a="ladoDef" aria-label="Cambiar el lado que defendemos">'+ic('cambio')+(lado==='izq'?'Def. izq.':'Def. der.')+'</button></div></div></div><div class="fbody"><div class="wrap stack" style="flex:1;padding-top:10px">';
+  h+='<div class="row" style="gap:8px;flex-wrap:wrap;justify-content:space-between"><span class="f-sub sb sec">Toca al jugador que ha actuado</span>'+botonPasivo(f)+'</div>';
+  FICHA_A=at?'ppJugA':'ppJugD';h+=at?campoAtaque(ladoAtaque()):pistaDefensiva(lado);FICHA_A=null;
+  h+='<div class="grow"></div><button class="btn gl glass lg wfull" data-a="ppSin">'+ic('listRect')+'Registrar sin elegir jugador</button>';
+  if(AJ.voz&&Voz.disponible())h+='<button class="btn prom lg wfull vozbtn" style="--tint:'+col+'" data-a="ppDictar">'+ic('mic')+'Dictar jugada</button>';
+  return h+'</div></div></div>';
+}
+/* Acciones que puede hacer el jugador tocado (PanelAccionesAtaque / PanelAccionesDefensa) */
+function opcionesPP(j,f){var l=[];
+  if(f==='ataque'){l=[{t:'GOL',i:'gol',c:'var(--green)',o:{k:'gol'}},{t:'PARADA',i:'parada',c:'var(--orange)',o:{k:'parada'}},{t:'FUERA',i:'fuera',c:'var(--gray)',o:{k:'fuera'}},{t:'PÉRDIDA',i:'perdida',c:'var(--red)',o:{k:'perdida'}}];
+    ACC_OF.ops.forEach(function(x){l.push({t:x.id.toUpperCase(),i:x.i,c:x.c,o:{k:'of',a:x.id}});});return l;}
+  if(j.posicion==='Portero')l=[{t:'GOL EN CONTRA',i:'alerta',c:'var(--red)',o:{k:'gol'}},{t:'PARADA',i:'parada',c:'var(--green)',o:{k:'parada'}},{t:'FUERA',i:'fuera',c:'var(--gray)',o:{k:'fuera'}}];
+  else ACC_DEF.ops.forEach(function(x){l.push({t:x.id.toUpperCase(),i:x.i,c:x.c,o:{k:'def',a:x.id}});});
+  SANC_DEF.forEach(function(x){l.push({t:x.id.toUpperCase(),i:x.i,c:x.c,o:{k:'sancion',a:x.id}});});
+  return l;}
+function vAccionesJugador(){var x=S.ppJ,j=MM.jug(x.id);if(!j)return '';var ops=opcionesPP(j,x.f),def=x.f!=='ataque';
+  return '<div class="vozbg" data-a="ppJugCerrar"></div><div class="vozbox glass anim-up accpanel" role="dialog" aria-modal="true" aria-label="Acciones de #'+j.dorsal+'">'+
+    '<div class="row" style="gap:10px"><span class="r blk" style="flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:22px;background:linear-gradient(135deg,var(--blue),var(--indigo))">'+j.dorsal+'</span><div class="grow" style="min-width:0"><div class="f-title3 b ell">'+esc(j.nombre)+'</div><div class="f-sub sec">'+(def&&j.posicion==='Portero'?'¿Qué ha pasado en la portería?':'¿Qué ha hecho?')+'</div></div><button class="sec press" style="display:inline-flex;width:34px;flex:none" data-a="ppJugCerrar" aria-label="Cerrar">'+ic('xfill')+'</button></div>'+
+    '<div class="accgrid">'+ops.map(function(o,i){return '<button class="accviva press" style="--c:'+o.c+'" data-a="ppAcc" data-v="'+i+'">'+ic(o.i)+'<span>'+esc(o.t)+'</span></button>';}).join('')+'</div></div>';}
+/* Abre el asistente con la acción y el jugador ya puestos (como un dictado) */
+function aplicarComando(t,o,j){
+  abrirFlow(t);var at=t==='ataque';FL.res={gol:'Gol',parada:'Parada',fuera:'Fuera',perdida:'Pérdida'}[o.k];FL.preJ=j?j.id:null;
+  if(at){if(FL.res==='Pérdida')FL.paso=M.anotarZonaPerdida?'campo':'jugador';else{MM.cambioAnticipado('Ataque',FL.res);FL.paso=M.anotarTipo?'tipo':'porteria';}}
+  else{MM.cambioAnticipado('Defensa',FL.res);FL.paso=M.anotarTipo?'tipo':((FL.res==='Gol'||FL.res==='Parada')?'porteria':'campo');}
+  autoJugador();}
+function ejecutarOrden(f,o,j){
+  if(o.k==='sancion'){aplicarSancion(o.a,j);return;}
+  if(o.k==='def'||o.k==='of'){if(f==='ataque')MM.faseAtaque();else MM.faseDefensa();MM.registrarIndividual(o.k==='def'?ACC_DEF.tipo:ACC_OF.tipo,o.a,j);toast(o.a+' · #'+j.dorsal+' '+j.nombre);return;}
+  aplicarComando(f,o,j);}
+/* Si el jugador ya está elegido (desde la pista o el pasivo propio), el asistente no lo vuelve a preguntar */
+function autoJugador(){if(!FL||FL.acc)return;
+  if(FL.paso==='jugador'&&(FL.preJ||FL.pp)){var id=FL.preJ;FL.preJ=null;if(FL.pp)MM.extra={pasivoPropio:true};FLA.flJug({v:id||'',ok:1});if(!FL&&M.historial.length){var u=M.historial[M.historial.length-1];if(u.pasivoPropio)toast('Pasivo agotado · perdemos el balón');}}}
+flIrPortero=(function(orig){return function(){if(FL&&FL.preJ){var j=MM.jug(FL.preJ);FL.preJ=null;if(j&&j.posicion==='Portero'){flGuardarDef(j);return;}}orig();};})(flIrPortero);
+aplicarVoz=(function(orig){return function(){orig();autoJugador();};})(aplicarVoz);
+vFlow=(function(orig){return function(){var h=orig();if(FL&&!FL.acc&&(FL.preJ||FL.pp)){var j=FL.preJ&&MM.jug(FL.preJ),chip='<div class="center"><span class="pill" style="--c:'+(FL.t==='ataque'?'var(--blue)':'var(--red)')+'">'+(j?ic('jugador')+'#'+j.dorsal+' '+esc(j.nombre):ic('timer')+'Pasivo agotado')+'</span></div>';
+  h=h.replace('<div class="wrap stack" style="flex:1;padding-top:14px">','<div class="wrap stack" style="flex:1;padding-top:14px">'+chip);}return h;};})(vFlow);
+
+/* ---------- Vista dividida del iPad: las dos mitades, de cara al banquillo ---------- */
+function divididaActiva(){return !!(AJ.vistaDividida&&!S.modoCambios&&panelFijo());}
+function panelDividido(){
+  var lado=ladoDefensa(),h='<div class="stack10"><div class="row" style="gap:8px"><span class="f-head grow">Toca al jugador</span><button class="btn gl glass sm" style="font-weight:700" data-a="ladoDef">'+ic('cambio')+(lado==='izq'?'Def. izq.':'Def. der.')+'</button><button class="btn prom sm" style="--tint:var(--orange);font-weight:700" data-a="modoCambios">'+ic('cambio')+'Cambios</button></div>';
+  h+='<div class="row pasrow">'+botonPasivo('defensa')+botonPasivo('ataque')+'</div>';
+  FICHA_A='ppJugD';var d='<div class="stack8 mitad"><div class="etq" style="color:var(--red)">'+ic('defensa')+'DEFENSA</div>'+pistaDefensiva(lado)+'</div>';
+  FICHA_A='ppJugA';var a='<div class="stack8 mitad"><div class="etq" style="color:var(--blue)">'+ic('ataque')+'ATAQUE</div>'+campoAtaque(ladoAtaque())+'</div>';FICHA_A=null;
+  h+='<div class="dosmitades">'+(lado==='izq'?d+a:a+d)+'</div>';
+  if(M.exclusiones.length||M.exclusionesRival.length)h+='<div class="row" style="gap:6px;flex-wrap:wrap">'+etq('2 MIN','exclusion')+M.exclusiones.map(function(e){return '<span class="pill" style="--c:var(--blue)">#'+e.jugador.dorsal+' '+esc(e.jugador.nombre)+' · <b class="tn">'+mss(e.restante)+'</b></span>';}).join('')+
+    M.exclusionesRival.map(function(s,i){var dd=(M.dorsalesExR||[])[i]||0;return '<span class="pill" style="--c:var(--red)">Rival'+(dd?' #'+dd:'')+' · <b class="tn">'+mss(s)+'</b></span>';}).join('')+'</div>';
+  var sup=ordenAlin(MM.jugadores()).filter(function(j){return !MM.enPista(j.id);});
+  if(sup.length)h+='<div class="f-cap sec">Banquillo: '+sup.map(function(j){return '#'+j.dorsal+(MM.estaExcluido(j.id)?' (excl.)':'');}).join(' · ')+'. Para hacer cambios, pulsa «Cambios».</div>';
+  return h+'</div>';
+}
+
+/* ---------- Acciones nuevas ---------- */
+Object.assign(A,{
+  ppAbrir:function(d){S.sel=null;if(divididaActiva()){abrirFlow(d.v);return;}S.pp=d.v;S.ppJ=null;},
+  ppCerrar:function(){S.pp=null;S.ppJ=null;},
+  ppSin:function(){var f=S.pp;S.pp=null;abrirFlow(f);},
+  ppDictar:function(){var f=S.pp;S.pp=null;abrirFlow(f);iniciarDictado();},
+  ppJugA:function(d){if(!MM.jug(d.v)||MM.estaExcluido(d.v))return false;S.ppJ={id:d.v,f:'ataque'};},
+  ppJugD:function(d){if(!MM.jug(d.v)||MM.estaExcluido(d.v))return false;S.ppJ={id:d.v,f:'defensa'};},
+  ppJugCerrar:function(){S.ppJ=null;},
+  ppAcc:function(d){var x=S.ppJ,j=x&&MM.jug(x.id);if(!j)return;var op=opcionesPP(j,x.f)[+d.v];S.ppJ=null;S.pp=null;if(op)ejecutarOrden(x.f,op.o,j);},
+  pasIni:function(d){MM.iniciarPasivo(d.v);},
+  pasCancel:function(){MM.cancelarPasivo();},
+  pasAgotado:function(d){S.ppJ=null;if(d.v==='defensa'){S.pp=null;MM.registrarPasivoAgotado();toast('Pasivo agotado del rival · balón nuestro');}else{S.pp=null;pasivoAgotadoAtaque();}},
+  flPasivo:function(){if(!FL)return;if(!FL.pasArm){FL.pasArm=true;return;}FL.pasArm=false;
+    if(FL.t==='ataque'){FL.res='Pérdida';FL.pp=true;FL.paso=M.anotarZonaPerdida?'campo':'jugador';}
+    else{cerrarFlow();MM.registrarPasivoAgotado();toast('Pasivo agotado del rival · balón nuestro');}},
+  avisoCambiar:function(){var id=M.retornoId;M.aviso=null;M.retornoId=null;if(!id||!MM.enPista(id))return;S.preparando=false;S.sel=id;
+    if(divididaActiva())S.modoCambios=true;else if(AJ.vistaAlineacion!=='En el partido'&&!panelFijo())abrirSheet('alinGrande');},
+  cerrarAviso:function(){M.aviso=null;M.retornoId=null;},
+  modoCambios:function(){S.modoCambios=!S.modoCambios;S.sel=null;},
+  frMas:function(d){MM.anotarFaltaRival(+d.v);},frMenos:function(d){MM.quitarFaltaRival(+d.v);},
+  xrMas:function(d){MM.exclusionRival(+d.v);},xrMenos:function(d){MM.corregirExclusionRival(+d.v);},
+  comenzar:function(){if(window.Licencia&&!Licencia.puedeEmpezar()){Licencia.abrir('limite');return false;}comenzar();},
+  licencia:function(){if(window.Licencia)Licencia.abrir();return false;}
+});
+/* Las acciones del asistente: tras cada paso, si el jugador ya estaba elegido se guarda sin preguntarlo */
+['flRes','flTipoChip','flTipo','flPort','flCampo','flPasivo'].forEach(function(k){var o=A[k];if(!o)return;A[k]=function(d,el,ev){var r=o(d,el,ev);autoJugador();return r;};});
+(function(){var ob=A.flBack;A.flBack=function(d){var r=ob(d);if(FL&&!FL.res){FL.pp=false;FL.pasArm=false;}return r;};
+  var orr=A.flRes;A.flRes=function(d,el,ev){if(FL)FL.pasArm=false;return orr(d,el,ev);};})();
+Object.assign(C,{fDividida:function(el){AJ.vistaDividida=el.checked;S.modoCambios=false;guardarAjustes();}});
+/* Cuenta de partidos para la licencia */
+guardarPartido=(function(orig){return function(p){orig(p);if(window.Licencia)Licencia.contar(p.id);};})(guardarPartido);
+
+/* ---------- Novedades de la versión web 12 ---------- */
+NOV_VER='web 12';
+function gChip(t,c,i){return '<span class="pill" style="--c:'+c+'">'+(i?ic(i):'')+t+'</span>';}
+NOVEDADES=[
+ ['Novedades de Si Handball','Llegan a la web todos los cambios de la app de iPhone y iPad. Te los enseñamos en un minuto.',['Ataque y Defensa abren la pista con tus jugadores','Pasivo, recuperaciones, asistencias y sanciones desde la defensa','Valoración de cada jugador y avisos de racha'],
+  function(){return '<div class="col center" style="align-items:center;gap:14px">'+logo(110).replace('class="logo"','class="logo" style="box-shadow:0 8px 16px rgba(8,37,70,.4)"')+'<span class="pill" style="--c:var(--naranja)">'+ic('flame')+'Versión '+MARCA.version+'</span></div>';}],
+ ['Primero el jugador, luego la acción','Al pulsar ATAQUE o DEFENSA sale la pista, vista desde el banquillo: las porterías siempre a izquierda y derecha.',['Toca al jugador y elige lo que ha hecho: gol, parada, pérdida, falta, recuperación…','El asistente se abre con el jugador ya puesto: solo faltan las zonas','«Registrar sin elegir jugador» o «Dictar» siguen ahí'],
+  function(){return '<div class="stack10"><div class="courtwrap campo" style="max-width:300px;margin:0 auto;aspect-ratio:300/200"><svg viewBox="0 0 300 320" style="width:100%;height:100%" preserveAspectRatio="none"><g transform="matrix(0,-1,1,0,0,320)">'+pistaInner()+'</g></svg></div><div class="accgrid" style="max-width:300px;margin:0 auto">'+[['GOL','gol','var(--green)'],['PÉRDIDA','perdida','var(--red)']].map(function(o){return '<span class="accviva" style="--c:'+o[2]+'">'+ic(o[1])+'<span>'+o[0]+'</span></span>';}).join('')+'</div></div>';}],
+ ['Pasivo','Cuando el árbitro levanta el brazo, pulsa «Pasivo nuestro» o «Pasivo rival». La jugada que lo rompe queda marcada «tras pasivo».',['Gol, parada, pérdida, recuperación o bloqueo lo cierran; una falta lo alarga','«PASIVO · Agotado»: el rival pierde el balón (suma en defensa) o lo perdemos nosotros','Si nadie lo cierra, se quita solo a los 2 minutos'],
+  function(){return '<div class="stack10" style="align-items:center"><div class="row" style="gap:8px;justify-content:center">'+gChip('Pasivo nuestro','var(--blue)','timer')+gChip('Pasivo rival','var(--red)','timer')+'</div><span class="btn prom" style="--tint:var(--red);font-weight:800;pointer-events:none">'+ic('checkFill')+'PASIVO · Agotado</span><div class="f-cap sec center">En el Excel: columnas «Tras Pasivo» y «Zona Defensiva»</div></div>';}],
+ ['Acciones más claras','Defensa: falta, recuperación y bloqueo. Ataque: falta o 7 m provocado, asistencia y exclusión provocada.',['Recuperación junta robo, toque, empujón y pase cortado','Desde la defensa se anotan también 2 minutos, amarilla y roja','Dictado: «recuperación 7», «asistencia 22», «amarilla 9»'],
+  function(){return '<div class="accgrid">'+ACC_DEF.ops.concat(ACC_OF.ops.slice(2)).map(function(o){return '<span class="accviva" style="--c:'+o.c+'">'+ic(o.i)+'<span>'+o.id.toUpperCase()+'</span></span>';}).join('')+'</div>';}],
+ ['Valoración y rachas','Cada jugada suma o resta. La defensa vale más en el centro que en el extremo.',['Gol +1, parada o fuera −0,75, pérdida −1; asistencia +0,75, exclusión provocada +1,25','Recuperación y bloqueo +0,75 (×1,25 lateral, ×1,5 central o avanzado); sanciones restan','Tres jugadas seguidas buenas o malas: flecha verde o roja en la ficha y vibración'],
+  function(){return '<div class="row" style="gap:14px;justify-content:center;padding:10px 0">'+['A','D'].map(function(l,i){return '<div class="ficha col" style="--c:var(--blue);width:76px;min-height:64px;position:relative">'+rachaBadge(l,i?-1:1,i?'r':'l')+'<span class="d">'+(i?9:22)+'</span><span class="n">'+(i?'Mario':'Iker')+'</span></div>';}).join('')+'</div><div class="f-cap sec center">Estadísticas → Equipo → Valoración de los jugadores</div>';}],
+ ['Cambios que recuerdan el sitio','Quien entra ocupa el puesto de ataque y el hueco de la defensa del que sale.',['En ataque puedes arrastrar a cada jugador a su puesto','Al acabar los 2 minutos, el excluido vuelve solo a la pista; el aviso trae «Cambiar»','Faltas y exclusiones de cada dorsal rival en el botón #'],
+  function(){return '<div class="stack10"><div class="glass panel p12 tint row" style="--tinte:var(--orange);gap:10px">'+ins('cambio','var(--orange)',34)+'<span class="f-foot sb grow">Termina la exclusión de #9 Mario: vuelve a la pista.</span><span class="btn prom sm" style="--tint:var(--orange);font-weight:800">Cambiar</span></div><div class="row" style="gap:10px"><span class="r blk" style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:#fff;background:var(--indigo)">6</span><span class="f-foot sb grow">Faltas 3 · Exclusiones 1</span></div></div>';}],
+ ['iPad: vista dividida','En Ajustes y clubes puedes activar la vista dividida: con el iPad en horizontal, a la izquierda las dos mitades de la pista y a la derecha el partido.',['Toca un jugador en la mitad de defensa o de ataque y elige la acción','«Cambios» vuelve a la alineación para sustituir','Las exclusiones en curso se ven debajo de las pistas'],
+  function(){return '<div class="row" style="gap:6px;height:130px">'+[0,1].map(function(i){return '<div class="glass panel" style="flex:1;padding:6px;overflow:hidden"><svg viewBox="0 0 300 320" style="width:100%;height:100%" preserveAspectRatio="none"><g transform="'+(i?'matrix(0,1,-1,0,300,0)':'matrix(0,-1,1,0,0,320)')+'">'+pistaInner()+'</g></svg></div>';}).join('')+'<div class="glass panel" style="flex:1.2;display:grid;place-items:center"><span class="r blk" style="font-size:26px">18:42</span></div></div>';}],
+ ['Licencia de uso','Puedes jugar 4 partidos de prueba. Después, en «Renovar licencia» verás tu código de solicitud: envíaselo a '+MARCA.autor+' y te devolverá un código de uso.',['El código de uso es solo para tu móvil o tablet','Tus equipos y partidos nunca se borran','Ajustes y clubes → Licencia, para ver hasta cuándo es válida'],
+  function(){return '<div class="col" style="align-items:center;gap:12px">'+ins('key','var(--naranja)',64)+'<span class="r blk mono" style="font-size:24px;letter-spacing:2px">SH-7KQ2-M9XD</span></div>';}]
+];
+
 /* ---------- arranque ---------- */
 render();
 setTimeout(function(){var l=document.getElementById('loading');if(l){l.classList.add('out');setTimeout(function(){l.remove();},400);}
@@ -2664,60 +2977,104 @@ setTimeout(Sync.init,0);
 
 
 /* =====================================================================
-   Acceso con código personal y fecha de caducidad (solo versión instalable)
-   El código lo firma Juanma con su generador privado; aquí solo se comprueba.
+   Licencia de uso (solo versión instalable)
+   4 partidos de prueba. Después, «Renovar licencia» muestra el código de
+   solicitud de este dispositivo; Juanma lo mete en su generador privado y
+   devuelve un código de uso firmado, válido solo aquí y hasta la fecha que él elija.
+   Los códigos antiguos por nombre siguen valiendo hasta que caduquen.
    ===================================================================== */
 var CLAVE_PUBLICA={"kty":"EC","crv":"P-256","x":"HXviliLob1Ywi6BFEa2mNj0wCPk7EnHf35Uzbrj1Bqk","y":"HpsFL1JF_h7c25kjko1vJtP_4UzxvqWibpaa0B0R3tc"};
-var Acceso={
+var PARTIDOS_PRUEBA=4;
+var Licencia={
+  datos:null,
   b64d:function(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;},
   extraer:function(txt){txt=String(txt||'').trim();var m=txt.match(/[#?&]c=([A-Za-z0-9_\-.]+)/);if(m)return m[1];return txt.replace(/\s+/g,'');},
+  fin:function(e){return new Date(e+'T23:59:59').getTime();},
+  fecha:function(iso){return new Date(iso+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});},
+  /* Identificador de este dispositivo: 8 caracteres sin letras que se confundan */
+  id:function(){var d=lsGet('sh_disp');if(typeof d!=='string'||!/^[2-9A-HJ-NP-Z]{8}$/.test(d)){var al='23456789ABCDEFGHJKMNPQRSTUVWXYZ',r=new Uint8Array(8);crypto.getRandomValues(r);d='';for(var i=0;i<8;i++)d+=al[r[i]%al.length];lsSet('sh_disp',d);}return d;},
+  solicitud:function(){var d=Licencia.id();return 'SH-'+d.slice(0,4)+'-'+d.slice(4);},
+  usos:function(){var l=lsGet('sh_usos');return Math.max(Array.isArray(l)?l.length:0,(ST.partidos||[]).length);},
+  contar:function(id){var l=lsGet('sh_usos');if(!Array.isArray(l))l=[];if(l.indexOf(id)<0){l.push(id);lsSet('sh_usos',l);}},
+  restantes:function(){return Math.max(0,PARTIDOS_PRUEBA-Licencia.usos());},
+  vigente:function(){var d=Licencia.datos;return !!(d&&Date.now()<=Licencia.fin(d.e));},
+  dias:function(){var d=Licencia.datos;return d?Math.ceil((Licencia.fin(d.e)-Date.now())/864e5):0;},
+  puedeEmpezar:function(){return Licencia.vigente()||Licencia.restantes()>0;},
   verificar:async function(codigo){
     try{
       var p=codigo.split('.');if(p.length!==2)return {ok:false,motivo:'formato'};
       var key=await crypto.subtle.importKey('jwk',CLAVE_PUBLICA,{name:'ECDSA',namedCurve:'P-256'},false,['verify']);
-      var ok=await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},key,Acceso.b64d(p[1]),new TextEncoder().encode(p[0]));
+      var ok=await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},key,Licencia.b64d(p[1]),new TextEncoder().encode(p[0]));
       if(!ok)return {ok:false,motivo:'firma'};
-      var d=JSON.parse(new TextDecoder().decode(Acceso.b64d(p[0])));
-      var fin=new Date(d.e+'T23:59:59');
-      if(isNaN(fin))return {ok:false,motivo:'formato'};
-      if(Date.now()>fin.getTime())return {ok:false,motivo:'caducado',datos:d};
+      var d=JSON.parse(new TextDecoder().decode(Licencia.b64d(p[0])));
+      if(isNaN(Licencia.fin(d.e)))return {ok:false,motivo:'formato'};
+      if(d.d&&d.d!==Licencia.id())return {ok:false,motivo:'otro',datos:d};
+      if(Date.now()>Licencia.fin(d.e))return {ok:false,motivo:'caducado',datos:d};
       return {ok:true,datos:d};
     }catch(e){return {ok:false,motivo:'formato'};}
   },
-  fecha:function(iso){return new Date(iso+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});},
-  pantalla:function(msg,err){
+  error:function(r){return r.motivo==='caducado'?'Ese código caducó el '+Licencia.fecha(r.datos.e)+'.':r.motivo==='otro'?'Ese código es de otro dispositivo. Envía tu código de solicitud, el que ves arriba.':'El código no es válido. Cópialo entero, tal como te lo enviaron.';},
+  /* Al abrir: código del enlace (#c=…) o el guardado */
+  cargar:async function(){
+    var nuevo=Licencia.extraer(location.hash),guardado=lsGet('sh_acceso');
+    if(nuevo&&nuevo.indexOf('.')>0){
+      try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}
+      var r=await Licencia.verificar(nuevo);
+      if(r.ok){lsSet('sh_acceso',nuevo);Licencia.datos=r.datos;render();toast('Licencia activada hasta el '+Licencia.fecha(r.datos.e));render();return;}
+      Licencia.abrir(null,Licencia.error(r));
+    }
+    if(typeof guardado==='string'&&guardado){var g=await Licencia.verificar(guardado);if(g.ok||g.motivo==='caducado')Licencia.datos=g.datos||null;}
+    render();
+  },
+  probar:async function(txt){
+    var c=Licencia.extraer(txt);if(!c){Licencia.abrir(Licencia.motivo,'Escribe o pega el código de uso.');return;}
+    var r=await Licencia.verificar(c);
+    if(r.ok){lsSet('sh_acceso',c);Licencia.datos=r.datos;Licencia.cerrar();toast('Licencia activada hasta el '+Licencia.fecha(r.datos.e));render();return;}
+    Licencia.abrir(Licencia.motivo,Licencia.error(r));
+  },
+  textoEstado:function(){
+    if(Licencia.vigente())return 'Licencia válida hasta el '+Licencia.fecha(Licencia.datos.e)+(Licencia.datos.n?' ('+Licencia.datos.n+')':'')+'.';
+    if(Licencia.datos)return 'Tu licencia terminó el '+Licencia.fecha(Licencia.datos.e)+'.';
+    var q=Licencia.restantes();return q>0?'Versión de prueba: te quedan '+q+' de '+PARTIDOS_PRUEBA+' partidos.':'Has usado los '+PARTIDOS_PRUEBA+' partidos de prueba.';
+  },
+  mensaje:function(){var e=Licencia.textoEstado();
+    if(Licencia.vigente())return e+' Si quieres ampliarla, envía tu código de solicitud.';
+    return e+' Para seguir creando partidos necesitas un código de uso. Tus equipos y partidos siguen guardados y puedes consultarlos.';},
+  compartir:function(){var t='Hola '+MARCA.autor.split(' ')[0]+', quiero '+(Licencia.datos?'renovar':'activar')+' la licencia de Si Handball. Mi código de solicitud es '+Licencia.solicitud()+'.';
+    if(navigator.share){navigator.share({text:t}).catch(function(){});return;}location.href='https://wa.me/?text='+encodeURIComponent(t);},
+  copiar:function(btn){var t=Licencia.solicitud();var ok=function(){btn.textContent='Copiado';setTimeout(function(){btn.textContent='Copiar';},1500);};try{navigator.clipboard.writeText(t).then(ok,function(){});}catch(e){}},
+  abrir:function(motivo,err){
+    Licencia.motivo=motivo||null;
     var el=document.getElementById('gate');if(!el){el=document.createElement('div');el.id='gate';document.body.appendChild(el);}
-    el.innerHTML='<div class="gate">'+amb()+'<div class="wrap col" style="position:relative;z-index:1;align-items:center;gap:16px;text-align:center;max-width:420px">'+logo(110)+
-      '<div class="r blk" style="font-size:30px">Si Handball</div><div class="sec f-sub">'+msg+'</div>'+
-      '<input class="tf center" id="gate-in" placeholder="Pega aquí tu código o enlace" autocomplete="off" autocapitalize="off" spellcheck="false">'+
-      (err?'<div class="f-foot" style="color:var(--red)">'+err+'</div>':'')+
-      (navigator.clipboard&&navigator.clipboard.readText?'<button class="btn gl glass lg wfull" id="gate-paste">Pegar enlace copiado</button>':'')+'<button class="btn prom lg wfull" id="gate-ok">Entrar</button><div class="f-cap sec">Si no tienes código, pídeselo a '+MARCA.autor+'.</div><div class="f-cap2 ter">'+copyright()+'</div></div></div>';
-    var go=function(){Acceso.probar(document.getElementById('gate-in').value);};
-    document.getElementById('gate-ok').onclick=go;var ps=document.getElementById('gate-paste');if(ps)ps.onclick=function(){navigator.clipboard.readText().then(function(t){document.getElementById('gate-in').value=t;Acceso.probar(t);},function(){document.getElementById('gate-in').focus();});};
+    el.innerHTML='<div class="gate" role="dialog" aria-modal="true" aria-label="Renovar licencia">'+amb()+'<div class="wrap col" style="position:relative;z-index:1;align-items:center;gap:14px;text-align:center;max-width:440px;max-height:100%;overflow-y:auto;padding-top:14px;padding-bottom:14px">'+logo(84)+
+      '<div class="r blk" style="font-size:28px">Renovar licencia</div><div class="sec f-sub">'+esc(Licencia.mensaje())+'</div>'+
+      '<div class="glass panel stack10" style="width:100%;box-sizing:border-box"><div class="etq" style="justify-content:center">TU CÓDIGO DE SOLICITUD</div><div class="r blk mono" style="font-size:26px;letter-spacing:2px;user-select:all">'+Licencia.solicitud()+'</div>'+
+      '<div class="row" style="gap:8px"><button class="btn gl glass grow" id="lic-copy">Copiar</button><button class="btn prom grow" style="--tint:var(--green)" id="lic-share">Enviar</button></div><div class="f-cap sec">Envíaselo a '+esc(MARCA.autor)+'. Te devolverá un código de uso para este dispositivo.</div></div>'+
+      '<input class="tf center" id="gate-in" placeholder="Pega aquí el código de uso o el enlace" autocomplete="off" autocapitalize="off" spellcheck="false">'+
+      (err?'<div class="f-foot" style="color:var(--red)">'+esc(err)+'</div>':'')+
+      (navigator.clipboard&&navigator.clipboard.readText?'<button class="btn gl glass lg wfull" id="gate-paste">Pegar código copiado</button>':'')+'<button class="btn prom lg wfull" id="gate-ok">Activar</button><button class="btn gl glass lg wfull" id="lic-cerrar">Volver</button><div class="f-cap2 ter">'+copyright()+'</div></div></div>';
+    var go=function(){Licencia.probar(document.getElementById('gate-in').value);};
+    document.getElementById('gate-ok').onclick=go;
+    document.getElementById('lic-cerrar').onclick=Licencia.cerrar;
+    document.getElementById('lic-share').onclick=Licencia.compartir;
+    document.getElementById('lic-copy').onclick=function(){Licencia.copiar(this);};
+    var ps=document.getElementById('gate-paste');if(ps)ps.onclick=function(){navigator.clipboard.readText().then(function(t){document.getElementById('gate-in').value=t;Licencia.probar(t);},function(){document.getElementById('gate-in').focus();});};
     document.getElementById('gate-in').onkeydown=function(e){if(e.key==='Enter')go();};
   },
-  quitar:function(){var el=document.getElementById('gate');if(el)el.remove();},
-  probar:async function(txt){
-    var c=Acceso.extraer(txt);if(!c){Acceso.pantalla('Introduce tu código de acceso para usar la app.','Escribe o pega el código.');return;}
-    var r=await Acceso.verificar(c);
-    if(r.ok){lsSet('sh_acceso',c);Acceso.datos=r.datos;Acceso.quitar();render();return;}
-    Acceso.pantalla('Introduce tu código de acceso para usar la app.',r.motivo==='caducado'?'Ese código caducó el '+Acceso.fecha(r.datos.e)+'.':'El código no es válido. Cópialo entero, tal como te lo enviaron.');
+  cerrar:function(){var el=document.getElementById('gate');if(el)el.remove();},
+  /* Aviso en la pantalla de inicio */
+  avisoInicio:function(){
+    if(Licencia.vigente()){var d=Licencia.dias();return d<=10?'<button class="glass panel p12 tint row press" style="--tinte:var(--orange);gap:10px;width:100%;text-align:left" data-a="licencia">'+ins('key','var(--orange)',34)+'<span class="f-foot sb grow">Tu licencia caduca '+(d<=1?'hoy':'en '+d+' días')+'. Toca para renovarla.</span></button>':'';}
+    var q=Licencia.restantes();
+    if(q>0&&!Licencia.datos)return '<div class="f-cap sec center row" style="gap:6px;justify-content:center">'+ic('key')+'Versión de prueba: te quedan '+q+' de '+PARTIDOS_PRUEBA+' partidos</div>';
+    return '<button class="glass panel p12 tint row press" style="--tinte:var(--red);gap:10px;width:100%;text-align:left" data-a="licencia">'+ins('key','var(--red)',34)+'<span class="grow"><span class="f-sub b" style="display:block">'+(Licencia.datos?'Tu licencia ha caducado':'Has usado los '+PARTIDOS_PRUEBA+' partidos de prueba')+'</span><span class="f-cap sec">Toca para renovar la licencia</span></span></button>';
   },
-  comprobar:async function(){
-    var nuevo=Acceso.extraer(location.hash);
-        var guardado=lsGet('sh_acceso');
-    var c=(nuevo&&nuevo.indexOf('.')>0)?nuevo:guardado;
-    if(!c){Acceso.pantalla('Introduce tu código de acceso para usar la app.');return;}
-    var r=await Acceso.verificar(c);
-    if(r.ok){if(c!==guardado)lsSet('sh_acceso',c);Acceso.datos=r.datos;Acceso.quitar();render();return;}
-    if(r.motivo==='caducado'){Acceso.pantalla('Tu acceso de prueba terminó el '+Acceso.fecha(r.datos.e)+'. Tus equipos y partidos siguen guardados en este móvil: pide un código nuevo para seguir usándola.');}
-    else Acceso.pantalla('Introduce tu código de acceso para usar la app.',guardado&&c===guardado?'El código guardado no es válido.':null);
+  resumenAjustes:function(){
+    return '<div class="frow"><span class="grow f-foot">'+esc(Licencia.textoEstado())+'</span></div><div class="frow"><span class="grow">Código de solicitud</span><span class="mono b">'+Licencia.solicitud()+'</span></div><button class="frow btnrow tap" data-a="licencia">'+ic('key')+'<span>Renovar licencia</span></button>';
   }
 };
-Acceso.pantalla('Comprobando el acceso…');
-Acceso.comprobar();
-document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')Acceso.comprobar();});
-setInterval(function(){if(Acceso.datos&&Date.now()>new Date(Acceso.datos.e+'T23:59:59').getTime())Acceso.comprobar();},60000);
+Licencia.id();
+Licencia.cargar();
 
 if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});
 </script>
