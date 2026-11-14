@@ -636,6 +636,12 @@ img.escudo{object-fit:contain;flex:none;border-radius:8px;display:inline-block;v
 .jugrow{gap:10px;padding:8px 0;border-bottom:1px solid color-mix(in srgb,var(--label) 8%,transparent)}
 .jugrow:last-child{border-bottom:0}
 
+/* ---- web 16 ---- */
+.reloj{touch-action:manipulation;-webkit-user-select:none;user-select:none;cursor:pointer}
+.espcompacto .gridA{grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:6px}
+.espcompacto .gridA>*{min-height:48px!important;height:auto}
+.espcompacto .press.col[data-a=espRol]{min-height:84px!important}
+
 .tres{--label:#000;--label2:rgba(60,60,67,.6);--label3:rgba(60,60,67,.3);--fill2:rgba(0,0,0,.06);--blue:#007AFF;--indigo:#5856D6;--green:#34C759;--red:#FF3B30;--orange:#FF9500;--naranja:#FEA50E}
 .tabbar.mini .in{width:auto;padding:3px}
 .tabbar.mini button{flex-direction:row;gap:6px;padding:7px 14px;font-size:12px}
@@ -1685,7 +1691,7 @@ function marcador(){
   var pulsoL=S.pulso==='L',pulsoR=S.pulso==='R';S.pulso=null;
   function to(local,col){return '<button class="to glass press" data-a="to" data-v="'+(local?1:0)+'" aria-label="'+(local?'Tiempo muerto de tu equipo':'Tiempo muerto del rival')+'"><i style="background:'+colorCss(col)+'"></i>T.O.</button>';}
   function casilla(n,g,col,p){return '<div class="casilla'+(p?' pulse':'')+'" style="background:'+colorCss(col)+';color:'+colorTexto(col)+(necesitaBorde(col)?';box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--label) 30%,transparent)':'')+'"><span class="n">'+(escudoHTML(n,40,'esc-marc')||esc(n))+'</span><span class="g">'+g+'</span></div>';}
-  var h='<div class="glass panel stack" style="gap:14px"><div class="row" style="justify-content:space-between">'+(M.esLocal===false?to(false,M.colorRival):to(true,M.colorLocal))+'<span class="reloj" data-live="reloj">'+pad2(M.minutos)+':'+pad2(M.segundos)+'</span>'+(M.esLocal===false?to(true,M.colorLocal):to(false,M.colorRival))+'</div>'+
+  var h='<div class="glass panel stack" style="gap:14px"><div class="row" style="justify-content:space-between">'+(M.esLocal===false?to(false,M.colorRival):to(true,M.colorLocal))+'<span class="row" style="gap:4px"><span class="reloj" data-live="reloj" title="Mantén pulsado para ajustar el tiempo">'+pad2(M.minutos)+':'+pad2(M.segundos)+'</span><button class="cbtn glass press" style="width:30px;height:30px" data-a="sheet" data-v="tiempo" aria-label="Ajustar el tiempo del partido">'+ic('relojAjuste')+'</button></span>'+(M.esLocal===false?to(true,M.colorLocal):to(false,M.colorRival))+'</div>'+
     (M.esLocal===false?'<div class="row">'+casilla(nr,M.golesVisitante,M.colorRival,pulsoR)+'<button class="playbtn press" style="--c:'+(M.timerRunning?'var(--orange)':'var(--green)')+'" data-a="reloj" aria-label="'+(M.timerRunning?'Parar el reloj':'Poner en marcha el reloj')+'">'+ic(M.timerRunning?'pause':'play')+'</button>'+casilla(nl,M.golesLocal,M.colorLocal,pulsoL)+'</div>':'<div class="row">'+casilla(nl,M.golesLocal,M.colorLocal,pulsoL)+'<button class="playbtn press" style="--c:'+(M.timerRunning?'var(--orange)':'var(--green)')+'" data-a="reloj" aria-label="'+(M.timerRunning?'Parar el reloj':'Poner en marcha el reloj')+'">'+ic(M.timerRunning?'pause':'play')+'</button>'+casilla(nr,M.golesVisitante,M.colorRival,pulsoR)+'</div>');
   if(pt){h+=MM.esUltimoPeriodo()?'<div class="row c-green sb f-sub" style="justify-content:center;gap:6px"><span style="display:inline-flex;width:18px">'+ic('finalizar')+'</span>Fin del partido</div>':'<button class="btn prom wfull" style="--tint:var(--orange)" data-a="sigPeriodo">'+ic('forwardEnd')+'Empezar el siguiente periodo</button>';
     h+='<button class="btn gl glass wfull" style="font-weight:600" data-a="sheet" data-v="descanso">'+ic('clip')+'Resumen del periodo</button>';}
@@ -2080,7 +2086,7 @@ function shExclusion(sh){
   return {title:'Excluir 2 minutos',left:tbtn('Cerrar','closeSheet'),body:h+'</div>',tono:'indigo'};
 }
 function shStats(sh){
-  var h='<div class="wrap" style="padding:6px 0 12px">'+seg('stTab',[['0','Equipo'],['1','Jugador'],['2','Mapas'],['3','Rivales'],['4','Acciones']],String(sh.tab))+'</div><div class="wrap stack">';
+  var h='<div class="wrap" style="padding:6px 0 12px">'+seg('stTab',[['0','Equipo'],['1','Jugador'],['2','Mapas'],['3','Rivales'],['4','Acciones'],['5','Goles']],String(sh.tab))+'</div><div class="wrap stack">';
   function tarjeta(t,i,c){return '<div class="glass panel stack12">'+etq(t,i)+c+'</div>';}
   if(sh.tab===0){
     var par=M.historial.filter(function(a){return a.tipo.indexOf('Ataque')>=0&&a.resultado==='Parada';}).length,fue=M.historial.filter(function(a){return a.tipo.indexOf('Ataque')>=0&&a.resultado==='Fuera';}).length,
@@ -2103,6 +2109,7 @@ function shStats(sh){
   }else if(sh.tab===2){
     h+=seg('stMapa',[['1','Atacamos'],['0','Nos atacan'],['2','Pérdidas']],sh.mapa)+(sh.mapa==='2'?mapaPerdidas(M.historial):mapaCalor(M.historial,sh.mapa==='1'?'equipoAtaca':'equipoRecibe'));
   }else if(sh.tab===4)h+=analisisDefensivo(M.historial,MM.segundosPorNombre(),5);
+  else if(sh.tab===5)h+=tarjetaLanzadores(M.historial)||'<div class="glass panel f-foot sec">Aún no hay lanzamientos anotados.</div>';
   else h+=analisisRivales(M.historial,sh);
   return {title:'Estadísticas en directo',right:tbtn('Volver','closeSheet'),body:h+'</div>'};
 }
@@ -3556,7 +3563,7 @@ MM.reasignarDefensa=function(completa){
   var hs=SISTEMAS[sis],parten=(!completa&&M.sisAsig===sis)?(M.posDef||{}):{},r={},ocup={},pend=[];
   campo.forEach(function(j){var h=parten[j.id];if(h!=null&&h<hs.length&&!ocup[h]){r[j.id]=h;ocup[h]=1;}else pend.push(j);});
   var pares=[];pend.forEach(function(j,i){var mem=MemDef[sis+'|'+j.id]||{},tot=Object.keys(mem).reduce(function(s,k){return s+mem[k];},0),fj=HuecosFijos.hueco(sis,j.id),lado=MemPuestos.ladoNatural(j);
-    hs.forEach(function(h){if(ocup[h.id])return;var lh=h.x<140?1:(h.x>180?-1:0),banda=(lado&&lh)?(lado===lh?45:-45):0;
+    hs.forEach(function(h){if(ocup[h.id])return;var lh=h.x<140?1:(h.x>180?-1:0),banda=(lado&&lh)?(lado===lh?600:-600):0;
       pares.push({p:(fj===h.id?Math.max(0,1200-tot)+60:0)+(mem[h.id]||0)+banda+afinidad(j.posicion,h.t)-h.id*.01,i:i,h:h.id});});});
   pares.sort(function(a,b){return b.p-a.p;});var usado={};pares.forEach(function(x){if(usado[x.i]||ocup[x.h])return;usado[x.i]=1;ocup[x.h]=1;r[pend[x.i].id]=x.h;});
   M.posDef=r;M.sisAsig=sis;};
@@ -3641,7 +3648,6 @@ function tarjetaLanzadores(acc){var m={};acc.forEach(function(a){if(a.tipo.index
   var l=Object.keys(m).map(function(k){var f=m[k];f.p=f.t?f.g/f.t*100:0;var j=MM.jugadores().find(function(x){return x.id===f.id||x.nombre===f.n;});f.d=j?j.dorsal:null;return f;}).sort(function(a,b){return b.g-a.g||b.p-a.p;});
   if(!l.length)return '';
   return '<div class="glass panel stack10">'+etq('GOLES Y ACIERTO POR JUGADOR','ataque')+l.map(function(f){return '<div class="stack8" style="gap:4px"><div class="row f-foot" style="gap:8px"><span class="sec tn" style="width:30px">'+(f.d!=null?'#'+f.d:'')+'</span><span class="sb grow ell">'+esc(f.n)+'</span><span class="tn sec">'+f.g+' G / '+f.t+' T</span><span class="r b tn" style="width:46px;text-align:right">'+Math.round(f.p)+'%</span></div>'+barraPct(f.p/100,'var(--blue)')+'</div>';}).join('')+'</div>';}
-tarjetaValoracion=(function(o){return function(acc){return tarjetaLanzadores(acc)+o(acc);};})(tarjetaValoracion);
 
 /* ---------- Posiciones: inferioridad, olvidar lo aprendido en defensa, nombres 1-2-3 ---------- */
 shPosiciones=(function(o){return function(sh){var r=o(sh),tab=sh.tab||0;
@@ -3707,6 +3713,60 @@ NOVEDADES=[
  ['Estadísticas','Nueva tarjeta de goles y acierto por jugador en las estadísticas del partido. La copia de seguridad guarda también las posiciones aprendidas y definidas.',['Importar combinando añade las posiciones sin borrar las tuyas'],
   function(){return '<div class="glass panel p12 stack8"><div class="row f-foot"><span class="sb grow">Hugo</span><span class="sec">5 G / 7 T</span><b style="margin-left:8px">71%</b></div>'+barraPct(.71,'var(--blue)')+'</div>';}]
 ];
+
+/* =====================================================================
+   web 16 · Cambios de la app de iPhone/iPad (Xcode, 14 noviembre 2026, tarde)
+   Ajustar el tiempo del partido (botón del reloj o mantener pulsado),
+   pestaña «Goles» en las estadísticas, la banda pesa como 10 minutos
+   defendidos y asistente ataque/defensa más compacto.
+   ===================================================================== */
+MARCA.version='1.0 (web 16)';
+Object.assign(P,{relojAjuste:'<path d="M4.5 12a7.5 7.5 0 107.5-7.5 7.6 7.6 0 00-5.6 2.5"/><path d="M4 3.5v3.8h3.8M12 8v4.3l2.7 1.7"/>'});
+
+/* ---------- Corregir el reloj (AjusteTiempoView.swift) ---------- */
+MM.ajustarTiempo=function(p,m,s){var max=MM.dur()*60,t=Math.max(0,Math.min(m*60+s,max));M.periodo=Math.max(1,Math.min(p,MM.totalPeriodos()));M.minutos=Math.floor(t/60);M.segundos=t%60;MM.vibrar(20);};
+function shTiempo(sh){if(sh.p==null){sh.p=M.periodo;sh.m=M.minutos;sh.s=M.segundos;}
+  var dur=MM.dur(),tp=MM.totalPeriodos(),mins=[],segs=[];for(var i=0;i<=dur;i++)mins.push([String(i),i+' min']);for(var k=0;k<60;k++)segs.push([String(k),pad2(k)+' s']);
+  var h='<div class="wrap stack" style="padding-top:6px;align-items:stretch">';
+  if(tp>1){var ps=[];for(var q=1;q<=tp;q++)ps.push([String(q),'Periodo '+q]);h+=seg('tmPer',ps,String(sh.p));}
+  h+='<div class="center r blk tn" style="font-size:64px;line-height:1.1;padding:6px 0">'+pad2(sh.m)+':'+pad2(sh.s)+'</div>';
+  h+='<div class="row" style="gap:10px"><div class="grow">'+menu('tm-min',mins,String(sh.m),'tmMin')+'</div><div class="grow">'+menu('tm-seg',segs,String(sh.s),'tmSeg')+'</div></div>';
+  h+='<div class="row" style="gap:6px;flex-wrap:wrap;justify-content:center">'+[-60,-10,-1,1,10,60].map(function(x){return '<button class="btn sm glass tn" style="font-weight:700;min-width:62px" data-a="tmSumar" data-v="'+x+'">'+(Math.abs(x)>=60?(x>0?'+1 min':'−1 min'):(x>0?'+'+x+' s':'−'+(-x)+' s'))+'</button>';}).join('')+'</div>';
+  h+='<div class="f-foot sec center">Corrige el tiempo que se lleva del periodo. Las jugadas ya anotadas y los minutos de cada jugador no cambian.</div></div>';
+  return {title:'Ajustar el tiempo',left:tbtn('Cancelar','closeSheet'),right:tbtn('Guardar','tmGuardar',true),body:h};}
+/* Mantener pulsado el reloj abre la corrección */
+(function(){var t=null;function fuera(){if(t){clearTimeout(t);t=null;}}
+  document.addEventListener('pointerdown',function(ev){var r=ev.target.closest&&ev.target.closest('.reloj');if(!r||!M.activo)return;fuera();t=setTimeout(function(){t=null;if(!S.sheets.some(function(s){return s.t==='tiempo';})){abrirSheet('tiempo');render();}},600);},true);
+  ['pointerup','pointercancel','pointerleave'].forEach(function(e){document.addEventListener(e,fuera,true);});})();
+
+/* ---------- Asistente ataque/defensa más compacto: todo a la vista ---------- */
+shEspecialistas=(function(o){return function(sh){var r=o(sh);
+  r.body=r.body.replace('Asistente de especialistas','Ataque / Defensa').replace(/Se cierra en (\d+) s/,'$1 s').replace('Cambio automático Ataque / Defensa','Cambio automático').replace('Alertas de pista incompleta','Avisar pista incompleta')
+    .replace('ELIGE QUIÉN ATACA','TOCA QUIÉN ATACA').replace('ELIGE QUIÉN DEFIENDE','TOCA QUIÉN DEFIENDE');
+  if(!M.activarEsp)r.body=r.body.replace(/<\/div>$/,'<div class="f-foot sec center" style="padding:10px 0">Activa el cambio automático para elegir quién entra a atacar y quién a defender.</div></div>');
+  r.body='<div class="espcompacto">'+r.body+'</div>';return r;};})(shEspecialistas);
+
+Object.assign(SB,{tiempo:shTiempo,especialistas:shEspecialistas});
+Object.assign(A,{
+  tmPer:function(d){var s=topSheet();if(s)s.p=+d.v;},
+  tmSumar:function(d){var s=topSheet();if(!s)return;var max=MM.dur()*60,t=Math.max(0,Math.min(s.m*60+s.s+(+d.v),max));s.m=Math.floor(t/60);s.s=t%60;},
+  tmGuardar:function(){var s=topSheet();if(!s)return;MM.ajustarTiempo(s.p,s.m,s.s);guardarBorrador();cerrarSheet();toast('Tiempo ajustado: '+pad2(M.minutos)+':'+pad2(M.segundos));}
+});
+Object.assign(C,{
+  tmMin:function(el){var s=topSheet();if(!s)return;s.m=+el.value;if(s.m>=MM.dur())s.s=0;render();},
+  tmSeg:function(el){var s=topSheet();if(!s)return;s.s=s.m>=MM.dur()?0:+el.value;render();}
+});
+
+/* ---------- Novedades de la versión web 16 ---------- */
+NOV_VER='web 16';
+NOVEDADES=[
+ ['Novedades de Si Handball','Lo último de la app de iPhone y iPad, también en la web.',['Ajustar el tiempo del partido','Pestaña «Goles» en las estadísticas','Inferioridad, dos parejas y tarjetas al rival'],
+  function(){return '<div class="col center" style="align-items:center;gap:14px">'+logo(110).replace('class="logo"','class="logo" style="box-shadow:0 8px 16px rgba(8,37,70,.4)"')+'<span class="pill" style="--c:var(--naranja)">'+ic('flame')+'Versión '+MARCA.version+'</span></div>';}],
+ ['Ajustar el tiempo','Si olvidaste arrancar el reloj o lo paraste tarde, corrígelo: toca el botón del reloj junto al tiempo o mantén pulsado el tiempo.',['Elige periodo, minutos y segundos, o súmalos de 1, 10 o 60 en 60','Las jugadas ya anotadas y los minutos de cada jugador no cambian'],
+  function(){return '<div class="col" style="align-items:center;gap:10px"><span class="r blk tn" style="font-size:48px">18:42</span><div class="row" style="gap:6px">'+['−1 min','−10 s','+10 s','+1 min'].map(function(x){return '<span class="btn sm glass" style="pointer-events:none">'+x+'</span>';}).join('')+'</div></div>';}],
+ ['Goles por jugador','En las estadísticas del partido hay una pestaña nueva, «Goles»: goles, tiros y acierto de cada jugador, del que más goles lleva al que menos.',['La defensa respeta más la banda de cada jugador: solo lo aprendido durante bastante tiempo la cambia'],
+  function(){return '<div class="glass panel p12 stack8"><div class="row f-foot"><span class="sb grow">#7 Hugo</span><span class="sec">5 G / 7 T</span><b style="margin-left:8px">71%</b></div>'+barraPct(.71,'var(--blue)')+'<div class="row f-foot"><span class="sb grow">#22 Iker</span><span class="sec">3 G / 6 T</span><b style="margin-left:8px">50%</b></div>'+barraPct(.5,'var(--blue)')+'</div>';}]
+].concat(NOVEDADES.slice(1));
 
 /* ---------- arranque ---------- */
 render();
