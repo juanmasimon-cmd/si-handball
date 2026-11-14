@@ -824,9 +824,9 @@ function exportarJSON(soloPlantillas){
   var eq=limpio(ST.equipos);
   if(soloPlantillas)return JSON.stringify({listaEquipos:eq});
   var ps=ST.partidos.map(function(p){var q=limpio(p);q.fecha=(p.fecha-REF2001)/1000;return q;});
-  return JSON.stringify({listaEquipos:eq,historicoPartidos:ps});
+  var r={listaEquipos:eq,historicoPartidos:ps};if(typeof CopiaPosiciones!=='undefined')r.posiciones=CopiaPosiciones.exportar();return JSON.stringify(r);
 }
-function normalizarJugador(j){var r={id:String(j.id||uuid()),nombre:String(j.nombre||''),dorsal:Number(j.dorsal)||0,posicion:POS.indexOf(j.posicion)>=0?j.posicion:'Primera Línea'};if(j.puesto&&PUESTOS.some(function(p){return p.id===j.puesto;}))r.puesto=j.puesto;return r;}
+function normalizarJugador(j){var r={id:String(j.id||uuid()),nombre:String(j.nombre||''),dorsal:Number(j.dorsal)||0,posicion:POS.indexOf(j.posicion)>=0?j.posicion:'Primera Línea'};if(j.puesto&&PUESTOS.some(function(p){return p.id===j.puesto;}))r.puesto=j.puesto;if(j.lateralidad==='Diestro'||j.lateralidad==='Zurdo')r.lateralidad=j.lateralidad;if(j.huecosDefensa&&typeof j.huecosDefensa==='object'){var hd={};Object.keys(j.huecosDefensa).forEach(function(k){var v=j.huecosDefensa[k];if(typeof v==='number'&&v>=0)hd[k]=v;});if(Object.keys(hd).length)r.huecosDefensa=hd;}return r;}
 function normalizarEquipo(e){var r={id:String(e.id||uuid()),nombre:String(e.nombre||'Equipo'),jugadores:(e.jugadores||[]).map(normalizarJugador)};if(e.categoria&&CATS.some(function(c){return c.v===e.categoria;}))r.categoria=e.categoria;return r;}
 function normalizarPartido(p){
   var f=typeof p.fecha==='number'?(p.fecha>1e11?p.fecha:REF2001+p.fecha*1000):(Date.parse(p.fecha)||Date.now());
@@ -836,6 +836,7 @@ function normalizarPartido(p){
 function importarJSON(txt){
   var d;try{d=JSON.parse(txt);}catch(e){return null;}
   if(!d||!Array.isArray(d.listaEquipos))return null;
+  if(d.posiciones&&typeof CopiaPosiciones!=='undefined')CopiaPosiciones.importar(d.posiciones);
   var eq=d.listaEquipos.map(normalizarEquipo);
   if(Array.isArray(d.historicoPartidos)){
     var viejos=ST.partidos.map(function(p){return p.id;});
@@ -993,8 +994,8 @@ var MM={
     M.preparados.forEach(function(c){if(nueva.indexOf(c.sale)>=0&&nueva.indexOf(c.entra)<0&&!MM.estaExcluido(c.entra)){nueva=nueva.filter(function(x){return x!==c.sale;});nueva.push(c.entra);n++;}});
     M.preparados=M.preparados.filter(function(c){return MM.estaExcluido(c.sale);});if(n){M.pista=nueva;MM.vibrar(20);}return n;},
   cambioAuto:function(sale,entra){if(!M.activarEsp||!sale||!entra||sale===entra||!MM.enPista(sale)||MM.enPista(entra)||MM.estaExcluido(entra))return;M.pista=M.pista.filter(function(x){return x!==sale;}).concat([entra]);},
-  cambioAnticipado:function(tipo,res){if(!M.activarEsp||!(res==='Gol'||res==='Parada')||M.pistaPrevia)return;var antes=M.pista.slice();
-    var pc=MM.parejaCambio();if(tipo==='Ataque')MM.cambioAuto(pc.ataca,pc.defiende);else MM.cambioAuto(pc.defiende,pc.ataca);
+  cambioAnticipado:function(tipo,res){if(!MM.cambioDeFaseActivo()||!(res==='Gol'||res==='Parada')||M.pistaPrevia)return;var antes=M.pista.slice();
+    MM.parejasCambio().forEach(function(pc){if(tipo==="Ataque")MM.cambioAuto(pc.ataca,pc.defiende);else MM.cambioAuto(pc.defiende,pc.ataca);});if(tipo==="Ataque")MM.asegurarPorteroEnDefensa();
     if(antes.join()!==M.pista.join())M.pistaPrevia=antes;},
   cancelarCambioAnticipado:function(){if(!M.pistaPrevia)return;M.pista=M.pistaPrevia;M.pistaPrevia=null;},
 
@@ -1007,7 +1008,7 @@ var MM={
       if(dorsalRival!=null)a.dorsalRival=dorsalRival; if(tipoLanz)a.tipoLanzamiento=tipoLanz;
       M.historial.push(a);
       if(tipo==='Ataque'&&res==='Gol')M.golesLocal++; else if(tipo==='Defensa'&&res==='Gol')M.golesVisitante++;
-      if(!previa&&(res==='Gol'||res==='Parada')){var pc=MM.parejaCambio();if(tipo==='Ataque')MM.cambioAuto(pc.ataca,pc.defiende);else MM.cambioAuto(pc.defiende,pc.ataca);}
+      if(!previa&&(res==="Gol"||res==="Parada")){MM.parejasCambio().forEach(function(pc){if(tipo==="Ataque")MM.cambioAuto(pc.ataca,pc.defiende);else MM.cambioAuto(pc.defiende,pc.ataca);});if(tipo==="Ataque")MM.asegurarPorteroEnDefensa();}
     });
     MM.vibrar(res==='Gol'?[30,40,60]:15);
   },
@@ -1516,7 +1517,7 @@ function vAjustes(){
       '<div class="row" style="gap:8px"><input class="tf rb grow" id="ge-jn-'+e.id+'" placeholder="Nombre" value="'+esc(GE.jNombre)+'" data-bindg="jNombre"><input class="tf rb center" id="ge-jd-'+e.id+'" placeholder="Nº" inputmode="numeric" style="width:54px" value="'+esc(GE.jDorsal)+'" data-bindg="jDorsal">'+menu('ge-jp-'+e.id,POS.map(function(p){return [p,cap(p)];}),GE.jPos,'geJPos')+'</div>'+
       '<button class="btn prom wfull" data-a="geInscribir" data-id="'+e.id+'">'+ic('personPlus')+'Inscribir jugador en la ficha</button><hr class="divider">'+
       etq('JUGADORES EN ACTA (DORSAL CRECIENTE)','jugador')+
-      (e.jugadores.length?'<div class="stack8">'+e.jugadores.map(function(j){return '<div class="row" style="padding:4px 0">'+chipN(j.dorsal,'var(--blue)',28)+'<span class="f-foot sb grow">'+esc(j.nombre)+'</span><span class="f-cap2 sec">'+esc(cap(j.posicion))+'</span>'+menu('ge-pu-'+j.id,[['','Automático']].concat(PUESTOS.map(function(p){return [p.id,p.id];})),j.puesto||'','geJPuesto',{d:{id:e.id,j:j.id},label:j.puesto&&puestoDe(j.puesto)?puestoDe(j.puesto).ab:'Auto'},'mini')+'<button class="c-red press" style="display:inline-flex;width:22px;padding:2px" data-a="geBorrarJ" data-id="'+e.id+'" data-v="'+j.id+'" aria-label="Quitar '+esc(j.nombre)+'">'+ic('trash')+'</button></div>';}).join('')+'</div>':'<div class="f-cap sec">Plantilla vacía.</div>')+
+      (e.jugadores.length?'<div class="stack8">'+e.jugadores.map(function(j){return '<div class="row" style="padding:4px 0">'+chipN(j.dorsal,'var(--blue)',28)+'<span class="f-foot sb grow">'+esc(j.nombre)+'</span><span class="f-cap2 sec">'+esc(cap(j.posicion))+'</span>'+menu('ge-pu-'+j.id,[['','Automático']].concat(PUESTOS.map(function(p){return [p.id,p.id];})),j.puesto||'','geJPuesto',{d:{id:e.id,j:j.id},label:j.puesto&&puestoDe(j.puesto)?puestoDe(j.puesto).ab:'Auto'},'mini')+menu('ge-la-'+j.id,[['','D/Z'],['Diestro','Diestro'],['Zurdo','Zurdo']],j.lateralidad||'','geJLat',{d:{id:e.id,j:j.id},label:j.lateralidad||'D/Z'},'mini')+'<button class="c-red press" style="display:inline-flex;width:22px;padding:2px" data-a="geBorrarJ" data-id="'+e.id+'" data-v="'+j.id+'" aria-label="Quitar '+esc(j.nombre)+'">'+ic('trash')+'</button></div>';}).join('')+'</div>':'<div class="f-cap sec">Plantilla vacía.</div>')+
       '</div>';
     }
     return swipe('<div class="disc'+(open?' open':'')+'">'+head+body+'</div>','geBorrarEq',{v:e.id});
@@ -1658,7 +1659,7 @@ function vMatch(){
   M.exclusionesRival.forEach(function(s,i){var d=(M.dorsalesExR||[])[i]||0;h+=fexRow(d?d:'R',d?'Rival · lleva '+MM.exclusionesDelRival(d):'Rival',mss(s),'exr:'+i);});
   var rex=MM.resumenExclusionesRival();if(rex.length)h+='<div class="f-foot sb sec">Exclusiones del rival: '+rex.map(function(x){return '#'+x.d+' ×'+x.n;}).join(' · ')+'</div>';
   if(!M.exclusiones.length&&!M.exclusionesRival.length)h+='<div class="f-foot sec">Sin exclusiones.</div>';
-  else h+='<div class="stack8">'+M.exclusiones.map(function(e){return fexRow(e.jugador.dorsal,e.jugador.nombre,mss(e.restante),'ex:'+e.id);}).join('')+'</div>';
+  else h+='<div class="stack8">'+M.exclusiones.map(function(e){return '<button class="press exanular" style="display:block;width:100%;text-align:left" data-a="anularEx" data-v="'+e.id+'" aria-label="Anular la exclusión de #'+e.jugador.dorsal+' si se anotó por error">'+fexRow(e.jugador.dorsal,e.jugador.nombre,mss(e.restante),'ex:'+e.id)+'</button>';}).join('')+'</div>';
   h+='</div></div>';
   return h+avisoJugada();
 }
@@ -3506,6 +3507,205 @@ NOVEDADES=[
   function(){return '<div class="row" style="gap:18px;justify-content:center">'+escudoHTML('Balonmano Tarazona',72)+escudoHTML('Moncayo',72)+'</div>';}],
  ['Más detalles','En defensa hay un botón «Cometemos 2 minutos». En inferioridad, el cambio ataque/defensa se hace con el portero.',['Resumen de cada partido: resumen, acciones por jugador y jugadas en orden','Para familias: todos los goleadores con su porcentaje de tiro','Acumulado: ganados, empatados y perdidos de la temporada'],
   function(){return '<div class="row" style="gap:8px;justify-content:center;flex-wrap:wrap">'+gChip('Resumen','var(--blue)','stats')+gChip('Acciones','var(--orange)','person2')+gChip('Jugadas','var(--green)','listBullet')+'</div>';}]
+];
+
+/* =====================================================================
+   web 15 · Cambios de la app de iPhone/iPad (Xcode, 12-14 noviembre 2026)
+   Inferioridad 7 contra 6 (quién entra por el portero), segunda pareja
+   ataque/defensa, anular una exclusión puesta por error, tarjetas al rival
+   y azul tras roja, goles y acierto por jugador, diestro/zurdo y banda,
+   puestos que se aprenden partiendo del definido, nombres 1-2-3 de la
+   defensa, olvidar lo aprendido y copia de seguridad de las posiciones.
+   ===================================================================== */
+MARCA.version='1.0 (web 15)';
+Object.assign(P,{seven:P.seven||P.porteria,people3:'<circle cx="12" cy="7" r="2.6"/><circle cx="5.5" cy="9" r="2.2"/><circle cx="18.5" cy="9" r="2.2"/><path d="M7.5 20c.4-3.6 2.1-5.6 4.5-5.6s4.1 2 4.5 5.6M1.8 19c.3-2.6 1.6-4 3.7-4M22.2 19c-.3-2.6-1.6-4-3.7-4"/>'});
+
+/* ---------- Nombres de balonmano de la defensa: 1 exteriores, 2 laterales, 3 centrales, AV ---------- */
+/* La letra es la banda vista por el defensor (de espaldas a su portería): la izquierda del dibujo es su derecha. */
+Object.keys(SISTEMAS).forEach(function(s){SISTEMAS[s].forEach(function(h){
+  var n=h.t==='ex'?'1':h.t==='la'?'2':h.t==='ce'?'3':(s==='4-2'?'2':'AV'),b=Math.abs(h.x-160)<=20?'':(h.x<160?'D':'I');h.ab=n+b;});});
+
+/* ---------- Puesto natural: lo aprendido manda cuando hay jugadas suficientes; si no, el definido ---------- */
+MemPuestos.muestrasParaAprender=30;
+MemPuestos.puestoNatural=function(j){if(!j)return null;var h=this.historial(j.id),t=h.reduce(function(s,x){return s+x.v;},0);
+  if(t>=this.muestrasParaAprender&&h[0])return h[0].p;return PuestosFijos.fijo(j.id)||j.puesto||(h[0]&&h[0].p)||null;};
+/* Banda: -1 izquierda, 1 derecha, 0 centro; sin puesto conocido, un zurdo suele jugar en la derecha */
+MemPuestos.ladoNatural=function(j){var p=this.puestoNatural(j);
+  if(p==='Extremo izquierdo'||p==='Lateral izquierdo')return -1;if(p==='Extremo derecho'||p==='Lateral derecho')return 1;if(p==='Central'||p==='Pivote')return 0;
+  if(j&&(j.posicion==='Extremo'||j.posicion==='Primera Línea')){if(j.lateralidad==='Zurdo')return 1;if(j.lateralidad==='Diestro')return -1;}return null;};
+MemPuestos.hayHistorial=function(tit){var d=this.leer(),f=PuestosFijos.leer(),c=tit.filter(function(j){return j.posicion!=='Portero';});if(!c.length)return false;
+  return c.every(function(j){var h=d[j.id]||{};return f[j.id]||j.puesto||Object.keys(h).reduce(function(s,k){return s+h[k];},0)>=MemPuestos.minimo;});};
+/* El puesto definido es el punto de partida: pesa mucho al principio y luego manda dónde juega de verdad */
+MemPuestos.sugerido=function(tit){if(!this.hayHistorial(tit))return null;var d=this.leer(),fj=PuestosFijos.leer(),r={},self=this;
+  var por=tit.filter(function(j){return j.posicion==='Portero';}),campo=tit.filter(function(j){return j.posicion!=='Portero';});if(por[0])r[por[0].id]='Portero';
+  function pts(j,p){var h=d[j.id]||{},t=Object.keys(h).reduce(function(s,k){return s+h[k];},0),ap=t?(h[p]||0)/t:0,def=fj[j.id]||j.puesto;if(!def)return ap;var c=Math.min(1,t/self.muestrasParaAprender);return c*ap+(1-c)*(def===p?1:0);}
+  var mejor=null;(function buscar(i,usados,acc,act){if(i===campo.length){if(!mejor||acc>mejor.s)mejor={s:acc,r:Object.assign({},act)};return;}
+    PUESTOS_CAMPO.forEach(function(p){if(usados[p])return;act[campo[i].id]=p;usados[p]=1;buscar(i+1,usados,acc+pts(campo[i],p),act);delete usados[p];delete act[campo[i].id];});})(0,{},0,{});
+  return mejor?Object.assign(r,mejor.r):null;};
+/* Fijar un puesto lo guarda también en la ficha del jugador (va en la copia de seguridad) */
+function guardarEnFicha(id,f){var c=false;ST.equipos.forEach(function(e){e.jugadores.forEach(function(j){if(j.id===id){f(j);c=true;}});});if(c)tocarEquipos();}
+PuestosFijos.fijar=(function(o){return function(p,id){o.call(PuestosFijos,p,id);guardarEnFicha(id,function(j){if(p)j.puesto=p;else delete j.puesto;});};})(PuestosFijos.fijar);
+HuecosFijos.fijar=(function(o){return function(h,s,id){o.call(HuecosFijos,h,s,id);guardarEnFicha(id,function(j){var m=j.huecosDefensa||{};if(h==null)delete m[s];else m[s]=h;if(Object.keys(m).length)j.huecosDefensa=m;else delete j.huecosDefensa;});};})(HuecosFijos.fijar);
+/* Al empezar, lo que dice la ficha de cada jugador vale en el partido */
+function sincronizarFichas(js){js.forEach(function(j){
+  if(j.puesto&&!PuestosFijos.fijo(j.id)){var d=PuestosFijos.leer();d[j.id]=j.puesto;lsSet('sh_puestosfijos',d);}
+  Object.keys(j.huecosDefensa||{}).forEach(function(s){if(HuecosFijos.hueco(s,j.id)==null){var d=HuecosFijos.leer();d[s+'|'+j.id]=j.huecosDefensa[s];lsSet('sh_huecosfijos',d);}});});}
+/* Defensa: el definido se diluye con 20 minutos en el sistema; cada uno defiende en la banda en la que ataca */
+MM.reasignarDefensa=function(completa){
+  var campo=MM.campoEnPista(),sis=MM.sistemaActual();if(!sis){M.posDef={};M.sisAsig=null;return;}
+  var hs=SISTEMAS[sis],parten=(!completa&&M.sisAsig===sis)?(M.posDef||{}):{},r={},ocup={},pend=[];
+  campo.forEach(function(j){var h=parten[j.id];if(h!=null&&h<hs.length&&!ocup[h]){r[j.id]=h;ocup[h]=1;}else pend.push(j);});
+  var pares=[];pend.forEach(function(j,i){var mem=MemDef[sis+'|'+j.id]||{},tot=Object.keys(mem).reduce(function(s,k){return s+mem[k];},0),fj=HuecosFijos.hueco(sis,j.id),lado=MemPuestos.ladoNatural(j);
+    hs.forEach(function(h){if(ocup[h.id])return;var lh=h.x<140?1:(h.x>180?-1:0),banda=(lado&&lh)?(lado===lh?45:-45):0;
+      pares.push({p:(fj===h.id?Math.max(0,1200-tot)+60:0)+(mem[h.id]||0)+banda+afinidad(j.posicion,h.t)-h.id*.01,i:i,h:h.id});});});
+  pares.sort(function(a,b){return b.p-a.p;});var usado={};pares.forEach(function(x){if(usado[x.i]||ocup[x.h])return;usado[x.i]=1;ocup[x.h]=1;r[pend[x.i].id]=x.h;});
+  M.posDef=r;M.sisAsig=sis;};
+
+/* ---------- Segunda pareja ataque/defensa e inferioridad 7 contra 6 ---------- */
+MM.enInferioridad=function(){return MM.situacion()===SIT.inf;};
+MM.sieteContraSeisActivo=function(){return MM.enInferioridad()&&!!M.ataInf&&!MM.estaExcluido(M.ataInf);};
+MM.cambioDeFaseActivo=function(){return (M.activarEsp&&!MM.enInferioridad())||MM.sieteContraSeisActivo();};
+MM.porteroParaDefender=function(){var ps=MM.jugadores().filter(function(j){return j.posicion==='Portero'&&!MM.estaExcluido(j.id);});return ps.find(function(j){return MM.enPista(j.id);})||ps.find(function(j){return j.id===M.ultPortero;})||ps[0]||null;};
+MM.parejasCambio=function(){
+  if(MM.enInferioridad()){if(!MM.sieteContraSeisActivo())return [];var p=MM.porteroParaDefender();return p?[{ataca:M.ataInf,defiende:p.id}]:[];}
+  if(!M.activarEsp)return [];return [{ataca:M.espAtaque,defiende:M.espDefensa},{ataca:M.espAtaque2,defiende:M.espDefensa2}].filter(function(x){return x.ataca||x.defiende;});};
+MM.parejaCambio=function(){return MM.parejasCambio()[0]||{ataca:null,defiende:null};};
+MM.idsEsp=function(rol){return [rol==='a'?M.espAtaque:M.espDefensa,rol==='a'?M.espAtaque2:M.espDefensa2].filter(Boolean);};
+cambiarEspecialistas=(function(o){return function(sale,entra){var js=MM.jug(sale);if(js&&js.posicion==='Portero'&&MM.enPista(sale))M.ultPortero=sale;
+  var hueco=sale?(M.posDef||{})[sale]:null;o(sale,entra);
+  /* El sitio de defensa es uno solo para la pareja: quien entra ocupa el hueco de quien sale */
+  var je=MM.jug(entra);if(hueco!=null&&je&&je.posicion!=='Portero'&&MM.enPista(entra)){var pd=M.posDef||(M.posDef={});delete pd[sale];pd[entra]=hueco;}};})(cambiarEspecialistas);
+MM.faseAtaque=function(){if(!MM.cambioDeFaseActivo())return;MM.parejasCambio().forEach(function(p){if(p.ataca)cambiarEspecialistas(p.defiende,p.ataca);});};
+MM.faseDefensa=function(){MM.asegurarPorteroEnDefensa();if(!MM.cambioDeFaseActivo())return;MM.parejasCambio().forEach(function(p){if(p.defiende)cambiarEspecialistas(p.ataca,p.defiende);});};
+MM.cambioAuto=function(s,e){if(!MM.cambioDeFaseActivo()||!s||!e||s===e||!MM.enPista(s)||MM.enPista(e)||MM.estaExcluido(e))return;cambiarEspecialistas(s,e);};
+/* Tras atacar 7 contra 6 el portero vuelve siempre al defender */
+MM.asegurarPorteroEnDefensa=function(){if(MM.jugadores().some(function(j){return j.posicion==='Portero'&&MM.enPista(j.id);}))return;var p=MM.porteroParaDefender();if(!p)return;
+  var ex=M.ataInf;if(ex&&MM.enPista(ex)){MM.recordarSitio(ex);if(M.puestosAt)delete M.puestosAt[ex];M.pista=M.pista.filter(function(x){return x!==ex;});}
+  if(M.pista.length<7)M.pista.push(p.id);};
+MM.candidatosInferioridad=function(){return ordenAlin(MM.jugadores()).filter(function(j){return j.posicion!=='Portero'&&!MM.enPista(j.id)&&!MM.estaExcluido(j.id);});};
+/* Propuesta: el extremo de la banda hacia la que atacamos (o su lateral); si no, el especialista, el de la última vez o un extremo */
+MM.propuestaInferioridad=function(){var b=MM.candidatosInferioridad(),ps=ladoDefensa()==='izq'?['Extremo derecho','Lateral derecho']:['Extremo izquierdo','Lateral izquierdo'];
+  for(var i=0;i<ps.length;i++){var j=b.find(function(x){return MemPuestos.puestoNatural(x)===ps[i];});if(j)return j;}
+  var e=b.find(function(x){return MM.idsEsp('a').indexOf(x.id)>=0;});if(e)return e;var hab=lsGet('sh_infHabitual'),h=b.find(function(x){return x.id===hab;});if(h)return h;
+  return b.find(function(x){return x.posicion==='Extremo';})||b[0]||null;};
+MM.elegirAtaqueInferioridad=function(id){M.ataInf=id||null;if(id)lsSet('sh_infHabitual',id);};
+MM.revisarInferioridad=function(){if(!M.activo)return;if(!MM.enInferioridad()){M.infPreg=false;M.ataInf=null;return;}if(M.infPreg)return;
+  if(!(lsGet('sh_sieteInf')===true||M.activarEsp))return;M.infPreg=true;MM.asegurarPorteroEnDefensa();
+  setTimeout(function(){if(M.activo&&MM.enInferioridad()&&!S.sheets.some(function(s){return s.t==='inferioridad';})){abrirSheet('inferioridad',{sel:(MM.propuestaInferioridad()||{}).id||null});render();}},350);};
+(function(){var oc=MM.conPunto;MM.conPunto=function(pa,fn){oc.call(MM,pa,fn);MM.revisarInferioridad();};
+  var of=MM.avisarFinExclusion;MM.avisarFinExclusion=function(e){of.call(MM,e);setTimeout(function(){MM.revisarInferioridad();render();},0);};})();
+function shInferioridad(sh){var c=MM.candidatosInferioridad(),el=c.find(function(j){return j.id===sh.sel;});
+  var h='<div class="wrap stack" style="padding-top:6px"><div class="glass panel stack10">'+etq('JUGAMOS CON UNO MENOS','exclusion')+'<div class="f-foot sec">En defensa se queda el portero. Al atacar sale el portero y entra este jugador. El cambio ataque / defensa queda en pausa hasta que acabe la exclusión.</div>';
+  h+=c.length?'<div class="gridA">'+c.map(function(j){return bj({n1:j.dorsal,n2:j.nombre,c:sh.sel===j.id?'var(--blue)':null,h:68,d:{a:'infSel',v:j.id}});}).join('')+'</div>':'<div class="f-foot sec">No hay jugadores en el banquillo.</div>';
+  h+='</div></div>';
+  return {title:'Inferioridad',body:h,foot:'<div class="stack8"><button class="btn prom lg wfull" data-a="infOk"'+(el?'':' disabled')+'>'+ic('checkFill')+(el?'Entra #'+el.dorsal+' '+esc(el.nombre)+' por el portero':'Elige un jugador')+'</button><button class="btn gl glass lg wfull" data-a="infSin">Atacar con portero (sin cambio)</button></div>'};}
+/* Pareja 1 o 2 en el asistente de especialistas: se edita la 2 intercambiando los campos mientras se usa */
+function conPareja(sh,f){if(!sh||sh.pareja!==2)return f();var a=M.espAtaque,d=M.espDefensa;M.espAtaque=M.espAtaque2||null;M.espDefensa=M.espDefensa2||null;
+  try{return f();}finally{M.espAtaque2=M.espAtaque;M.espDefensa2=M.espDefensa;M.espAtaque=a;M.espDefensa=d;}}
+shEspecialistas=(function(o){return function(sh){var r=conPareja(sh,function(){return o(sh);});
+  if(M.activarEsp){var tabs='<div class="glass panel stack8">'+seg('espPareja',[['1','Pareja 1'],['2','Pareja 2']],String(sh.pareja||1))+'<div class="f-cap sec">Dos parejas ataque / defensa a la vez: cada una comparte un sitio. En inferioridad se ponen en pausa.</div></div>';
+    r.body=r.body.replace('<div class="row"><button class="press col"',tabs+'<div class="row"><button class="press col"');}return r;};})(shEspecialistas);
+['espRol','espSwap','espElegir'].forEach(function(k){var o=A[k];if(o)A[k]=function(d,el,ev){var sh=topSheet();return conPareja(sh,function(){return o(d,el,ev);});};});
+/* La ficha marca a los de las dos parejas */
+ficha=(function(o){return function(j,big,w){var h=o(j,big,w);if(M.activo&&M.activarEsp&&!MM.enInferioridad()&&(M.espAtaque2===j.id||M.espDefensa2===j.id))h=h.replace('class="ficha press','class="ficha press '+(M.espAtaque2===j.id?'espA':'espD'));return h;};})(ficha);
+
+/* ---------- Anular una exclusión puesta por error (doble confirmación) ---------- */
+MM.anularExclusion=function(exId){var e=M.exclusiones.find(function(x){return x.id===exId;});if(!e)return;
+  MM.conPunto(null,function(){M.exclusiones=M.exclusiones.filter(function(x){return x.id!==exId;});if(e.descalificado)M.descalificados=M.descalificados.filter(function(x){return x!==e.jugador.id;});
+    var k=-1;M.historial.forEach(function(a,i){if(a.tipo==='Sanción Disciplinaria'&&a.jugadorId===e.jugador.id&&(e.descalificado?a.resultado==='Roja':a.resultado.indexOf('2 Minutos')===0))k=i;});
+    if(k<0)M.historial.forEach(function(a,i){if(a.tipo==='Sanción Disciplinaria'&&(a.resultado==='2 Minutos Banquillo'||a.resultado==='2 Minutos Azul'))k=i;});
+    if(k>=0)M.historial.splice(k,1);
+    if(M.descalificados.indexOf(e.jugador.id)<0&&M.pista.length<7&&!MM.enPista(e.jugador.id)&&MM.jug(e.jugador.id)){MM.restaurarSitio(e.jugador.id);M.pista.push(e.jugador.id);}
+    MM.recalcular&&MM.recalcular();});MM.vibrar(30);};
+
+/* ---------- Tarjetas al rival; azul tras la roja ---------- */
+MM.registrarTarjetaRival=function(d,t){d=d>0?d:null;MM.conPunto(null,function(){var a=MM.accion({tipo:'Sanción Rival',resultado:t,jugadorNombre:'Rival'});if(d)a.dorsalRival=d;M.historial.push(a);
+  if(d&&M.dorsalesRivales.indexOf(d)<0){M.dorsalesRivales.push(d);M.dorsalesRivales.sort(function(x,y){return x-y;});}
+  if(t==='Roja'){M.exclusionesRival.push(120);M.dorsalesExR=(M.dorsalesExR||[]).concat([d||0]);}});MM.vibrar(t==='Roja'?[80,50,80]:[40,40]);};
+MM.rivalConRoja=function(d){return !!d&&M.historial.some(function(a){return a.tipo==='Sanción Rival'&&a.resultado==='Roja'&&a.dorsalRival===d;});};
+MM.jugadorConRoja=function(j){return M.descalificados.indexOf(j.id)>=0||M.historial.some(function(a){return a.tipo==='Sanción Disciplinaria'&&a.resultado==='Roja'&&a.jugadorId===j.id;});};
+MM.exclusionPorAzul=function(cumple,sanc){if(MM.estaExcluido(cumple.id))return;MM.exclusionBanquillo(cumple);var u=M.historial[M.historial.length-1];if(u&&u.tipo==='Sanción Disciplinaria'){u.resultado='2 Minutos Azul';u.jugadorNombre='Azul a #'+sanc.dorsal+' '+sanc.nombre;delete u.jugadorId;}};
+shTarjetas=(function(o){return function(sh){var r=o(sh);if(sh.cumple)return r;
+  var tabs=seg('tjEquipo',[['0','Nuestro equipo'],['1','Rival']],sh.rival?'1':'0');
+  if(!sh.rival){r.body=r.body.replace('<div class="wrap stack" style="padding-top:6px">','<div class="wrap stack" style="padding-top:6px">'+tabs);return r;}
+  var ds=M.dorsalesRivales.slice().sort(function(a,b){return a-b;}),h='<div class="wrap stack" style="padding-top:6px">'+tabs+'<div class="glass panel stack12">'+etq('1. ¿A QUÉ JUGADOR RIVAL?','rival')+
+    '<div class="gridA">'+ds.map(function(n){return bj({n1:n,n2:MM.rivalConRoja(n)?'Con roja':'',c:sh.dr===n?'var(--orange)':(MM.rivalConRoja(n)?'var(--red)':null),h:54,d:{a:'tjDr',v:n}});}).join('')+bj({n1:'–',n2:'Sin dorsal',c:sh.dr===0?'var(--orange)':null,h:54,d:{a:'tjDr',v:0}})+'</div>'+
+    '<div class="row" style="gap:8px"><input class="tf grow" id="tj-dr" inputmode="numeric" placeholder="Otro dorsal"><button class="btn gl glass" data-a="tjDrOtro">Elegir</button></div></div>';
+  if(sh.dr!=null)h+='<div class="glass panel stack12">'+etq('2. APLICAR SANCIÓN','tarjeta')+bc({t:'TARJETA AMARILLA',i:'tarjeta',c:'var(--amarilloTarjeta)',d:{a:'tjRival',v:'Amarilla'}})+
+    bc({t:'TARJETA ROJA',s:'El rival juega 2 min con uno menos',i:'tarjeta',c:'var(--red)',d:{a:'tjRival',v:'Roja'}})+bc({t:'TARJETA AZUL',s:'Informe escrito',i:'tarjeta',c:'var(--blue)',d:{a:'tjRival',v:'Azul'}})+
+    bc({t:'2 MINUTOS AL RIVAL',s:'El rival juega 2 min con uno menos',i:'exclusion',c:'var(--orange)',d:{a:'tjRival2'}})+'</div>';
+  r.body=h+'</div>';return r;};})(shTarjetas);
+
+/* ---------- Goles y acierto por jugador (estadísticas en directo) ---------- */
+function tarjetaLanzadores(acc){var m={};acc.forEach(function(a){if(a.tipo.indexOf('Ataque')<0||['Gol','Parada','Fuera'].indexOf(a.resultado)<0||!a.jugadorNombre)return;var f=m[a.jugadorNombre]||(m[a.jugadorNombre]={n:a.jugadorNombre,id:a.jugadorId,g:0,t:0});f.t++;if(a.resultado==='Gol')f.g++;});
+  var l=Object.keys(m).map(function(k){var f=m[k];f.p=f.t?f.g/f.t*100:0;var j=MM.jugadores().find(function(x){return x.id===f.id||x.nombre===f.n;});f.d=j?j.dorsal:null;return f;}).sort(function(a,b){return b.g-a.g||b.p-a.p;});
+  if(!l.length)return '';
+  return '<div class="glass panel stack10">'+etq('GOLES Y ACIERTO POR JUGADOR','ataque')+l.map(function(f){return '<div class="stack8" style="gap:4px"><div class="row f-foot" style="gap:8px"><span class="sec tn" style="width:30px">'+(f.d!=null?'#'+f.d:'')+'</span><span class="sb grow ell">'+esc(f.n)+'</span><span class="tn sec">'+f.g+' G / '+f.t+' T</span><span class="r b tn" style="width:46px;text-align:right">'+Math.round(f.p)+'%</span></div>'+barraPct(f.p/100,'var(--blue)')+'</div>';}).join('')+'</div>';}
+tarjetaValoracion=(function(o){return function(acc){return tarjetaLanzadores(acc)+o(acc);};})(tarjetaValoracion);
+
+/* ---------- Posiciones: inferioridad, olvidar lo aprendido en defensa, nombres 1-2-3 ---------- */
+shPosiciones=(function(o){return function(sh){var r=o(sh),tab=sh.tab||0;
+  if(tab===1)r.body=r.body.replace(/<\/div>$/,'<button class="btn gl glass wfull c-red" style="font-weight:700" data-a="pdOlvidar">'+ic('trash')+'Olvidar lo aprendido en defensa</button></div>');
+  if(tab===2){var on=lsGet('sh_sieteInf')===true;
+    r.body=r.body.replace(/<\/div>$/,fsec('Inferioridad','people3','<div class="frow"><span class="grow">Atacar 7 contra 6 en inferioridad</span>'+sw('aj-siete',on,'fSiete')+'</div>'+(M.activo&&MM.enInferioridad()?'<button class="frow btnrow tap" data-a="sheet" data-v="inferioridad">'+ic('people3')+'<span>Elegir quién entra por el portero</span></button>':''),
+      'Al quedaros con uno menos la app pregunta quién entra por el portero al atacar (te propone el extremo de la banda hacia la que atacáis). En defensa sigue el portero. Si usas el cambio ataque / defensa, también pregunta.')+'</div>');}
+  return r;};})(shPosiciones);
+
+/* ---------- Copia de seguridad: también las posiciones aprendidas y definidas ---------- */
+var CopiaPosiciones={claves:['sh_mempuestos','sh_puestosfijos','sh_huecosfijos','sh_memdef','sh_sieteInf','sh_infHabitual'],
+  exportar:function(){var r={};this.claves.forEach(function(k){var v=lsGet(k);if(v!=null)r[k]=v;});return r;},
+  /* Añade lo de la copia sin borrar lo de este dispositivo */
+  importar:function(c){if(!c||typeof c!=='object')return;this.claves.forEach(function(k){if(!(k in c))return;var mio=lsGet(k),suyo=c[k];
+    if(mio==null)lsSet(k,suyo);else if(typeof mio==='object'&&typeof suyo==='object'&&!Array.isArray(mio))lsSet(k,Object.assign({},suyo,mio));});
+    try{var md=lsGet('sh_memdef');if(md&&typeof md==='object')Object.keys(md).forEach(function(k){if(!MemDef[k])MemDef[k]=md[k];});}catch(e){}}};
+combinarIntercambio=(function(o){return function(d){try{var raw=JSON.parse(d.txt);if(raw&&raw.posiciones)CopiaPosiciones.importar(raw.posiciones);}catch(e){}return o(d);};})(combinarIntercambio);
+comenzar=(function(o){return function(){var e=equipoActual();if(e)sincronizarFichas(e.jugadores);o();if(M.activo){M.infPreg=false;M.ataInf=null;}};})(comenzar);
+
+/* ---------- Hojas y acciones ---------- */
+Object.assign(SB,{inferioridad:shInferioridad,especialistas:shEspecialistas,tarjetas:shTarjetas,posiciones:shPosiciones});
+Object.assign(A,{
+  infSel:function(d){var s=topSheet();if(s)s.sel=d.v;},
+  infOk:function(){var s=topSheet();MM.elegirAtaqueInferioridad(s&&s.sel);cerrarSheet();var j=MM.jug(M.ataInf);if(j)toast('Al atacar entra #'+j.dorsal+' '+j.nombre+' por el portero');},
+  infSin:function(){MM.elegirAtaqueInferioridad(null);cerrarSheet();},
+  espPareja:function(d){var s=topSheet();if(s){s.pareja=+d.v;s.rol=null;}if(typeof espReset==='function')espReset();},
+  anularEx:function(d){var e=M.exclusiones.find(function(x){return x.id===d.v;});if(!e)return false;
+    dialogo('¿Anular la exclusión de #'+e.jugador.dorsal+' '+e.jugador.nombre+'?','Úsalo solo si se anotó por error.',[{t:'Anular exclusión',red:true,fn:function(){
+      setTimeout(function(){dialogo('¿Seguro?','Se borra la sanción de las estadísticas y #'+e.jugador.dorsal+' vuelve a la pista si hay sitio. Se puede deshacer con «Deshacer».',[{t:'Sí, anularla',red:true,fn:function(){MM.anularExclusion(e.id);toast('Exclusión anulada');}}]);render();},300);}}]);},
+  tjEquipo:function(d){var s=topSheet();if(s){s.rival=d.v==='1';s.dr=null;}},
+  tjDr:function(d){var s=topSheet();if(s)s.dr=+d.v;},
+  tjDrOtro:function(){var s=topSheet(),el=document.getElementById('tj-dr'),n=parseInt(el&&el.value,10);if(s&&n>0&&n<100)s.dr=n;},
+  tjRival:function(d){var s=topSheet(),dr=s.dr||null,roja=d.v==='Azul'&&MM.rivalConRoja(dr);MM.registrarTarjetaRival(dr,d.v);cerrarSheet();
+    if(roja)dialogo('Azul tras la roja','Ese jugador rival ya vio la roja. Si protesta y le sacan azul, el rival suma otros 2 minutos con uno menos. ¿Lo anoto?',[{t:'Sí, otros 2 minutos',fn:function(){MM.exclusionRival(0);}}]);
+    else toast(d.v+(dr?' al rival #'+dr:' al rival'));},
+  tjRival2:function(){var s=topSheet(),dr=s.dr||0;MM.exclusionRival(dr);cerrarSheet();toast('2 minutos al rival'+(dr?' #'+dr:''));},
+  pdOlvidar:function(){dialogo('¿Olvidar dónde ha defendido cada jugador?','Úsalo si aprendió posiciones equivocadas. Se vuelve a colocar a cada uno según su puesto y su banda, y empieza a aprender de nuevo.',[{t:'Olvidar y recolocar',red:true,fn:function(){MM.olvidarMemoria();if(M.activo)MM.reasignarDefensa(true);toast('Lo aprendido en defensa se ha borrado');}}]);}
+});
+(function(){var ot=A.tjTarjeta;A.tjTarjeta=function(d,el,ev){var s=topSheet(),j=s&&s.obj&&s.obj!=='banquillo'?MM.jug(s.obj):null;
+    if(j&&d.v==='Azul'&&MM.jugadorConRoja(j)){MM.registrarTarjeta(j,'Azul');s.cumple=true;s.azulDe=j.id;return;}return ot(d,el,ev);};
+  var oc=A.tjCumple;A.tjCumple=function(d,el,ev){var s=topSheet();if(s&&s.azulDe){var j=MM.jug(d.v),sa=MM.jug(s.azulDe);if(j&&sa)MM.exclusionPorAzul(j,sa);cerrarSheet();return;}return oc(d,el,ev);};})();
+shTarjetas=(function(o){return function(sh){var r=o(sh);if(sh.cumple&&sh.azulDe){var sa=MM.jug(sh.azulDe);if(sa)r.body=r.body.replace('El banquillo está sancionado: un jugador que está en pista cumple la exclusión y el equipo juega con uno menos.','#'+sa.dorsal+' '+esc(sa.nombre)+' ya vio la roja y ahora la azul: son otros 2 minutos para el equipo. Además de su exclusión, sale otro jugador de la pista.');
+  r.body=r.body.replace(/<\/div>$/,'<button class="btn gl glass wfull" data-a="closeSheet">No hay exclusión adicional</button></div>');}return r;};})(shTarjetas);
+SB.tarjetas=shTarjetas;
+Object.assign(C,{
+  fSiete:function(el){lsSet('sh_sieteInf',el.checked);if(el.checked&&M.activo){M.infPreg=false;MM.revisarInferioridad();}render();},
+  geJLat:function(el){var e=ST.equipos.find(function(x){return x.id===el.dataset.id;}),j=e&&e.jugadores.find(function(x){return x.id===el.dataset.j;});if(!j)return;if(el.value)j.lateralidad=el.value;else delete j.lateralidad;tocarEquipos();render();}
+});
+
+/* ---------- Novedades de la versión web 15 ---------- */
+NOV_VER='web 15';
+NOVEDADES=[
+ ['Novedades de Si Handball','La web se pone al día con la app de iPhone y iPad.',['Inferioridad: quién entra por el portero','Dos parejas ataque / defensa','Tarjetas al rival y anular una exclusión'],
+  function(){return '<div class="col center" style="align-items:center;gap:14px">'+logo(110).replace('class="logo"','class="logo" style="box-shadow:0 8px 16px rgba(8,37,70,.4)"')+'<span class="pill" style="--c:var(--naranja)">'+ic('flame')+'Versión '+MARCA.version+'</span></div>';}],
+ ['Jugamos con uno menos','Al quedaros con uno menos, la app pregunta quién entra por el portero al atacar (7 contra 6) y te propone el extremo de la banda hacia la que atacáis. En defensa vuelve siempre el portero.',['Se activa en Posiciones → Ataque / Defensa','Si usas el cambio ataque / defensa, también pregunta','La pareja normal queda en pausa hasta que acabe la exclusión'],
+  function(){return '<div class="row" style="gap:10px;justify-content:center">'+gChip('Portero','var(--indigo)','parada')+ic('arrowsLR')+gChip('#11 Álex','var(--blue)','ataque')+'</div>';}],
+ ['Dos parejas ataque / defensa','En el asistente de especialistas eliges la pareja 1 y la pareja 2. Cada pareja comparte un sitio: uno entra al atacar y el otro al defender.',['Quien entra en defensa ocupa el hueco del que sale','Los cuatro llevan su marca ATA o DEF en la alineación'],
+  function(){return '<div class="row" style="gap:8px;justify-content:center">'+gChip('Pareja 1','var(--blue)','')+gChip('Pareja 2','var(--purple)','')+'</div>';}],
+ ['Sanciones','En Tarjetas eliges nuestro equipo o el rival. Al rival: amarilla, roja (2 min con uno menos), azul o 2 minutos. Si alguien con roja ve la azul, se pregunta por los otros 2 minutos.',['Toca una exclusión nuestra para anularla si fue un error (pide confirmar dos veces)','Se puede deshacer con «Deshacer»'],
+  function(){return '<div class="row" style="gap:8px;justify-content:center">'+gChip('Amarilla','var(--amarilloTarjeta)','tarjeta')+gChip('Roja','var(--red)','tarjeta')+gChip('Azul','var(--blue)','tarjeta')+'</div>';}],
+ ['Puestos que aprenden','El puesto que definas es el punto de partida: pesa mucho al principio y, según el jugador juega en otros sitios, manda lo aprendido. En la ficha puedes marcar si es diestro o zurdo.',['La defensa se nombra como en balonmano: 1, 2, 3 y AV, con su banda','Cada uno defiende en la banda en la que ataca','«Olvidar lo aprendido en defensa» si se equivocó'],
+  function(){return '<div class="row" style="gap:6px;justify-content:center">'+['1D','2D','3D','3I','2I','1I'].map(function(x){return '<span class="tddef" style="position:static;transform:none;width:44px;height:44px"><b style="font-size:14px">'+x+'</b></span>';}).join('')+'</div>';}],
+ ['Estadísticas','Nueva tarjeta de goles y acierto por jugador en las estadísticas del partido. La copia de seguridad guarda también las posiciones aprendidas y definidas.',['Importar combinando añade las posiciones sin borrar las tuyas'],
+  function(){return '<div class="glass panel p12 stack8"><div class="row f-foot"><span class="sb grow">Hugo</span><span class="sec">5 G / 7 T</span><b style="margin-left:8px">71%</b></div>'+barraPct(.71,'var(--blue)')+'</div>';}]
 ];
 
 /* ---------- arranque ---------- */
