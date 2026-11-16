@@ -650,6 +650,19 @@ img.escudo{object-fit:contain;flex:none;border-radius:8px;display:inline-block;v
 .match .content{padding-bottom:calc(210px + env(safe-area-inset-bottom,0px))}
 .zinf{z-index:26}
 .gate{position:fixed;top:0;right:0;bottom:0;left:0;z-index:200;display:grid;place-items:center;background:var(--bg);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+/* ---- web 17 ---- */
+.ficha.solonum .n{display:none}
+.ficha.solonum .d{font-size:26px}
+.ficha.big.solonum .d{font-size:40px}
+.ficha.solonom .d:empty{display:none}
+.ficha.solonom .n{font-size:13px;font-weight:800;white-space:normal;line-height:1.1;text-align:center;overflow-wrap:anywhere}
+.ficha.big.solonom .n{font-size:16px}
+.mesa button{min-width:0}
+.planes .plan{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border-radius:20px;padding:12px 14px;border:2px solid transparent}
+.planes .plan.on{border-color:var(--acento);background:color-mix(in srgb,var(--acento) 12%,var(--glass))}
+.planes .plan .pr{margin-left:auto;text-align:right;white-space:nowrap}
+.planes .regalo{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--green) 18%,transparent);color:var(--green);font-weight:700;font-size:13px}
+.planes .regalo svg{width:15px;height:15px}
 </style>
 </head><body>
 <div id="loading" class="loading"><div class="amb"></div><div class="col" style="align-items:center;gap:18px;position:relative;z-index:1">
@@ -813,7 +826,7 @@ var ST={equipos:[],partidos:[],uEq:0,borrados:[]};
 (function cargar(){
   var d=lsGet('sh_store');
   if(d&&Array.isArray(d.equipos)){ST=Object.assign(ST,d);ST.borrados=ST.borrados||[];}
-  else{ST.equipos=[{id:uuid(),nombre:'Juvenil Tarazona',jugadores:[]}];ST.uEq=0;}
+  else{ST.equipos=[{id:uuid(),nombre:'Juvenil Ejemplo',jugadores:[]}];ST.uEq=0;}
 })();
 var syncDirty={eq:false,p:{},b:false};
 function guardarStore(){lsSet('sh_store',ST);Sync.programar();}
@@ -1532,7 +1545,7 @@ function vAjustes(){
   h+=fsec('Pantalla','sun','<div class="frow"><span class="grow row" style="gap:10px"><span class="c-acento" style="display:inline-flex;width:22px">'+ic('sun')+'</span>Modo pabellón</span>'+sw('ge-pab',AJ.modoPabellon,'pabellon')+'</div>','Fondos sólidos, más contraste y reloj y marcador más grandes. Pensado para pabellones con mucha luz. También se activa durante el partido con el botón del sol.');
   h+=fsec('Alineación y cambios','cambio','<div class="frow">'+'<div class="grow">'+seg('vistaAlin',['En el partido','Pantalla aparte'],AJ.vistaAlineacion)+'</div></div>',descVista());
   h+=fsec('iPad en horizontal','pista','<div class="frow"><div class="grow"><div>Vista dividida</div><div class="f-cap sec">Las dos mitades de la pista a la izquierda: tocas al jugador y eliges la acción.</div></div>'+sw('aj-div',!!AJ.vistaDividida,'fDividida')+'</div>');
-  if(window.Licencia)h+=fsec('Licencia','key',Licencia.resumenAjustes());
+  if(window.Licencia)h+=fsec('Plan','key',Licencia.resumenAjustes());
   var cuenta=Sync.activo;
   h+=fsec('Seguridad y respaldo de datos','lockShield',
     '<div class="frow">'+ins('cloud',cuenta?'var(--acento)':'var(--gray)')+'<div class="grow"><div class="f-sub sb">Copia automática</div><div class="f-cap sec">'+(cuenta?'Activa en tu cuenta de Claude'+(Sync.ultima?' · última copia '+haceEsp(Sync.ultima):'')+'. Solo tú ves tus datos.':'Solo en este navegador. Exporta una copia de vez en cuando.')+'</div></div></div>'+
@@ -2311,12 +2324,12 @@ var GUIA=[
  ['Bienvenido a Si Handball','Registra tus partidos de balonmano en directo, jugada a jugada, y analiza después a tu equipo.',['Marcador, reloj, tiempos muertos y sanciones','Estadísticas de cada jugador y del equipo','Mapas de calor, resumen del partido y Excel'],
   function(){return '<div class="col center" style="align-items:center;gap:14px">'+logo(120).replace('class="logo"','class="logo" style="box-shadow:0 8px 16px rgba(8,37,70,.4)"')+'<div class="r blk f-title">'+MARCA.app+'</div><div class="f-cap sec">'+copyright()+'</div></div>';}],
  ['1. Crea tu equipo','Antes del primer partido, entra en Equipos (arriba a la izquierda en la pantalla de inicio).',['Crea el equipo y elige su categoría','Inscribe a los jugadores con nombre, dorsal y posición','Guarda una copia de seguridad desde la misma pantalla'],
-  function(){return '<div class="stack10"><div class="row">'+ins('equipo')+'<div><div class="f-sub b">Juvenil Tarazona</div><div class="f-cap sec">7 jugadores · Juvenil (30 min)</div></div></div><hr class="divider">'+EJ.slice(0,4).map(function(j){return gFila(j);}).join('')+'<div class="center">'+gPill('Inscribir jugador','personPlus','var(--acento)')+'</div></div>';}],
+  function(){return '<div class="stack10"><div class="row">'+ins('equipo')+'<div><div class="f-sub b">Juvenil Ejemplo</div><div class="f-cap sec">7 jugadores · Juvenil (30 min)</div></div></div><hr class="divider">'+EJ.slice(0,4).map(function(j){return gFila(j);}).join('')+'<div class="center">'+gPill('Inscribir jugador','personPlus','var(--acento)')+'</div></div>';}],
  ['2. Prepara el partido','En Nuevo partido eliges la competición, tu equipo, los colores y el rival.',['Convocatoria: marca quién juega y añade apoyos de otros equipos','En juvenil y sénior el acta queda abierta (hasta 2 cambios)','Si cierras la página, el partido se recupera al volver'],
   function(){return '<div class="stack12"><div class="row" style="gap:12px">'+ins('clip')+'<div class="grow"><div class="f-sub b">Convocatoria</div><div class="f-cap sec">12 de 14 jugadores + 1 de apoyo</div></div><span class="sec" style="display:inline-flex;width:14px">'+ic('chevR')+'</span></div>'+gFila(EJ[1])+gFila(EJ[2],false)+
    '<div class="row" style="gap:8px">'+COLORES.map(function(c){return '<span style="width:26px;height:26px;border-radius:50%;background:'+c[1]+';box-shadow:0 0 0 1px color-mix(in srgb,var(--label) 20%,transparent)"></span>';}).join('')+'</div><div class="center">'+gPill('Comenzar partido','play','var(--acento)')+'</div></div>';}],
  ['3. Marcador y reloj','Pulsa ▶︎ para poner el reloj en marcha y ❚❚ para pararlo. El reloj sigue contando aunque bloquees el móvil.',['T.O.: tiempo muerto de cada equipo (con su color)','Al marcar, la casilla destella','Al acabar un periodo aparece el botón para empezar el siguiente'],
-  function(){return '<div class="stack"><div class="row" style="justify-content:space-between">'+gPill('T.O.','tm','var(--blue)')+'<span class="r b tn" style="font-size:40px">18:42</span>'+gPill('T.O.','tm','var(--red)')+'</div><div class="row">'+gCasilla('Tarazona',14,'Azul')+'<span class="playbtn" style="--c:var(--orange);width:52px;height:52px">'+ic('pause')+'</span>'+gCasilla('Rival',11,'Rojo')+'</div></div>';}],
+  function(){return '<div class="stack"><div class="row" style="justify-content:space-between">'+gPill('T.O.','tm','var(--blue)')+'<span class="r b tn" style="font-size:40px">18:42</span>'+gPill('T.O.','tm','var(--red)')+'</div><div class="row">'+gCasilla('Ejemplo',14,'Azul')+'<span class="playbtn" style="--c:var(--orange);width:52px;height:52px">'+ic('pause')+'</span>'+gCasilla('Rival',11,'Rojo')+'</div></div>';}],
  ['4. Registra cada jugada','Cuando termina un ataque o una defensa, toca el botón y sigue los pasos del asistente.',['Resultado → zona de portería → zona de pista → jugador','‹ Atrás vuelve al paso anterior; ⓧ cancela la jugada','Opcional: tipo de lanzamiento (posicional, contraataque, 7 m)','Opcional: dicta la jugada, primero la acción: «gol 22 arriba izquierda pivote»','Tras cada jugada sale un aviso arriba con el botón Deshacer'],
   function(){return '<div class="stack"><div class="row">'+bc({t:'ATAQUE',s:'Registrar jugada',i:'ataque',c:'var(--blue)'})+bc({t:'DEFENSA',s:'Registrar jugada',i:'defensa',c:'var(--red)'})+'</div><div class="row" style="gap:6px;justify-content:center;flex-wrap:wrap">'+['Resultado','Portería','Pista','Jugador'].map(function(p,i){return '<span class="f-cap2 b" style="padding:5px 8px;border-radius:999px;'+(i?'background:color-mix(in srgb,var(--label) 10%,transparent)':'background:var(--blue);color:#fff')+'">'+p+'</span>'+(i<3?'<span class="sec" style="display:inline-flex;width:10px">'+ic('chevR')+'</span>':'');}).join('')+'</div></div>';}],
  ['5. Alineación y cambios','Toca al jugador que sale (se marca en amarillo) y después al suplente que entra (en verde).',['Si hay hueco en pista, basta con tocar al suplente','Completar rellena la pista hasta 7 automáticamente','Preparar: deja hasta 3 cambios listos y hazlos de un toque','Con ⤢ la alineación en grande: pista de defensa con el sistema, o de ataque'],
@@ -2344,7 +2357,7 @@ var NOVEDADES=[
  ['Dictado: acción y números','Siempre el mismo orden. Puedes dictar desde la primera pantalla o pulsar el botón y decir solo lo que falta.',['Ataque: «gol 22 arriba izquierda pivote», «pérdida 22», «falta provocada 22»','Defensa: «parada 1 arriba izquierda extremo derecho 6» (portero, zonas y rival)','«falta 22», «robo 7»… Cuando la frase está completa, se guarda sola'],
   function(){return '<div class="stack10"><div class="center f-sub">“parada 1 arriba izquierda extremo derecho 6”</div>'+[['Acción','Parada'],['Portero','#1 · Lucas'],['Rival','#6'],['Portería','Arriba izq.'],['Pista','Extremo Derecho']].map(function(f){return '<div class="row f-sub"><span class="sb sec grow">'+f[0]+'</span><span class="b">'+f[1]+'</span><span style="display:inline-flex;width:20px;color:var(--green);margin-left:6px">'+ic('checkFill')+'</span></div>';}).join('')+'</div>';}],
  ['Exclusiones del rival y equipos','Al excluir al rival eliges su dorsal, y ves cuántas exclusiones lleva cada uno.',['Aviso de que la tercera exclusión es descalificación','En Acumulado cada equipo va por separado: ver, borrar y exportar','El informe del rival usa solo los partidos del equipo elegido'],
-  function(){return '<div class="stack10"><div class="fex"><span class="d">6</span><span class="sb f-sub ell">Rival · lleva 2</span><span class="t">1:24</span></div><div class="f-foot sb sec">Exclusiones del rival: #6 ×2 · #11 ×1</div><div class="row" style="justify-content:space-between"><span class="f-sub">Equipo</span><span class="c-acento f-sub">Juvenil Tarazona ⌄</span></div></div>';}]
+  function(){return '<div class="stack10"><div class="fex"><span class="d">6</span><span class="sb f-sub ell">Rival · lleva 2</span><span class="t">1:24</span></div><div class="f-foot sb sec">Exclusiones del rival: #6 ×2 · #11 ×1</div><div class="row" style="justify-content:space-between"><span class="f-sub">Equipo</span><span class="c-acento f-sub">Juvenil Ejemplo ⌄</span></div></div>';}]
 ];
 function paginasGuia(){return S.nov?NOVEDADES:GUIA;}
 function vGuia(){
@@ -3224,7 +3237,7 @@ NOVEDADES=[
 ].concat(NOVEDADES.slice(1));
 
 /* Escudos incluidos en la app (Assets.xcassets), reducidos a 160 px */
-var ESC_INC={tarazona:'data:image/webp;base64,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',moncayo:'data:image/webp;base64,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'};
+var ESC_INC={ejemplo:'data:image/webp;base64,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'};
 
 /* =====================================================================
    web 14 · Cambios de la app de iPhone/iPad (Xcode, 8-11 noviembre 2026)
@@ -3431,7 +3444,7 @@ function shRivales(sh){var filtro=sh.todas?null:catCortaEquipo(),gr=Escudos.porC
   if(!gr.length)h+=fsec('',null,'<div class="frow sec">'+(filtro?'Aún no hay rivales de '+esc(filtro)+'. Añade uno arriba.':'Aún no hay rivales. Añade uno arriba.')+'</div>');
   gr.forEach(function(g){h+=fsec(esc(g.c),'rival',g.n.map(function(n){return fila(n,true);}).join(''));});
   if(filtro)h+='<button class="btn gl glass wfull" data-a="rivTodas">Ver los rivales de todas las categorías</button>';
-  if(ST.equipos.length)h+=fsec('Mis equipos','equipo',ST.equipos.map(function(e){return fila(e.nombre,false);}).join(''),'Si un club juega en dos categorías, crea dos equipos con el mismo nombre y distinta categoría: «Tarazona (Cadete)». Comparten escudo.');
+  if(ST.equipos.length)h+=fsec('Mis equipos','equipo',ST.equipos.map(function(e){return fila(e.nombre,false);}).join(''),'Si un club juega en dos categorías, crea dos equipos con el mismo nombre y distinta categoría: «Ejemplo (Cadete)». Comparten escudo.');
   return {title:'Equipos y escudos',right:tbtn('Listo','closeSheet',true),body:h+'</div>'};}
 function reducirImagen(file,cb){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var l=128,e=Math.min(1,l/Math.max(im.width,im.height)),w=Math.round(im.width*e),hh=Math.round(im.height*e),c=document.createElement('canvas');c.width=w;c.height=hh;c.getContext('2d').drawImage(im,0,0,w,hh);
   var u=c.toDataURL('image/webp',.86);if(u.indexOf('data:image/webp')!==0)u=c.toDataURL('image/png');cb(u);};im.onerror=function(){cb(null);};im.src=r.result;};r.readAsDataURL(file);}
@@ -3510,8 +3523,8 @@ NOVEDADES=[
   function(){return '<div class="courtwrap zlado" style="max-width:240px;margin:0 auto"><div style="padding-top:106%"></div><svg class="pista" viewBox="0 0 300 320" preserveAspectRatio="none"><g transform="matrix(0,1,-1,0,300,0)">'+pistaInner()+'</g></svg><span class="znode zdest" style="--zc:var(--blue);left:79%;top:12%"><b>EI</b><span>EXTREMO</span></span></div>';}],
  ['Tiro sobre mi defensa','En los goles y paradas en contra, la pista muestra tu defensa: tocas encima de un defensor o entre dos. Cada tiro cuenta para los defensores a los que afecta.',['Con un excluido la defensa se recompone sola (5-0, 4-0)','En 5-1 o 3-3 también cuenta el avanzado de ese lado','Estadísticas: tiros por zona de influencia de cada defensor'],
   function(){return '<div class="row" style="gap:10px;justify-content:center"><span class="tddef" style="position:static;transform:none"><b>4</b><span>LI</span></span><span class="tdzona" style="position:static;transform:none">'+ic('arrowsLR')+'</span><span class="tddef" style="position:static;transform:none"><b>9</b><span>C</span></span></div>';}],
- ['Escudos','Añade el escudo de tus equipos y de los rivales. En el marcador se ve el escudo en lugar del nombre, y también en la lista de partidos y en los resúmenes.',['Rival → «Lista»: elige rival de tu categoría, añade uno nuevo o pon su escudo','Tarazona y Moncayo ya llevan el suyo'],
-  function(){return '<div class="row" style="gap:18px;justify-content:center">'+escudoHTML('Balonmano Tarazona',72)+escudoHTML('Moncayo',72)+'</div>';}],
+ ['Escudos','Añade el escudo de tus equipos y de los rivales. En el marcador se ve el escudo en lugar del nombre, y también en la lista de partidos y en los resúmenes.',['Rival → «Lista»: elige rival de tu categoría, añade uno nuevo o pon su escudo','El equipo de ejemplo ya lleva el suyo'],
+  function(){return '<div class="row" style="gap:18px;justify-content:center">'+escudoHTML('Handball Ejemplo',72)+'</div>';}],
  ['Más detalles','En defensa hay un botón «Cometemos 2 minutos». En inferioridad, el cambio ataque/defensa se hace con el portero.',['Resumen de cada partido: resumen, acciones por jugador y jugadas en orden','Para familias: todos los goleadores con su porcentaje de tiro','Acumulado: ganados, empatados y perdidos de la temporada'],
   function(){return '<div class="row" style="gap:8px;justify-content:center;flex-wrap:wrap">'+gChip('Resumen','var(--blue)','stats')+gChip('Acciones','var(--orange)','person2')+gChip('Jugadas','var(--green)','listBullet')+'</div>';}]
 ];
@@ -3768,6 +3781,175 @@ NOVEDADES=[
   function(){return '<div class="glass panel p12 stack8"><div class="row f-foot"><span class="sb grow">#7 Hugo</span><span class="sec">5 G / 7 T</span><b style="margin-left:8px">71%</b></div>'+barraPct(.71,'var(--blue)')+'<div class="row f-foot"><span class="sb grow">#22 Iker</span><span class="sec">3 G / 6 T</span><b style="margin-left:8px">50%</b></div>'+barraPct(.5,'var(--blue)')+'</div>';}]
 ].concat(NOVEDADES.slice(1));
 
+/* =====================================================================
+   web 17 · Cambios de la app de iPhone/iPad (Xcode, 15-16 noviembre 2026)
+   Contraataques (no cuentan para la defensa colocada; se penaliza la pérdida),
+   Pareja 1 y Pareja 2 con su propio interruptor, inferioridad encendida de
+   serie y automática con el jugador de siempre, cómo se ven los jugadores
+   (número, nombre o ambos), cambio por voz y escudo de ejemplo.
+   ===================================================================== */
+MARCA.version='1.0 (web 17)';
+Object.assign(P,{mic2:'<path d="M12 3.5a2.6 2.6 0 00-2.6 2.6v5.6a2.6 2.6 0 005.2 0V6.1A2.6 2.6 0 0012 3.5z"/><path d="M6.5 11.2a5.5 5.5 0 0011 0M12 16.8v3.7M9 20.5h6"/>'});
+
+/* ---------- Contraataque (AccionDefensiva.swift · DefenseFlowView.swift) ---------- */
+var SEG_CONTRAATAQUE=20,PERDIDA_GOL_CONTRA=.75;
+/* ¿El tiro rival de la posición i fue al contraataque? Por el tipo anotado o, sin tipo, porque llega justo tras una pérdida nuestra */
+function contraataqueEn(acc,i){var t=acc[i];if(!t||t.tipo!=='Defensa'||t.tipoLanzamiento===TL.pos||t.tipoLanzamiento===TL.m7)return {es:false,perdida:null};
+  var per=null;for(var j=i-1;j>=0;j--){var a=acc[j];if(a.tipo!=='Ataque'&&a.tipo!=='Defensa')continue;
+    if(a.tipo==='Ataque'&&a.resultado==='Pérdida'&&(a.periodo||1)===(t.periodo||1)){var d=(t.minuto*60+t.segundo)-(a.minuto*60+a.segundo);if(t.tipoLanzamiento===TL.ca||(d>=0&&d<=SEG_CONTRAATAQUE))per=a;}break;}
+  return {es:t.tipoLanzamiento===TL.ca||!!per,perdida:per};}
+/* Mientras se anota un tiro rival: ¿es contraataque? */
+function flEsContraataque(){if(!FL||FL.t!=='defensa')return false;if(FL.tipo===TL.ca)return true;if(FL.tipo===TL.pos||FL.tipo===TL.m7)return false;
+  var u=null;for(var i=M.historial.length-1;i>=0;i--){var a=M.historial[i];if(a.tipo==='Ataque'||a.tipo==='Defensa'){u=a;break;}}
+  if(!u||u.tipo!=='Ataque'||u.resultado!=='Pérdida'||(u.periodo||1)!==M.periodo)return false;
+  var d=(M.minutos*60+M.segundos)-(u.minuto*60+u.segundo);return d>=0&&d<=SEG_CONTRAATAQUE;}
+/* Al contraataque no hay defensa colocada: se marca solo la zona, no los defensores */
+instantaneaDefensa=(function(o){return function(){if(flEsContraataque())return null;return o.apply(this,arguments);};})(instantaneaDefensa);
+flGuardarDef=(function(o){return function(j){if(flEsContraataque()&&FL){FL.defAf=null;FL.inst=null;}return o(j);};})(flGuardarDef);
+/* Gol rival al contraataque tras una pérdida: se penaliza a quien perdió el balón */
+valoracionJugadores=(function(o){return function(acc){var v=o(acc),ix={};v.forEach(function(x){ix[x.id]=x;});
+  acc.forEach(function(a,i){if(a.tipo!=='Defensa'||a.resultado!=='Gol')return;var p=contraataqueEn(acc,i).perdida;if(!p||!p.jugadorNombre)return;var k=claveAccion(p);if(!k)return;
+    var x=ix[k];if(!x){x=ix[k]={id:k,nombre:p.jugadorNombre,a:0,d:0,t:0};v.push(x);}x.a-=PERDIDA_GOL_CONTRA;x.t=x.a+x.d;});
+  return v.sort(function(x,y){return y.t-x.t;});};})(valoracionJugadores);
+tarjetaInfluencia=function(acc){var m={};acc.forEach(function(a,i){if(a.tipo!=='Defensa'||['Gol','Parada','Fuera'].indexOf(a.resultado)<0)return;if(contraataqueEn(acc,i).es)return;
+    (a.defensoresAfectados||[]).forEach(function(n){var f=m[n]||(m[n]={n:n,t:0,g:0});f.t++;if(a.resultado==='Gol')f.g++;});});
+  var l=Object.keys(m).map(function(k){return m[k];}).sort(function(a,b){return b.g-a.g||b.t-a.t;});if(!l.length)return '';
+  return '<div class="glass panel stack8">'+etq('TIROS POR ZONA DE INFLUENCIA','shieldHalf')+l.map(function(f){return '<div class="row f-foot"><span class="sb grow ell">'+esc(f.n)+'</span><span class="r b tn" style="color:'+(f.g?'var(--red)':'var(--label)')+'">'+f.g+' goles de '+f.t+' tiros</span></div>';}).join('')+
+    '<div class="f-cap sec">Cada tiro cuenta para los defensores a los que afecta la zona por la que entró. Los contraataques no cuentan: se penaliza a quien perdió el balón.</div></div>';};
+tarjetaValoracion=(function(o){return function(acc){return o(acc).replace('pérdida −1.','pérdida −1 (−0,75 más si el rival marca al contraataque).');};})(tarjetaValoracion);
+
+/* ---------- Pareja 1 y Pareja 2, cada una con su interruptor ---------- */
+nuevoManager=(function(o){return function(){var m=o();m.activarPareja2=lsGet('sh_pareja2')===true;return m;};})(nuevoManager);
+if(M&&M.activarPareja2==null)M.activarPareja2=lsGet('sh_pareja2')===true;
+MM.algunaPareja=function(){return !!(M.activarEsp||M.activarPareja2);};
+MM.parejasCambio=function(){
+  if(MM.enInferioridad()){if(!MM.sieteContraSeisActivo())return [];var p=MM.porteroParaDefender();return p?[{ataca:M.ataInf,defiende:p.id}]:[];}
+  var r=[];if(M.activarEsp)r.push({ataca:M.espAtaque,defiende:M.espDefensa});if(M.activarPareja2)r.push({ataca:M.espAtaque2,defiende:M.espDefensa2});
+  return r.filter(function(x){return x.ataca||x.defiende;});};
+MM.cambioDeFaseActivo=function(){return (MM.algunaPareja()&&!MM.enInferioridad())||MM.sieteContraSeisActivo();};
+MM.idsEsp=function(rol){var r=[];if(M.activarEsp)r.push(rol==='a'?M.espAtaque:M.espDefensa);if(M.activarPareja2)r.push(rol==='a'?M.espAtaque2:M.espDefensa2);return r.filter(Boolean);};
+/* En la pestaña «Pareja 2» del asistente se edita la segunda pareja y su interruptor */
+conPareja=function(sh,f){if(!sh||sh.pareja!==2)return f();var a=M.espAtaque,d=M.espDefensa,on=M.activarEsp;
+  M.espAtaque=M.espAtaque2||null;M.espDefensa=M.espDefensa2||null;M.activarEsp=!!M.activarPareja2;
+  try{return f();}finally{M.espAtaque2=M.espAtaque;M.espDefensa2=M.espDefensa;M.activarPareja2=M.activarEsp;M.espAtaque=a;M.espDefensa=d;M.activarEsp=on;}};
+(function(){var oc=C.espOn;C.espOn=function(el){var sh=topSheet();var r=conPareja(sh,function(){return oc(el);});if(sh&&sh.pareja===2)lsSet('sh_pareja2',!!M.activarPareja2);return r;};})();
+shEspecialistas=(function(o){return function(sh){var r=o(sh),dos=sh.pareja===2,on=dos?!!M.activarPareja2:!!M.activarEsp;
+  r.body=r.body.replace(/<div class="glass panel stack8"><div class="seg" role="tablist">[\s\S]*?se ponen en pausa\.<\/div><\/div>/,'')
+    .replace('<div class="f-foot sec center" style="padding:10px 0">Activa el cambio automático para elegir quién entra a atacar y quién a defender.</div>','')
+    .replace('<span>Cambio automático</span>','<span>Pareja '+(dos?2:1)+' · cambio automático</span>');
+  var tabs='<div class="glass panel stack8">'+seg('espPareja',[['1','Pareja 1'+(M.activarEsp?' ✓':'')],['2','Pareja 2'+(M.activarPareja2?' ✓':'')]],String(sh.pareja||1))+'<div class="f-cap sec">Cada pareja tiene su interruptor y comparte un sitio en la pista. En inferioridad se ponen en pausa.</div></div>';
+  r.body=r.body.replace('<div class="glass panel stack10 f-head">',tabs+'<div class="glass panel stack10 f-head">');
+  if(!on)r.body=r.body.replace(/<\/div><\/div>$/,'<div class="f-foot sec center" style="padding:10px 0">Activa la pareja '+(dos?2:1)+' para elegir quién entra a atacar y quién a defender.</div></div></div>');
+  return r;};})(shEspecialistas);
+SB.especialistas=shEspecialistas;
+/* La ficha marca a los de las parejas encendidas */
+ficha=(function(o){return function(j,big,w){var h=o(j,big,w).replace(/class="ficha press([^"]*?) esp[AD]/,'class="ficha press$1');
+  if(M.activo&&!MM.enInferioridad()){var c=(M.activarEsp&&M.espAtaque===j.id)||(M.activarPareja2&&M.espAtaque2===j.id)?'espA':(M.activarEsp&&M.espDefensa===j.id)||(M.activarPareja2&&M.espDefensa2===j.id)?'espD':'';
+    if(c)h=h.replace('class="ficha press','class="ficha press '+c);}
+  /* Cómo se ven nuestros jugadores: número y nombre, solo número o solo nombre */
+  var v=lsGet('sh_etiqueta');if(v==='numero'&&!MM.etiquetaSancion(j.id))h=h.replace('class="ficha press','class="ficha press solonum');
+  else if(v==='nombre')h=h.replace('class="ficha press','class="ficha press solonom').replace(/(<span class="d">(?:<svg[\s\S]*?<\/svg>)?)\d+(<\/span>)/,'$1$2');
+  return h;};})(ficha);
+
+/* ---------- Inferioridad: encendida de serie y automática con el jugador elegido ---------- */
+if(lsGet('sh_sieteInf')==null)lsSet('sh_sieteInf',true);
+MM.revisarInferioridad=function(){if(!M.activo)return;if(!MM.enInferioridad()){M.infPreg=false;M.ataInf=null;return;}if(M.infPreg)return;
+  if(lsGet('sh_sieteInf')===false)return;M.infPreg=true;MM.asegurarPorteroEnDefensa();
+  var hab=lsGet('sh_infHabitual'),j=hab&&MM.candidatosInferioridad().find(function(x){return x.id===hab;});
+  if(j){M.ataInf=j.id;setTimeout(function(){toast('Inferioridad: al atacar sale el portero y entra #'+j.dorsal+' '+j.nombre+'.');render();},300);return;}
+  setTimeout(function(){if(M.activo&&MM.enInferioridad()&&!S.sheets.some(function(s){return s.t==='inferioridad';})){abrirSheet('inferioridad',{sel:(MM.propuestaInferioridad()||{}).id||null});render();}},350);};
+shPosiciones=(function(o){return function(sh){var r=o(sh);r.body=r.body.replace('Si usas el cambio ataque / defensa, también pregunta.','Si ya elegiste a alguien y está en el banquillo, entra él sin preguntar (te avisa); lo cambias aquí.');return r;};})(shPosiciones);
+SB.posiciones=shPosiciones;
+
+/* ---------- Ajustes: cómo se ven nuestros jugadores ---------- */
+vAjustes=(function(o){return function(){var h=o(),k='<span>iPad en horizontal</span>',i=h.indexOf(k);if(i<0)return h;var s=h.lastIndexOf('<section class="fsec">',i);if(s<0)return h;
+  var v=lsGet('sh_etiqueta')||'ambos';
+  return h.slice(0,s)+fsec('Nuestros jugadores','jugador','<div class="frow"><div class="grow">'+seg('etqJug',[['ambos','Número y nombre'],['numero','Número'],['nombre','Nombre']],v)+'</div></div>','Cómo se ven nuestros jugadores en las pistas y al elegirlos durante el partido.')+h.slice(s);};})(vAjustes);
+
+/* ---------- Cambio por voz: «entra 54, sale 45» (CambioVozView.swift) ---------- */
+var CV_NUM={cero:0,un:1,uno:1,una:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,once:11,doce:12,trece:13,catorce:14,quince:15,dieciseis:16,diecisiete:17,dieciocho:18,diecinueve:19,
+  veinte:20,veintiun:21,veintiuno:21,veintidos:22,veintitres:23,veinticuatro:24,veinticinco:25,veintiseis:26,veintisiete:27,veintiocho:28,veintinueve:29,treinta:30,cuarenta:40,cincuenta:50,sesenta:60,setenta:70,ochenta:80,noventa:90};
+function cambiosDictados(texto){var tk=String(texto||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').split(/[^a-z0-9]+/).filter(Boolean),en=[],sa=[],modo=0,i=0;
+  while(i<tk.length){var t=tk[i];
+    if(['entra','entran','entrar','entre','dentro','in'].indexOf(t)>=0){modo=1;i++;continue;}
+    if(['sale','salen','salir','sal','out'].indexOf(t)>=0){modo=2;i++;continue;}
+    var n=null;if(/^\d+$/.test(t)&&+t<=99)n=+t;else if(CV_NUM[t]!=null){var b=CV_NUM[t];if(b>=20&&i+2<tk.length&&tk[i+1]==='y'&&CV_NUM[tk[i+2]]!=null&&CV_NUM[tk[i+2]]<10){n=b+CV_NUM[tk[i+2]];i+=2;}else n=b;}
+    if(n!=null){if(modo===1)en.push(n);else if(modo===2)sa.push(n);}i++;}
+  var r=[];for(var k=0;k<Math.min(en.length,sa.length);k++)r.push({entra:en[k],sale:sa[k]});return r;}
+function cvParar(sh){if(sh&&sh.timer){clearInterval(sh.timer);sh.timer=null;}Voz.cancelar();}
+function cvEscuchar(sh){cvParar(sh);sh.error=null;sh.cambios=null;sh.voz={texto:'',escuchando:false,error:null};
+  Voz.empezar(sh.voz,function(fin){if(S.sheets.indexOf(sh)<0)return;if(fin===true)cvEntender(sh);render();},function(t){return cambiosDictados(t).length>0;});}
+function cvEntender(sh){var t=sh.voz.texto;if(!t)return;var n=t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  if(n.indexOf('cancel')>=0||n.indexOf('anula')>=0){cvCerrar(sh);return;}
+  var ped=cambiosDictados(t);if(!ped.length){sh.error='No lo he entendido. Di «entra» y el dorsal, y «sale» y el dorsal.';return;}
+  var pl=MM.jugadores(),par=MM.idsEsp('a').concat(MM.idsEsp('d')),lista=[];
+  for(var i=0;i<ped.length;i++){var p=ped[i],sale=pl.find(function(j){return j.dorsal===p.sale&&MM.enPista(j.id);}),entra=pl.find(function(j){return j.dorsal===p.entra&&!MM.enPista(j.id);});
+    if(!sale){sh.error='El '+p.sale+' no está en pista.';return;}
+    if(!entra){sh.error='El '+p.entra+' no está en el banquillo.';return;}
+    if(MM.estaExcluido(entra.id)){sh.error='El '+p.entra+' está sancionado.';return;}
+    if(MM.algunaPareja()&&(par.indexOf(sale.id)>=0||par.indexOf(entra.id)>=0)){sh.error='Es del cambio ataque / defensa: cámbialo desde su botón.';return;}
+    if((sale.posicion==='Portero')!==(entra.posicion==='Portero')){sh.error='Un portero solo se cambia por otro portero.';return;}
+    lista.push({entra:entra,sale:sale});}
+  sh.cambios=lista;sh.seg=4;
+  try{if(window.speechSynthesis){var u=new SpeechSynthesisUtterance(lista.map(function(c){return 'Entra '+c.entra.dorsal+', sale '+c.sale.dorsal;}).join('. '));u.lang='es-ES';speechSynthesis.speak(u);}}catch(e){}
+  sh.timer=setInterval(function(){if(S.sheets.indexOf(sh)<0){cvParar(sh);return;}sh.seg--;if(sh.seg<=0)cvHacer(sh);render();},1000);}
+function cvHacer(sh){var l=sh.cambios||[];cvParar(sh);sh.cambios=null;
+  l.forEach(function(c){if(MM.enPista(c.sale.id)&&!MM.enPista(c.entra.id))MM.intercambiar(c.sale.id,c.entra.id);});
+  var i=S.sheets.indexOf(sh);if(i>=0)S.sheets.splice(i,1);
+  if(l.length){MM.vibrar(30);toast(l.map(function(c){return 'Entra #'+c.entra.dorsal+' · sale #'+c.sale.dorsal;}).join(' · '));}}
+function cvCerrar(sh){cvParar(sh);var i=S.sheets.indexOf(sh);if(i>=0)S.sheets.splice(i,1);}
+function shCambioVoz(sh){var v=sh.voz||{},h='<div class="wrap stack" style="padding-top:6px">',foot;
+  if(!sh.cambios){
+    h+='<div class="glass panel stack10 center"><div class="row" style="gap:8px;justify-content:center;color:'+(v.escuchando?'var(--red)':'var(--orange)')+'">'+ic(v.escuchando?'mic':'cambio')+'<span class="f-title3 b" style="color:var(--label)">'+(v.escuchando?'Escuchando…':'Cambio por voz')+'</span></div>'+
+      '<div class="f-sub" style="min-height:44px;color:'+(v.texto?'var(--label)':'var(--label2)')+'">'+(v.texto?'“'+esc(v.texto)+'”':'Di, por ejemplo: «entra 54, sale 45»')+'</div>'+
+      (sh.error?'<div class="f-foot sb c-red">'+esc(sh.error)+'</div>':'')+(v.error?'<div class="f-foot c-red">'+esc(v.error)+'</div>':'')+
+      '<div class="f-cap sec">También vale «entran 7 y 9, salen 11 y 3». Di «cancelar» para no hacer nada.</div></div>';
+    foot='<div class="stack8"><button class="btn prom lg wfull" style="--tint:var(--orange)" data-a="cvRepetir"'+(v.escuchando?' disabled':'')+'>'+ic('mic')+(v.escuchando?'Escuchando…':'Repetir')+'</button></div>';
+  }else{
+    h+='<div class="glass panel stack12"><div class="f-title3 b center">Cambio en <span class="tn">'+sh.seg+'</span> s</div>'+sh.cambios.map(function(c){
+      function f(t,j,col){return '<div class="grow col" style="align-items:center;gap:2px;padding:8px;border-radius:16px;background:color-mix(in srgb,'+col+' 16%,transparent)"><span class="f-cap2 b" style="color:'+col+'">'+t+'</span><span class="r blk tn" style="font-size:28px">#'+j.dorsal+'</span><span class="f-cap sb ell" style="max-width:100%">'+esc(j.nombre)+'</span></div>';}
+      return '<div class="row" style="gap:8px">'+f('ENTRA',c.entra,'var(--green)')+'<span style="display:inline-flex;width:22px">'+ic('cambio')+'</span>'+f('SALE',c.sale,'var(--red)')+'</div>';}).join('')+
+      '<div class="pbar" style="--c:var(--orange)"><i style="width:'+(sh.seg/4*100)+'%"></i></div></div>';
+    foot='<div class="row" style="gap:10px"><button class="btn gl glass lg grow" data-a="cvCancelar">'+ic('xfill')+'Cancelar</button><button class="btn prom lg grow" style="--tint:var(--green)" data-a="cvYa">'+ic('check')+'Hacer ya</button></div>';}
+  return {title:'Cambio por voz',left:tbtn('Cerrar','cvCancelar'),body:h+'</div>',foot:foot};}
+SB.cambioVoz=shCambioVoz;
+function cvSheet(){return S.sheets.find(function(s){return s.t==='cambioVoz';});}
+(function(){var oc=A.closeSheet;A.closeSheet=function(){var t=topSheet();if(t&&t.t==='cambioVoz'){cvCerrar(t);return;}return oc.apply(this,arguments);};})();
+Object.assign(A,{
+  cvAbrir:function(){if(!Voz.disponible()){toast('Este navegador no permite el dictado por voz');return;}S.sel=null;var sh=abrirSheet('cambioVoz',{});cvEscuchar(sh);},
+  cvRepetir:function(){var sh=cvSheet();if(sh)cvEscuchar(sh);},
+  cvCancelar:function(){var sh=cvSheet();if(sh)cvCerrar(sh);},
+  cvYa:function(){var sh=cvSheet();if(sh)cvHacer(sh);},
+  etqJug:function(d){lsSet('sh_etiqueta',d.v);}
+});
+/* Resumen del asistente en el partido: también la pareja 2 */
+vMatch=(function(o){return function(){var h=o();if(!M.activarPareja2)return h;var e=function(id){var j=id&&MM.jug(id);return j?'#'+j.dorsal:'—';};
+  var t=(M.activarEsp?'P1 '+e(M.espAtaque)+' / '+e(M.espDefensa)+'  ·  ':'')+'P2 Ataque '+e(M.espAtaque2)+'  ·  Defensa '+e(M.espDefensa2);
+  return h.replace(/(<div class="f-sub sb">Asistente de cambio<\/div><div class="f-cap sec">)[^<]*/,'$1'+t).replace("data-v=\"especialistas\">"+ins('cambio','var(--gray)',36),"data-v=\"especialistas\">"+ins('cambio','var(--blue)',36));};})(vMatch);
+/* Botón «Voz» en la mesa del partido */
+zonaInferior=(function(o){return function(){var h=o();if(!Voz.disponible())return h;
+  return h.replace('<button class="glass press" style="--c:var(--green)" data-a="dlgFinalizar">','<button class="glass press" style="--c:var(--teal)" data-a="cvAbrir">'+ic('mic')+'Voz</button><button class="glass press" style="--c:var(--green)" data-a="dlgFinalizar">');};})(zonaInferior);
+
+/* ---------- Escudo de ejemplo en las novedades ---------- */
+NOVEDADES=NOVEDADES.map(function(p){if(p[0]==='Escudos')return [p[0],p[1],p[2],function(){return '<div class="row" style="gap:18px;justify-content:center">'+escudoHTML('Handball Ejemplo',72)+'<span class="escvacio" style="width:72px;height:72px;border-radius:18px">'+ic('shieldHalf')+'</span></div>';}];return p;})
+  .filter(function(p){return p[0]!=='Licencia de uso';});
+GUIA=GUIA.filter(function(p){return p[0]!=='Licencia de uso';});
+
+/* ---------- Novedades de la versión web 17 ---------- */
+NOV_VER='web 17';
+NOVEDADES=[
+ ['Novedades de Si Handball','Lo último de la app de iPhone y iPad, también en la web.',['Cambio por voz','Los contraataques ya no cuentan para tu defensa','Pareja 1 y Pareja 2, inferioridad automática'],
+  function(){return '<div class="col center" style="align-items:center;gap:14px">'+logo(110).replace('class="logo"','class="logo" style="box-shadow:0 8px 16px rgba(8,37,70,.4)"')+'<span class="pill" style="--c:var(--naranja)">'+ic('flame')+'Versión '+MARCA.version+'</span></div>';}],
+ ['Cambio por voz','En la mesa del partido, toca «Cambio voz» y di «entra 54, sale 45». Se hace a los 4 segundos, por si quieres cancelarlo.',['Varios a la vez: «entran 7 y 9, salen 11 y 3»','Comprueba que el que sale está en pista y el que entra en el banquillo y sin sanción'],
+  function(){return '<div class="row" style="gap:8px">'+[['ENTRA','54','var(--green)'],['SALE','45','var(--red)']].map(function(x){return '<div class="grow col" style="align-items:center;gap:2px;padding:10px;border-radius:16px;background:color-mix(in srgb,'+x[2]+' 16%,transparent)"><span class="f-cap2 b" style="color:'+x[2]+'">'+x[0]+'</span><span class="r blk" style="font-size:30px">#'+x[1]+'</span></div>';}).join('')+'</div>';}],
+ ['Contraataques','Si el rival marca al contraataque no había defensa colocada: el tiro no cuenta para los defensores de la zona.',['Se sabe por el tipo de lanzamiento o porque llega hasta 20 s después de una pérdida nuestra','Quien perdió el balón resta 0,75 más en su valoración si acaba en gol'],
+  function(){return '<div class="glass panel p12 stack8"><div class="row f-foot"><span class="sb grow">Pérdida #7 Hugo</span><span class="sec tn">12:04</span></div><div class="row f-foot"><span class="sb grow">Gol rival al contraataque</span><span class="sec tn">12:11</span></div><div class="row f-foot"><span class="grow sec">Valoración de Hugo</span><b class="c-red">−1,75</b></div></div>';}],
+ ['Pareja 1 y Pareja 2','Cada pareja ataque / defensa tiene su propio interruptor en el asistente: puedes usar solo una, la otra o las dos.',['En inferioridad juegas 7 contra 6 de serie (se puede apagar en Posiciones)','Si ya elegiste quién entra por el portero y está en el banquillo, entra él sin preguntar'],
+  function(){return '<div class="glass panel p12 stack8"><div class="seg" style="pointer-events:none"><button class="on">Pareja 1 ✓</button><button>Pareja 2</button></div><div class="row f-foot"><span class="grow">Pareja 1 · cambio automático</span><label class="sw"><input type="checkbox" checked disabled><i></i></label></div></div>';}],
+ ['Número, nombre o ambos','En Ajustes y clubes → Nuestros jugadores eliges cómo se ven tus jugadores en las pistas y al elegirlos.',['Número y nombre, solo el número o solo el nombre'],
+  function(){return '<div class="row" style="gap:8px;justify-content:center">'+['ambos','numero','nombre'].map(function(v){return '<div class="ficha col'+(v==='numero'?' solonum':v==='nombre'?' solonom':'')+'" style="--c:var(--blue);width:72px;min-height:60px">'+(v!=='nombre'?'<span class="d">22</span>':'')+'<span class="n">Iker</span></div>';}).join('')+'</div>';}]
+].concat(NOVEDADES.slice(1));
+
 /* ---------- arranque ---------- */
 render();
 setTimeout(function(){var l=document.getElementById('loading');if(l){l.classList.add('out');setTimeout(function(){l.remove();},400);}
@@ -3777,29 +3959,40 @@ setTimeout(Sync.init,0);
 
 
 /* =====================================================================
-   Licencia de uso (solo versión instalable)
-   4 partidos de prueba. Después, «Renovar licencia» muestra el código de
-   solicitud de este dispositivo; Juanma lo mete en su generador privado y
-   devuelve un código de uso firmado, válido solo aquí y hasta la fecha que él elija.
-   Los códigos antiguos por nombre siguen valiendo hasta que caduquen.
+   Planes de uso (solo versión instalable) · igual que Suscripcion.swift
+   7 días de prueba gratis. Después hace falta un plan de 2, 5 o 10 equipos,
+   mensual o anual. Sin plan se puede consultar todo lo guardado, pero no
+   crear partidos nuevos. Juanma recibe el código de solicitud y el plan, y
+   devuelve un código de uso firmado para este dispositivo: {d, e, p, n}.
+   Los códigos antiguos (sin plan) valen como plan de 10 equipos.
    ===================================================================== */
 var CLAVE_PUBLICA={"kty":"EC","crv":"P-256","x":"HXviliLob1Ywi6BFEa2mNj0wCPk7EnHf35Uzbrj1Bqk","y":"HpsFL1JF_h7c25kjko1vJtP_4UzxvqWibpaa0B0R3tc"};
-var PARTIDOS_PRUEBA=4;
+var DIAS_PRUEBA=7,EQUIPOS_PRUEBA=2,EMAIL_PLANES='sihandball.app@gmail.com';
+var PLANES=[
+  {n:2,t:'2 equipos',d:'Para un entrenador con uno o dos equipos.',m:'4,99 €',a:'44,99 €'},
+  {n:5,t:'Hasta 5 equipos',d:'Para varias categorías o un preparador.',m:'7,99 €',a:'69,99 €'},
+  {n:10,t:'Hasta 10 equipos',d:'Para clubes pequeños.',m:'12,99 €',a:'109,99 €'}];
 var Licencia={
-  datos:null,
+  datos:null,ui:{anual:true,sel:5},
   b64d:function(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;},
   extraer:function(txt){txt=String(txt||'').trim();var m=txt.match(/[#?&]c=([A-Za-z0-9_\-.]+)/);if(m)return m[1];return txt.replace(/\s+/g,'');},
   fin:function(e){return new Date(e+'T23:59:59').getTime();},
   fecha:function(iso){return new Date(iso+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});},
-  /* Identificador de este dispositivo: 8 caracteres sin letras que se confundan */
   id:function(){var d=lsGet('sh_disp');if(typeof d!=='string'||!/^[2-9A-HJ-NP-Z]{8}$/.test(d)){var al='23456789ABCDEFGHJKMNPQRSTUVWXYZ',r=new Uint8Array(8);crypto.getRandomValues(r);d='';for(var i=0;i<8;i++)d+=al[r[i]%al.length];lsSet('sh_disp',d);}return d;},
   solicitud:function(){var d=Licencia.id();return 'SH-'+d.slice(0,4)+'-'+d.slice(4);},
-  usos:function(){var l=lsGet('sh_usos');return Math.max(Array.isArray(l)?l.length:0,(ST.partidos||[]).length);},
-  contar:function(id){var l=lsGet('sh_usos');if(!Array.isArray(l))l=[];if(l.indexOf(id)<0){l.push(id);lsSet('sh_usos',l);}},
-  restantes:function(){return Math.max(0,PARTIDOS_PRUEBA-Licencia.usos());},
+  /* Prueba gratuita: 7 días desde el primer uso en este dispositivo */
+  primerUso:function(){var p=lsGet('sh_primerUso');if(typeof p!=='number'){p=Date.now();lsSet('sh_primerUso',p);}return p;},
+  diasPrueba:function(){var p=Licencia.primerUso(),f=new Date(p);f.setHours(23,59,59,0);f.setDate(f.getDate()+DIAS_PRUEBA-1);return Math.max(0,Math.ceil((f.getTime()-Date.now())/864e5));},
+  enPrueba:function(){return !Licencia.vigente()&&Licencia.diasPrueba()>0;},
+  /* Compatibilidad con lo anterior */
+  contar:function(){},usos:function(){return 0;},restantes:function(){return Licencia.diasPrueba();},
   vigente:function(){var d=Licencia.datos;return !!(d&&Date.now()<=Licencia.fin(d.e));},
   dias:function(){var d=Licencia.datos;return d?Math.ceil((Licencia.fin(d.e)-Date.now())/864e5):0;},
-  puedeEmpezar:function(){return Licencia.vigente()||Licencia.restantes()>0;},
+  infoPlan:function(n){return PLANES.find(function(p){return p.n===n;})||{n:n,t:'Hasta '+n+' equipos'};},
+  /* Equipos que permite lo que hay ahora (0: sin plan) */
+  limite:function(){if(Licencia.vigente())return +Licencia.datos.p||10;return Licencia.enPrueba()?EQUIPOS_PRUEBA:0;},
+  puedeEmpezar:function(){return Licencia.limite()>0;},
+  puedeCrearEquipo:function(){return (ST.equipos||[]).length<Licencia.limite();},
   verificar:async function(codigo){
     try{
       var p=codigo.split('.');if(p.length!==2)return {ok:false,motivo:'formato'};
@@ -3808,19 +4001,21 @@ var Licencia={
       if(!ok)return {ok:false,motivo:'firma'};
       var d=JSON.parse(new TextDecoder().decode(Licencia.b64d(p[0])));
       if(isNaN(Licencia.fin(d.e)))return {ok:false,motivo:'formato'};
+      if(!d.p)d.p=10;
       if(d.d&&d.d!==Licencia.id())return {ok:false,motivo:'otro',datos:d};
       if(Date.now()>Licencia.fin(d.e))return {ok:false,motivo:'caducado',datos:d};
       return {ok:true,datos:d};
     }catch(e){return {ok:false,motivo:'formato'};}
   },
   error:function(r){return r.motivo==='caducado'?'Ese código caducó el '+Licencia.fecha(r.datos.e)+'.':r.motivo==='otro'?'Ese código es de otro dispositivo. Envía tu código de solicitud, el que ves arriba.':'El código no es válido. Cópialo entero, tal como te lo enviaron.';},
-  /* Al abrir: código del enlace (#c=…) o el guardado */
+  activado:function(d){toast('Plan «'+Licencia.infoPlan(d.p).t+'» activo hasta el '+Licencia.fecha(d.e));},
   cargar:async function(){
+    Licencia.primerUso();
     var nuevo=Licencia.extraer(location.hash),guardado=lsGet('sh_acceso');
     if(nuevo&&nuevo.indexOf('.')>0){
       try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}
       var r=await Licencia.verificar(nuevo);
-      if(r.ok){lsSet('sh_acceso',nuevo);Licencia.datos=r.datos;render();toast('Licencia activada hasta el '+Licencia.fecha(r.datos.e));render();return;}
+      if(r.ok){lsSet('sh_acceso',nuevo);Licencia.datos=r.datos;render();Licencia.activado(r.datos);render();return;}
       Licencia.abrir(null,Licencia.error(r));
     }
     if(typeof guardado==='string'&&guardado){var g=await Licencia.verificar(guardado);if(g.ok||g.motivo==='caducado')Licencia.datos=g.datos||null;}
@@ -3829,52 +4024,75 @@ var Licencia={
   probar:async function(txt){
     var c=Licencia.extraer(txt);if(!c){Licencia.abrir(Licencia.motivo,'Escribe o pega el código de uso.');return;}
     var r=await Licencia.verificar(c);
-    if(r.ok){lsSet('sh_acceso',c);Licencia.datos=r.datos;Licencia.cerrar();toast('Licencia activada hasta el '+Licencia.fecha(r.datos.e));render();return;}
+    if(r.ok){lsSet('sh_acceso',c);Licencia.datos=r.datos;Licencia.cerrar();Licencia.activado(r.datos);render();return;}
     Licencia.abrir(Licencia.motivo,Licencia.error(r));
   },
   textoEstado:function(){
-    if(Licencia.vigente())return 'Licencia válida hasta el '+Licencia.fecha(Licencia.datos.e)+(Licencia.datos.n?' ('+Licencia.datos.n+')':'')+'.';
-    if(Licencia.datos)return 'Tu licencia terminó el '+Licencia.fecha(Licencia.datos.e)+'.';
-    var q=Licencia.restantes();return q>0?'Versión de prueba: te quedan '+q+' de '+PARTIDOS_PRUEBA+' partidos.':'Has usado los '+PARTIDOS_PRUEBA+' partidos de prueba.';
+    if(Licencia.vigente())return 'Plan «'+Licencia.infoPlan(+Licencia.datos.p||10).t+'» activo hasta el '+Licencia.fecha(Licencia.datos.e)+(Licencia.datos.n?' ('+Licencia.datos.n+')':'')+'.';
+    if(Licencia.enPrueba()){var q=Licencia.diasPrueba();return 'Prueba gratuita: te '+(q===1?'queda 1 día':'quedan '+q+' días')+' (hasta '+EQUIPOS_PRUEBA+' equipos).';}
+    if(Licencia.datos)return 'Tu plan terminó el '+Licencia.fecha(Licencia.datos.e)+'.';
+    return 'Sin plan: puedes consultar tus partidos, pero no crear nuevos.';
   },
-  mensaje:function(){var e=Licencia.textoEstado();
-    if(Licencia.vigente())return e+' Si quieres ampliarla, envía tu código de solicitud.';
-    return e+' Para seguir creando partidos necesitas un código de uso. Tus equipos y partidos siguen guardados y puedes consultarlos.';},
-  compartir:function(){var t='Hola '+MARCA.autor.split(' ')[0]+', quiero '+(Licencia.datos?'renovar':'activar')+' la licencia de Si Handball. Mi código de solicitud es '+Licencia.solicitud()+'.';
-    if(navigator.share){navigator.share({text:t}).catch(function(){});return;}location.href='https://wa.me/?text='+encodeURIComponent(t);},
+  mensaje:function(motivo){
+    if(motivo==='equipos')return 'Has llegado a '+Licencia.limite()+' equipos, el máximo '+(Licencia.vigente()?'de tu plan':Licencia.enPrueba()?'de la prueba gratuita':'sin plan')+'. Elige un plan con más equipos.';
+    if(motivo==='limite')return 'Para crear partidos nuevos necesitas un plan. Tus equipos y partidos siguen guardados y puedes consultarlos.';
+    return Licencia.textoEstado();
+  },
+  pedidoTexto:function(){var p=Licencia.infoPlan(Licencia.ui.sel),an=Licencia.ui.anual;
+    return 'Hola, quiero '+(Licencia.datos?'renovar':'contratar')+' el plan «'+p.t+'» ('+(an?'anual, '+p.a+' al año':'mensual, '+p.m+' al mes')+') de Si Handball para la web. Mi código de solicitud es '+Licencia.solicitud()+'.';},
+  pedirEmail:function(){location.href='mailto:'+EMAIL_PLANES+'?subject='+encodeURIComponent('Plan Si Handball · '+Licencia.solicitud())+'&body='+encodeURIComponent(Licencia.pedidoTexto());},
+  pedirWhatsApp:function(){var t=Licencia.pedidoTexto();if(navigator.share){navigator.share({text:t}).catch(function(){});return;}window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');},
   copiar:function(btn){var t=Licencia.solicitud();var ok=function(){btn.textContent='Copiado';setTimeout(function(){btn.textContent='Copiar';},1500);};try{navigator.clipboard.writeText(t).then(ok,function(){});}catch(e){}},
+  htmlPlanes:function(){var ui=Licencia.ui,act=Licencia.vigente()?+Licencia.datos.p||10:null;
+    return seg('lic-periodo',[['m','Mensual'],['a','Anual · mejor precio']],ui.anual?'a':'m')+
+      PLANES.map(function(p){var on=ui.sel===p.n;return '<button class="plan glass press'+(on?' on':'')+'" data-lic="plan" data-v="'+p.n+'">'+ins('equipo',on?'var(--acento)':'var(--gray)',36)+
+        '<span class="grow" style="min-width:0"><span class="f-sub b" style="display:block">'+p.t+(act===p.n?' <span class="f-cap2 c-green">· TU PLAN</span>':'')+'</span><span class="f-cap sec">'+p.d+'</span></span>'+
+        '<span class="pr"><span class="r b" style="display:block">'+(ui.anual?p.a:p.m)+'</span><span class="f-cap2 sec">'+(ui.anual?'al año':'al mes')+'</span></span></button>';}).join('');},
   abrir:function(motivo,err){
-    Licencia.motivo=motivo||null;
+    Licencia.motivo=motivo||null;if(Licencia.vigente()&&Licencia.ui.selFija!==true){Licencia.ui.sel=+Licencia.datos.p||10;}
     var el=document.getElementById('gate');if(!el){el=document.createElement('div');el.id='gate';document.body.appendChild(el);}
-    el.innerHTML='<div class="gate" role="dialog" aria-modal="true" aria-label="Renovar licencia">'+amb()+'<div class="wrap col" style="position:relative;z-index:1;align-items:center;gap:14px;text-align:center;max-width:440px;max-height:100%;overflow-y:auto;padding-top:14px;padding-bottom:14px">'+logo(84)+
-      '<div class="r blk" style="font-size:28px">Renovar licencia</div><div class="sec f-sub">'+esc(Licencia.mensaje())+'</div>'+
-      '<div class="glass panel stack10" style="width:100%;box-sizing:border-box"><div class="etq" style="justify-content:center">TU CÓDIGO DE SOLICITUD</div><div class="r blk mono" style="font-size:26px;letter-spacing:2px;user-select:all">'+Licencia.solicitud()+'</div>'+
-      '<div class="row" style="gap:8px"><button class="btn gl glass grow" id="lic-copy">Copiar</button><button class="btn prom grow" style="--tint:var(--green)" id="lic-share">Enviar</button></div><div class="f-cap sec">Envíaselo a '+esc(MARCA.autor)+'. Te devolverá un código de uso para este dispositivo.</div></div>'+
-      '<input class="tf center" id="gate-in" placeholder="Pega aquí el código de uso o el enlace" autocomplete="off" autocapitalize="off" spellcheck="false">'+
-      (err?'<div class="f-foot" style="color:var(--red)">'+esc(err)+'</div>':'')+
-      (navigator.clipboard&&navigator.clipboard.readText?'<button class="btn gl glass lg wfull" id="gate-paste">Pegar código copiado</button>':'')+'<button class="btn prom lg wfull" id="gate-ok">Activar</button><button class="btn gl glass lg wfull" id="lic-cerrar">Volver</button><div class="f-cap2 ter">'+copyright()+'</div></div></div>';
-    var go=function(){Licencia.probar(document.getElementById('gate-in').value);};
-    document.getElementById('gate-ok').onclick=go;
-    document.getElementById('lic-cerrar').onclick=Licencia.cerrar;
-    document.getElementById('lic-share').onclick=Licencia.compartir;
-    document.getElementById('lic-copy').onclick=function(){Licencia.copiar(this);};
-    var ps=document.getElementById('gate-paste');if(ps)ps.onclick=function(){navigator.clipboard.readText().then(function(t){document.getElementById('gate-in').value=t;Licencia.probar(t);},function(){document.getElementById('gate-in').focus();});};
-    document.getElementById('gate-in').onkeydown=function(e){if(e.key==='Enter')go();};
+    var prueba=!Licencia.datos&&Licencia.diasPrueba()>0;
+    el.innerHTML='<div class="gate planes" role="dialog" aria-modal="true" aria-label="Planes de Si Handball">'+amb()+'<div class="wrap col" style="position:relative;z-index:1;align-items:stretch;gap:12px;max-width:480px;max-height:100%;overflow-y:auto;padding-top:14px;padding-bottom:14px">'+
+      '<div class="col" style="align-items:center;gap:8px;text-align:center">'+logo(72)+'<div class="r blk" style="font-size:28px">Planes de Si Handball</div><div class="sec f-sub">'+esc(Licencia.mensaje(motivo))+'</div>'+
+      (prueba?'<span class="regalo">'+ic('checkFill')+DIAS_PRUEBA+' días gratis desde el primer uso</span>':'')+'</div>'+
+      Licencia.htmlPlanes()+
+      '<div class="glass panel stack10"><div class="etq" style="justify-content:center">1. PIDE TU PLAN · CÓDIGO DE SOLICITUD</div><div class="r blk mono center" style="font-size:24px;letter-spacing:2px;user-select:all">'+Licencia.solicitud()+'</div>'+
+        '<div class="row" style="gap:8px"><button class="btn gl glass grow" data-lic="copiar">Copiar</button><button class="btn prom grow" data-lic="email">'+ic('share')+'Email</button><button class="btn prom grow" style="--tint:var(--green)" data-lic="wa">WhatsApp</button></div>'+
+        '<div class="f-cap sec center">Se envía el plan elegido y tu código a '+EMAIL_PLANES+'. Te llega el enlace de pago y, al pagar, tu código de uso para este dispositivo.</div></div>'+
+      '<div class="glass panel stack10"><div class="etq" style="justify-content:center">2. ACTIVA EL CÓDIGO QUE TE ENVIEMOS</div>'+
+        '<input class="tf center" id="gate-in" placeholder="Pega aquí el código de uso o el enlace" autocomplete="off" autocapitalize="off" spellcheck="false">'+
+        (err?'<div class="f-foot center" style="color:var(--red)">'+esc(err)+'</div>':'')+
+        '<div class="row" style="gap:8px">'+(navigator.clipboard&&navigator.clipboard.readText?'<button class="btn gl glass grow" data-lic="pegar">Pegar</button>':'')+'<button class="btn prom grow" id="gate-ok" data-lic="ok">Activar</button></div></div>'+
+      '<div class="f-cap sec center">Sin plan puedes seguir viendo todos tus partidos y estadísticas; solo no se crean partidos nuevos. Los planes de la web son independientes de las suscripciones de la App Store.</div>'+
+      '<button class="btn gl glass lg wfull" id="lic-cerrar" data-lic="cerrar">Volver</button><div class="f-cap2 ter center">'+copyright()+' · <a href="https://sihandball-app.netlify.app/privacidad.html" target="_blank" rel="noopener" style="color:inherit">Privacidad</a></div></div></div>';
+    el.onclick=function(ev){var b=ev.target.closest&&ev.target.closest('[data-lic]');if(!b)return;var k=b.getAttribute('data-lic'),inp=document.getElementById('gate-in'),val=inp?inp.value:'';
+      if(k==='plan'){Licencia.ui.sel=+b.getAttribute('data-v');Licencia.ui.selFija=true;Licencia.abrir(Licencia.motivo,err);var i2=document.getElementById('gate-in');if(i2)i2.value=val;}
+      else if(k==='copiar')Licencia.copiar(b);else if(k==='email')Licencia.pedirEmail();else if(k==='wa')Licencia.pedirWhatsApp();
+      else if(k==='ok')Licencia.probar(val);else if(k==='cerrar')Licencia.cerrar();
+      else if(k==='pegar')navigator.clipboard.readText().then(function(t){document.getElementById('gate-in').value=t;Licencia.probar(t);},function(){document.getElementById('gate-in').focus();});};
+    el.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('data-lic','periodo');b.removeAttribute('data-a');});
+    el.querySelector('.seg').onclick=function(ev){var b=ev.target.closest('button');if(!b)return;ev.stopPropagation();Licencia.ui.anual=b.getAttribute('data-v')==='a';var v=document.getElementById('gate-in').value;Licencia.abrir(Licencia.motivo,err);document.getElementById('gate-in').value=v;};
+    document.getElementById('gate-in').onkeydown=function(e){if(e.key==='Enter')Licencia.probar(this.value);};
   },
-  cerrar:function(){var el=document.getElementById('gate');if(el)el.remove();},
+  cerrar:function(){var el=document.getElementById('gate');if(el)el.remove();Licencia.ui.selFija=false;},
   /* Aviso en la pantalla de inicio */
   avisoInicio:function(){
-    if(Licencia.vigente()){var d=Licencia.dias();return d<=10?'<button class="glass panel p12 tint row press" style="--tinte:var(--orange);gap:10px;width:100%;text-align:left" data-a="licencia">'+ins('key','var(--orange)',34)+'<span class="f-foot sb grow">Tu licencia caduca '+(d<=1?'hoy':'en '+d+' días')+'. Toca para renovarla.</span></button>':'';}
-    var q=Licencia.restantes();
-    if(q>0&&!Licencia.datos)return '<div class="f-cap sec center row" style="gap:6px;justify-content:center">'+ic('key')+'Versión de prueba: te quedan '+q+' de '+PARTIDOS_PRUEBA+' partidos</div>';
-    return '<button class="glass panel p12 tint row press" style="--tinte:var(--red);gap:10px;width:100%;text-align:left" data-a="licencia">'+ins('key','var(--red)',34)+'<span class="grow"><span class="f-sub b" style="display:block">'+(Licencia.datos?'Tu licencia ha caducado':'Has usado los '+PARTIDOS_PRUEBA+' partidos de prueba')+'</span><span class="f-cap sec">Toca para renovar la licencia</span></span></button>';
+    if(Licencia.vigente()){var d=Licencia.dias();return d<=10?'<button class="glass panel p12 tint row press" style="--tinte:var(--orange);gap:10px;width:100%;text-align:left" data-a="licencia">'+ins('key','var(--orange)',34)+'<span class="f-foot sb grow">Tu plan termina '+(d<=1?'hoy':'en '+d+' días')+'. Toca para renovarlo.</span></button>':'';}
+    if(Licencia.enPrueba()){var q=Licencia.diasPrueba();return '<button class="f-cap sec center row press" style="gap:6px;justify-content:center;width:100%" data-a="licencia">'+ic('key')+'Prueba gratuita: '+(q===1?'queda 1 día':'quedan '+q+' días')+' · <span class="c-acento sb">Ver planes</span></button>';}
+    return '<button class="glass panel p12 tint row press" style="--tinte:var(--red);gap:10px;width:100%;text-align:left" data-a="licencia">'+ins('key','var(--red)',34)+'<span class="grow"><span class="f-sub b" style="display:block">'+(Licencia.datos?'Tu plan ha terminado':'Ha terminado la prueba gratuita')+'</span><span class="f-cap sec">Toca para elegir un plan y seguir creando partidos</span></span></button>';
   },
   resumenAjustes:function(){
-    return '<div class="frow"><span class="grow f-foot">'+esc(Licencia.textoEstado())+'</span></div><div class="frow"><span class="grow">Código de solicitud</span><span class="mono b">'+Licencia.solicitud()+'</span></div><button class="frow btnrow tap" data-a="licencia">'+ic('key')+'<span>Renovar licencia</span></button>';
+    return '<div class="frow"><span class="grow f-foot">'+esc(Licencia.textoEstado())+'</span></div><div class="frow"><span class="grow">Código de solicitud</span><span class="mono b">'+Licencia.solicitud()+'</span></div><button class="frow btnrow tap" data-a="licencia">'+ic('key')+'<span>'+(Licencia.vigente()?'Ver o cambiar de plan':'Ver planes')+'</span></button>';
   }
 };
+/* Crear equipos: según el plan (puedeCrearEquipo) */
+(function(){var og=A.geCrear;if(og)A.geCrear=function(){if(GE&&GE.nombre&&GE.nombre.trim()&&!Licencia.puedeCrearEquipo()){Licencia.abrir('equipos');return false;}return og.apply(this,arguments);};})();
+/* Página de la guía sobre los planes */
+GUIA=GUIA.concat([['Planes','Pruébala '+DIAS_PRUEBA+' días gratis. Después elige un plan de 2, 5 o 10 equipos, mensual o anual.',['Sin plan puedes ver todo lo guardado; solo no se crean partidos nuevos','Pide el plan con tu código de solicitud y activa el código que te enviemos','Ajustes y clubes → Plan, para ver hasta cuándo es válido'],
+  function(){return '<div class="stack8">'+PLANES.map(function(p){return '<div class="glass panel p12 row" style="gap:10px">'+ins('equipo','var(--acento)',30)+'<span class="f-foot sb grow">'+p.t+'</span><span class="r b">'+p.m+'</span><span class="f-cap2 sec">/ mes</span></div>';}).join('')+'</div>';}]]);
 Licencia.id();
 Licencia.cargar();
+
 
 if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});
 </script>
